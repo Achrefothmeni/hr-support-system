@@ -14,6 +14,6 @@ const HRSchema = monggose.Schema(
   }
 )
 
-const HR = monggose.model('hr', HRSchema)
+const HR = monggose.model('HR', HRSchema)
 
 module.exports = HR
