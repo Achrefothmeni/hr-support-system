@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema({
         //when display dont show password
         select: false,
     },
+    phoneNumber: {
+        type: Number,
+        required: [true, 'Please enter your phone number'],
+
+    },
     avatar: {
 
         public_id: {

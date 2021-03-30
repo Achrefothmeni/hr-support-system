@@ -7,13 +7,15 @@ const crypto = require('crypto');
 
 //register user  => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-    const { name,organisationNname, email, password } = req.body;
+    const { name,organisationNname, email, password,phoneNumber} = req.body;
 
     const user = await User.create({
         name,
         organisationNname,
         email,
         password,
+        phoneNumber,
+        //if we re adding pics
         avatar: {
             public_id: '',
             url: ''
