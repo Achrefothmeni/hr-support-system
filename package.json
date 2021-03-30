@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "HR Support MERN project is a project that list profiles based on the needs of HR agent & the manager to make their choice easier.",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix argon-dashboard-react-master",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -19,10 +23,14 @@
   },
   "homepage": "https://github.com/Achrefothmeni/hr-support-system#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.2"
   },
   "devDependencies": {
+    "concurrently": "^6.0.0",
     "nodemon": "^2.0.7"
   }
 }
