@@ -8,6 +8,7 @@ from validator_collection import checkers
 from selenium.webdriver.common.keys import Keys
 import re
 import pymongo
+import datetime
 
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
 db = client[ "hr-supp" ]
@@ -69,7 +70,7 @@ driver.get("https://www.google.com")
 sleep(1)
 search_query = driver.find_element_by_name('q')
 try:
-    search_query.send_keys("site:tn.linkedin.com/in/ AND \"angular developer\"")
+    search_query.send_keys("site:tn.linkedin.com/in/ AND \"react developer\"")
 except ElementNotInteractableException:
     print("ERROR :: Cannot send query. Google might be blocking")
     sys.exit(1)
@@ -148,6 +149,8 @@ for url in profile_urls:
             skill_set = []
 
         user["skills"] = skill_set
+        user["position"] = position
+        #user["scraped_at"] = datetime.datetime.now()
 
         col.insert(user)
 
@@ -171,8 +174,6 @@ for url in profile_urls:
         print('\n')
         print('Name: ', name)
         print('Position: ', position)
-        print('Company: ', "")
-        print('Education: ', "")
         print('Location: ', location)
         print('URL: ', url)
         print('\n')
