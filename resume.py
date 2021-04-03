@@ -12,9 +12,12 @@ from flask import Flask, jsonify, request
 import uuid
 from werkzeug.utils import secure_filename
 import os
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+
+CORS(app)
 
 
 nltk.download('punkt')
@@ -68,7 +71,7 @@ def extract_text_from_pdf(pdf_path):
 def extract_emails(resume_text):
     return re.findall(EMAIL_REG, resume_text)
 
-@app.route('/upload-cv', methods=["POST"])
+@app.route('/upload', methods=["POST"])
 def index():
     if 'file' not in request.files:
         return jsonify({"status": 403, "message": "No file part"})

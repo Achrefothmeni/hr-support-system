@@ -30,13 +30,14 @@ import {
 import {FormControl, FormGroup, Form} from 'react-bootstrap'
 // core components
 import Header from "components/Headers/Header.js";
+import FileUpload from "components/FileUpload/FileUpload.js";
 
 const CvUpload = () => {
   return (
     <>
       <Header />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      {/* <Container className="mt--7" fluid>
         <Card className="shadow card-700">
             <CardHeader className="border-0">
                 <h2 className="mb-0">Upload resume</h2>
@@ -58,7 +59,14 @@ const CvUpload = () => {
                 <Progress max="100" value="0" color="default" />
             </div>
         </Card>
-      </Container>
+      </Container> */}
+      <div className='container mt-4'>
+    <h4 className='display-4 text-center mb-4'>
+      <i className='fab fa-react' /> Resume Upload
+    </h4>
+
+    <FileUpload />
+  </div>
     </>
   );
 };
