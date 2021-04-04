@@ -86,6 +86,35 @@ router.route('/add-hr').post(
   })
 )
 
+router.route('/add-hr-test').post(
+  catchAsyncErrors(async (req, res, next) => {
+    const { name, organisationNname, email, password, phoneNumber } = req.body
+    const user = await User.create({
+      name,
+      organisationNname,
+      email,
+      password,
+      phoneNumber,
+      admin: false,
+      //if we re adding pics
+      avatar: {
+        public_id: '',
+        url: '',
+      },
+    })
+
+    res.json({ user })
+  })
+)
+
+router.route('/get-hrs-test').get(
+  catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find({ admin: false })
+
+    res.json({ users })
+  })
+)
+
 router.route('/ban-hr/:id').put(
   [isAuthenticatedUser, onlyAdmin],
   catchAsyncErrors(async (req, res, next) => {
