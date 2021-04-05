@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -47,6 +47,9 @@ import {
 } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
+import { loadUser } from '../actions/userActions'
+import store from '../store'
+
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -61,6 +64,10 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data("data" + index);
   };
+
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, []);
   return (
     <>
       <Header />
