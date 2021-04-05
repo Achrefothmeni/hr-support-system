@@ -33,7 +33,7 @@ dotenv.config({ path: 'config/config.env' })
 connectDatabase();
 app.use(errorMiddleware);
 
-app.listen(5000, () => console.log('Application listening on port 5000!'))
+app.listen(4000, () => console.log('Application listening on port 4000!'))
 
 module.exports = {
   app

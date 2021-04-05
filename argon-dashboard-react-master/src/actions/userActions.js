@@ -29,10 +29,12 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
 
         const {data} = await axios.post('/register' , {name,organisationName,email, password,phoneNumber},config)
 
+
+        if(data.user){
         dispatch({
             type: REGISTER_SUCCESS,
             payload: data.user
-        })
+        })}
 
 
 
@@ -40,7 +42,7 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
     } catch (error) {
         dispatch({
             type: REGISTER_FAIL,
-            payload: error.response.data.message
+            payload: error.response.data.errMessage
         })
     }
 
@@ -74,10 +76,12 @@ export const login = (email, password) => async (dispatch) => {
 
 
     } catch (error) {
+        console.log(error.response.data);
         dispatch({
             type: LOGIN_FAIL,
-            payload: error.response.data.message
+            payload: error.response.data.errMessage
         })
+
     }
 
 }

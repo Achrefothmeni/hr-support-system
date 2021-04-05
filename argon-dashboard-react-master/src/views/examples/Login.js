@@ -51,11 +51,7 @@ const Login = ({history}) => {
       history.push('/admin/user-profile')
     }
 
-    if(error)
-    {
-      //to test redirect to /admin/tables
-      history.push('/admin/tables')
-    }
+    
     
   }, [dispatch,isAuthenticated,error,history]);
 

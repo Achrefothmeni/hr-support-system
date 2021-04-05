@@ -57,7 +57,7 @@ const Register = ({ history }) => {
 
     if (error) {
       //to test redirect to /admin/tables
-      history.push('/admin/tables')
+      console.log(error)
     }
 
   }, [dispatch, isAuthenticated, error, history]);
@@ -65,7 +65,7 @@ const Register = ({ history }) => {
   const submitHandler = (e)=> {
     e.preventDefault();
     dispatch(register(name,organisationName,email, password,phoneNumber))
-    console.log("test");
+    console.log({name,organisationName,email, password,phoneNumber});
 
   }
 
