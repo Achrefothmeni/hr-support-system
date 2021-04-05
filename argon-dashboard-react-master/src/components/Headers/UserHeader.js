@@ -16,7 +16,8 @@
 
 */
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAgents } from '../../actions/agentAction'
 import {
   DropdownToggle,
   DropdownMenu,
@@ -27,19 +28,14 @@ import {
 import { Button, Container, Row, Col } from 'reactstrap'
 
 const UserHeader = ({ btnTitle }) => {
-  const [profiles, setProfiles] = useState([])
-  useEffect(async () => {
-    if (btnTitle === 'Edit profile') {
-      const { data } = await axios.get('/get-hrs-test')
-      setProfiles([...data.users])
-    }
-  }, [btnTitle])
+  const dispatch = useDispatch()
+  const listAgents = useSelector((state) => state.listAgents)
+  const { loading, error, agents } = listAgents
 
-  const getHrs = async () => {
-    const { data } = await axios.get('/get-hrs-test')
-    console.log(data)
-    return data.users
-  }
+  useEffect(async () => {
+    dispatch(getAgents())
+  }, [dispatch])
+
   return (
     <>
       <div
@@ -66,7 +62,7 @@ const UserHeader = ({ btnTitle }) => {
                 with your work and manage your projects or assigned tasks
               </p>
               <Row>
-                {profiles.length !== 0 && (
+                {agents && agents.length !== 0 && (
                   <UncontrolledDropdown>
                     <DropdownToggle
                       caret
@@ -78,7 +74,7 @@ const UserHeader = ({ btnTitle }) => {
                     </DropdownToggle>
 
                     <DropdownMenu aria-labelledby='dropdownMenuButton'>
-                      {profiles.map((p, i) => (
+                      {agents.map((p, i) => (
                         <DropdownItem
                           key={i}
                           onClick={(e) => e.preventDefault()}
