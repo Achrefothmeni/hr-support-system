@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React ,{Fragment,useState,useEffect} from 'react';
+import React ,{useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 
@@ -51,11 +51,7 @@ const Login = ({history}) => {
       history.push('/admin/user-profile')
     }
 
-    if(error)
-    {
-      //to test redirect to /admin/tables
-      history.push('/admin/tables')
-    }
+    
     
   }, [dispatch,isAuthenticated,error,history]);
 
