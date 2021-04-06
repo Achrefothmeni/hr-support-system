@@ -15,50 +15,90 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAgents } from '../../actions/agentAction'
+import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+} from 'reactstrap'
 // reactstrap components
-import { Button, Container, Row, Col } from "reactstrap";
+import { Button, Container, Row, Col } from 'reactstrap'
 
-const UserHeader = () => {
+const UserHeader = ({ btnTitle }) => {
+  const dispatch = useDispatch()
+  const listAgents = useSelector((state) => state.listAgents)
+  const { loading, error, agents } = listAgents
+
+  useEffect(async () => {
+    dispatch(getAgents())
+  }, [dispatch])
+
   return (
     <>
       <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+        className='header pb-8 pt-5 pt-lg-8 d-flex align-items-center'
         style={{
-          minHeight: "600px",
+          minHeight: '600px',
           backgroundImage:
-            "url(" +
-            require("../../assets/img/theme/profile-cover.jpg").default +
-            ")",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
+            'url(' +
+            require('../../assets/img/theme/profile-cover.jpg').default +
+            ')',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
         }}
       >
         {/* Mask */}
-        <span className="mask bg-gradient-default opacity-8" />
+        <span className='mask bg-gradient-default opacity-8' />
         {/* Header container */}
-        <Container className="d-flex align-items-center" fluid>
+        <Container className='d-flex align-items-center' fluid>
           <Row>
-            <Col lg="7" md="10">
-              <h1 className="display-2 text-white">Hello Jesse</h1>
-              <p className="text-white mt-0 mb-5">
+            <Col lg='7' md='10'>
+              {/* <h1 className='display-2 text-white'>Hello Jesse</h1> */}
+              <p className='text-white mt-0 mb-5'>
                 This is your profile page. You can see the progress you've made
                 with your work and manage your projects or assigned tasks
               </p>
-              <Button
-                color="info"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                Edit profile
-              </Button>
+              <Row>
+                {agents && agents.length !== 0 && (
+                  <UncontrolledDropdown>
+                    <DropdownToggle
+                      caret
+                      color='secondary'
+                      id='dropdownMenuButton'
+                      type='button'
+                    >
+                      --Select a profile--
+                    </DropdownToggle>
+
+                    <DropdownMenu aria-labelledby='dropdownMenuButton'>
+                      {agents.map((p, i) => (
+                        <DropdownItem
+                          key={i}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {p.name + ' ' + p.email}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                )}
+                <Button
+                  color='info'
+                  href='#pablo'
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {btnTitle}
+                </Button>
+              </Row>
             </Col>
           </Row>
         </Container>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default UserHeader;
+export default UserHeader

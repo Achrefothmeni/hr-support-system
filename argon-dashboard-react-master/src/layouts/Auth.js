@@ -25,10 +25,14 @@ import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
+import { loadUser } from '../actions/userActions'
+import store from '../store'
 
 const Auth = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+
+  
 
   React.useEffect(() => {
     document.body.classList.add("bg-default");

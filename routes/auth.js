@@ -66,10 +66,10 @@ router.route('/hrs').get([isAuthenticatedUser, onlyAdmin], async (req, res) => {
 router.route('/add-hr').post(
   [isAuthenticatedUser, onlyAdmin],
   catchAsyncErrors(async (req, res, next) => {
-    const { name, organisationNname, email, password, phoneNumber } = req.body
+    const { name, organisationName, email, password, phoneNumber } = req.body
     const user = await User.create({
       name,
-      organisationNname,
+      organisationName,
       email,
       password,
       phoneNumber,
@@ -83,6 +83,35 @@ router.route('/add-hr').post(
     })
 
     res.json({ user })
+  })
+)
+
+router.route('/add-hr-test').post(
+  catchAsyncErrors(async (req, res, next) => {
+    const { name, organisationName, email, password, phoneNumber } = req.body
+    const user = await User.create({
+      name,
+      organisationName,
+      email,
+      password,
+      phoneNumber,
+      admin: false,
+      //if we re adding pics
+      avatar: {
+        public_id: '',
+        url: '',
+      },
+    })
+
+    res.json({ user })
+  })
+)
+
+router.route('/get-hrs-test').get(
+  catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find({ admin: false }).sort({ createdAt: -1 })
+
+    res.json({ users })
   })
 )
 
@@ -100,6 +129,66 @@ router.route('/ban-hr/:id').put(
       user.baned = true
       await user.save()
       res.json({ msg: 'hr baned' })
+    } catch (error) {
+      console.log(error.message)
+      res.status(500).send('server Error!')
+    }
+  })
+)
+
+router.route('/ban-hr-test/:id').put(
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        admin: false,
+        _id: req.params.id,
+      })
+      if (!user) {
+        res.status(404).json({ msg: 'HR agent not found !' })
+      }
+      user.baned = true
+      await user.save()
+      res.status(200).json({ msg: 'hr baned' })
+    } catch (error) {
+      console.log(error.message)
+      res.status(500).send('server Error!')
+    }
+  })
+)
+
+router.route('/unban-hr-test/:id').put(
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        admin: false,
+        _id: req.params.id,
+      })
+      if (!user) {
+        res.status(404).json({ msg: 'HR agent not found !' })
+      }
+      user.baned = false
+      await user.save()
+      res.status(200).json({ msg: 'hr unbaned' })
+    } catch (error) {
+      console.log(error.message)
+      res.status(500).send('server Error!')
+    }
+  })
+)
+
+router.route('/remove-hr-test/:id').delete(
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        admin: false,
+        _id: req.params.id,
+      })
+      if (!user) {
+        res.status(404).json({ msg: 'HR agent not found !' })
+      }
+
+      const removed = await user.remove()
+      res.status(200).json({ removed })
     } catch (error) {
       console.log(error.message)
       res.status(500).send('server Error!')

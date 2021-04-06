@@ -15,7 +15,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
+
+import { register } from '../../actions/userActions'
 
 // reactstrap components
 import {
@@ -33,7 +38,37 @@ import {
   Col,
 } from "reactstrap";
 
-const Register = () => {
+const Register = ({ history }) => {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  const [organisationName, setOrganisationName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, error, loading } = useSelector(state => state.auth)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/admin/user-profile')
+    }
+
+    if (error) {
+      //to test redirect to /admin/tables
+      console.log(error)
+    }
+
+  }, [dispatch, isAuthenticated, error, history]);
+
+  const submitHandler = (e)=> {
+    e.preventDefault();
+    dispatch(register(name,organisationName,email, password,phoneNumber))
+    console.log({name,organisationName,email, password,phoneNumber});
+
+  }
+
   return (
     <>
       <Col lg="6" md="8">
@@ -83,7 +118,7 @@ const Register = () => {
             <div className="text-center text-muted mb-4">
               <small>Or sign up with credentials</small>
             </div>
-            <Form role="form">
+            <Form role="form" onSubmit={submitHandler}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -91,7 +126,21 @@ const Register = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
+                  <Input placeholder="Name" type="text"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <InputGroup className="input-group-alternative mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fas fa-briefcase" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input placeholder="Organisation Name" type="text"
+                    onChange={(e) => setOrganisationName(e.target.value)}
+                  />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -105,9 +154,12 @@ const Register = () => {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    onChange={(e) => setEmail(e.target.value)}
+
                   />
                 </InputGroup>
               </FormGroup>
+              
               <FormGroup>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
@@ -119,15 +171,39 @@ const Register = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={(e) => setPassword(e.target.value)}
+
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="text-muted font-italic">
-                <small>
-                  password strength:{" "}
-                  <span className="text-success font-weight-700">strong</span>
-                </small>
-              </div>
+              
+              <FormGroup>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="ni ni-lock-circle-open" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Confirm Password"
+                    type="password"
+                    autoComplete="new-password"
+                  />
+                </InputGroup>
+              </FormGroup>
+
+              <FormGroup>
+                <InputGroup className="input-group-alternative mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fas fa-phone-alt" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input placeholder="Organisation Name" type="number"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
               <Row className="my-4">
                 <Col xs="12">
                   <div className="custom-control custom-control-alternative custom-checkbox">
@@ -151,7 +227,7 @@ const Register = () => {
                 </Col>
               </Row>
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button className="mt-4" color="primary" type="submit">
                   Create account
                 </Button>
               </div>

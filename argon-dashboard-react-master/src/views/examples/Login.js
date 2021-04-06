@@ -15,7 +15,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React ,{useState,useEffect} from 'react';
+import {useDispatch,useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
+
+import {login,clearErrors} from '../../actions/userActions'
 
 // reactstrap components
 import {
@@ -33,9 +37,35 @@ import {
   Col,
 } from "reactstrap";
 
-const Login = () => {
+const Login = ({history}) => {
+
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+
+  const dispatch = useDispatch();
+
+  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      history.push('/admin/user-profile')
+    }
+
+    
+    
+  }, [dispatch,isAuthenticated,error,history]);
+
+  const submitHandler = (e)=> {
+    e.preventDefault();
+    dispatch(login(email,password))
+    console.log("test");
+
+  }
+
   return (
+
     <>
+    {loading ? <h1>laoding</h1> : ( <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
@@ -83,7 +113,7 @@ const Login = () => {
             <div className="text-center text-muted mb-4">
               <small>Or sign in with credentials</small>
             </div>
-            <Form role="form">
+            <Form role="form" onSubmit={submitHandler}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
@@ -95,6 +125,8 @@ const Login = () => {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    //value = {email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
@@ -109,6 +141,8 @@ const Login = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    //value = {password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
@@ -126,7 +160,7 @@ const Login = () => {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button className="my-4" color="primary" type="submit">
                   Sign in
                 </Button>
               </div>
@@ -135,25 +169,27 @@ const Login = () => {
         </Card>
         <Row className="mt-3">
           <Col xs="6">
-            <a
+            <Link to="/password/forget"
               className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              
+              
             >
               <small>Forgot password?</small>
-            </a>
+            </Link>
           </Col>
           <Col className="text-right" xs="6">
-            <a
+            <Link to ='/auth/register'
               className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              
             >
               <small>Create new account</small>
-            </a>
+            </Link>
           </Col>
         </Row>
       </Col>
+      </>)}
+
+   
     </>
   );
 };

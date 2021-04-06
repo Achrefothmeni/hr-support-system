@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
     required: [true, 'Please enter your name'],
     maxLength: [100, 'Your name cannot exceed 100 charachers'],
   },
-  organisationNname: {
+  organisationName: {
     type: String,
     required: [true, 'Please enter your organisation name'],
     maxLength: [100, 'Your name cannot exceed 100 charachers'],
