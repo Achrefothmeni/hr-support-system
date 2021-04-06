@@ -29,8 +29,8 @@ export const getAgents = () => async (dispatch) => {
     dispatch({
       type: LIST_AGENT_FAIL,
       payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessage
           : err.message,
     })
   }
@@ -53,9 +53,10 @@ export const addhr = (hr) => async (dispatch) => {
     dispatch({
       type: ADD_AGENT_FAIL,
       payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessage
           : err.message,
+          
     })
   }
 }
@@ -73,8 +74,8 @@ export const banHr = (id) => async (dispatch) => {
     dispatch({
       type: BAN_AGENT_FAIL,
       payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessage
           : err.message,
     })
   }
@@ -93,8 +94,8 @@ export const unbanHr = (id) => async (dispatch) => {
     dispatch({
       type: UNBAN_AGENT_FAIL,
       payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessage
           : err.message,
     })
   }
@@ -113,8 +114,8 @@ export const removeHr = (id) => async (dispatch) => {
     dispatch({
       type: REMOVE_AGENT_FAIL,
       payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessagee
           : err.message,
     })
   }

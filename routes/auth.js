@@ -66,7 +66,7 @@ router.route('/hrs').get([isAuthenticatedUser, onlyAdmin], async (req, res) => {
 router.route('/add-hr').post(
   [isAuthenticatedUser, onlyAdmin],
   catchAsyncErrors(async (req, res, next) => {
-    const { name, organisationNname, email, password, phoneNumber } = req.body
+    const { name, organisationName, email, password, phoneNumber } = req.body
     const user = await User.create({
       name,
       organisationName,
@@ -88,7 +88,7 @@ router.route('/add-hr').post(
 
 router.route('/add-hr-test').post(
   catchAsyncErrors(async (req, res, next) => {
-    const { name, organisationNname, email, password, phoneNumber } = req.body
+    const { name, organisationName, email, password, phoneNumber } = req.body
     const user = await User.create({
       name,
       organisationName,

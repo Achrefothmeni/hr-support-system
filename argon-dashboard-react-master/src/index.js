@@ -29,8 +29,7 @@ import store from './store'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 
-import {Provider} from 'react-redux';
-import store from './store';
+
 
 ReactDOM.render(
 

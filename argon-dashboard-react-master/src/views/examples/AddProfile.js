@@ -171,7 +171,7 @@ const AddProfile = () => {
                             Organization name
                           </label>
                           <Input
-                            name='organisationNname'
+                            name='organisationName'
                             className='form-control-alternative'
                             id='input-Organization'
                             placeholder='Organization name'
