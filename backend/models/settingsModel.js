@@ -1,25 +1,26 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const settingsSchema = mongoose.Schema({
 
-
-    adress: {
+    settingName: { type: String , required:true },
+    
       
         city: { type: String , required:true },
         postalCode: { type: String , required:true },
         country: { type: String , required:true },
-    },
+   
+    
  
     skills: [
         {
-            name: { type: String , required: true }, 
+            name: { type: String  }, 
         }
     ],
 
-        timestamps: true
-    
-})
+},{
+    timestamps: true
+}
+)
 
 
-const Settings = mongoose.model('Settings' ,orderSchema)
-
-module.exports =  Settings
+const Settings = mongoose.model('Settings' ,settingsSchema)
+export default Settings

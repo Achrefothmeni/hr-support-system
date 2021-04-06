@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-
+import React , {useEffect, useState} from "react";
+import { useDispatch, useSelector} from 'react-redux'
 // reactstrap components
 import {
   Button,
@@ -33,36 +33,39 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 import InputTags from 'components/InputTags.js'
+import { addSettings } from "actions/settingsAction";
 
 const Settings = () => {
+ 
+ 
+  const [settingName, setSettingName] = useState('')
+  const [city, setCity] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [country, setCountry] = useState('')
+  const [skills, setSkills] = useState([{name:'java'} , {name: 'PHP'}])
+  const dispatch = useDispatch();
+
+  const submitHandler = (e)=> {
+    e.preventDefault();
+    dispatch(addSettings(settingName,city,postalCode, country,skills))
+    console.log({settingName,city,postalCode, country,skills});
+  }
+
+  const selectedTags = tags => {console.log(tags)};
+
+ 
   return (
     <>
-      <UserHeader />
+  
       {/* Page content */}
-      <Container className="mt--7" fluid>
-        <Row>
-         
-          <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
-              <CardHeader className="bg-white border-0">
+      
                 <Row className="align-items-center">
                   <Col xs="8">
                     <h3 className="mb-0">Profile's Settings </h3>
                   </Col>
-                  <Col className="text-right" xs="4">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Settings
-                    </Button>
-                  </Col>
+                
                 </Row>
-              </CardHeader>
-              <CardBody>
-                <Form>
+                <Form  noValidate onSubmit={submitHandler}>
                   <h6 className="heading-small text-muted mb-4">
                     Profile Skills
                   </h6>
@@ -79,10 +82,31 @@ const Settings = () => {
                             className="form-control-label"
                             htmlFor="input-last-name"
                           >
-                           Skill :  
+                           Job Name :  
                           </label>
-                          <InputTags /> 
+                          <Input
+                            className="form-control-alternative"
+                        
+                            id="input-job-name"
+                            placeholder="Job Name"
+                            type="text"   onChange={(e) => setSettingName(e.target.value)} /> 
                          
+                        </FormGroup>
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-last-name"
+                          >
+                           Skills :  
+                          </label>
+                          <InputTags     /> 
+                          <Input
+                            className="form-control-alternative"
+                            id="input-job-name"
+                          
+                            placeholder="Job Name"
+                            type="text"
+                              /> 
                         </FormGroup>
                       </Col>
                     </Row>
@@ -107,10 +131,10 @@ const Settings = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="New York"
                             id="input-city"
                             placeholder="City"
                             type="text"
+                            onChange={(e) => setCity(e.target.value)}
                           />
                         </FormGroup>
                       </Col>
@@ -124,10 +148,10 @@ const Settings = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="United States"
                             id="input-country"
                             placeholder="Country"
                             type="text"
+                            onChange={(e) => setCountry(e.target.value)}
                           />
                         </FormGroup>
                       </Col>
@@ -144,19 +168,20 @@ const Settings = () => {
                             id="input-postal-code"
                             placeholder="Postal code"
                             type="number"
+                            onChange={(e) => setPostalCode(e.target.value)}
                           />
                         </FormGroup>
                       </Col>
                     </Row>
                   </div>
-               
+                  <div className="text-center">
+                <Button className="mt-4" color="primary" type="submit">
+                  Create Settings
+                </Button>
+              </div>
                
                 </Form>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+        
     </>
   );
 };

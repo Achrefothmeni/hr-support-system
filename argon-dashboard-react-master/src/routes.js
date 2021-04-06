@@ -56,7 +56,7 @@ var routes = [
   {
     path: "/settings",
     name: "Settings",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-settings-gear-65 text-yellow",
     component: Settings,
     layout: "/admin",
   },

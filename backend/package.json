@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "back of the app",
   "main": "server.js",
+  "type": "module",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

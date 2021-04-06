@@ -805,4 +805,4 @@ const profiles = [
     "skills": []
   }]
 
-module.exports =  profiles
+  export default profiles
