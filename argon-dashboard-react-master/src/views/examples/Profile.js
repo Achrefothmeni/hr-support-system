@@ -35,10 +35,49 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 
+import { updateUser } from '../../actions/userActions'
+
+
 const Profile = () => {
 
   const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
 
+  const [disabled, setDisabled] = useState(true);
+  const [btnName, setbtnName] = useState('Edit');
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [organisationName, setOrganisationName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+
+
+  const handleInputDisable = ()=> {
+    setDisabled(!disabled);
+    if(btnName =='Edit'){
+      setbtnName('Candel')
+    }
+
+    if(btnName =='Candel'){
+      setbtnName('Edit')
+    }
+    
+  }
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    setName(user.name)
+    setEmail(user.email)
+    setPhoneNumber(user.phoneNumber)
+    setOrganisationName(user.organisationName)
+  }, []);
+  const submitHandler = (e)=> {
+    e.preventDefault();
+    dispatch(updateUser(name,organisationName,email,phoneNumber))
+    console.log({name,organisationName,email,phoneNumber});
+
+  }
   return (
     <>
       <UserHeader />
@@ -133,19 +172,20 @@ const Profile = () => {
             <Card className="bg-secondary shadow">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
-                  <Col xs="8">
+                  <Col xs="6">
                     <h3 className="mb-0">My account</h3>
                   </Col>
-                  <Col className="text-right" xs="4">
+                  <Col className="text-right" xs="6">
                     <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      color="secondary"
+                      
+                      onClick={handleInputDisable}
                       size="sm"
                     >
-                      Settings
+                      {btnName}
                     </Button>
                   </Col>
+                  
                 </Row>
               </CardHeader>
               <CardBody>
@@ -166,9 +206,12 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.name}
+                            onChange={(e) => setName(e.target.value)}
+
                             id="input-username"
                             placeholder="Username"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -184,7 +227,10 @@ const Profile = () => {
                             className="form-control-alternative"
                             id="input-email"
                             defaultValue={user.email}
+                            onChange={(e) => setEmail(e.target.value)}
+
                             type="email"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -201,9 +247,12 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.organisationName}
+                            onChange={(e) => setOrganisationName(e.target.value)}
+
                             id="input-first-name"
                             placeholder="First name"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -218,15 +267,29 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+
                             id="input-last-name"
                             placeholder="Last name"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
+                      <Col className="text-right" xs="12">
+                      <hr className="my-4" />
+                    {!disabled &&  < Button
+                      color="primary"
+                      
+                      //onClick={submitHandler}
+                      size="sm"
+                    >
+                      Save
+                    </Button>}
+                  </Col>
                     </Row>
                   </div>
-                  <hr className="my-4" />
+                 
                   {/* Address */}
                   {/* <h6 className="heading-small text-muted mb-4">
                     Contact information

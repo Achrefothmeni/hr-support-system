@@ -109,6 +109,7 @@ export const notLoggedRoutes = [
     layout: '/auth',
   },
   
+  
 ]
 
 

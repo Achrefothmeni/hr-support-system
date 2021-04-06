@@ -11,6 +11,9 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/userConstants'
@@ -27,10 +30,16 @@ export const authReducer = (state = { user: {} }, action) => {
                 loading: true,
                 isAuthenticated: false,
             }
+        case UPDATE_USER_REQUEST:
+            return {
+                loading: true,
+                isAuthenticated: true,
+            }
 
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case LOAD_USER_SUCCESS:
+        case UPDATE_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -39,6 +48,8 @@ export const authReducer = (state = { user: {} }, action) => {
             }
 
         case LOAD_USER_FAIL:
+        case UPDATE_USER_FAIL:
+
             return {
 
                 loading: false,

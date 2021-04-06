@@ -11,6 +11,9 @@ import {
     LOAD_USER_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/userConstants'
@@ -155,6 +158,44 @@ export const logout = () => async (dispatch) => {
     }
 
 }
+
+
+
+export const updateUser = (name,organisationName,email,phoneNumber) => async (dispatch) => {
+
+    try {
+
+        dispatch({
+            type: UPDATE_USER_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }
+
+        const {data} = await axios.put('/me/update' , {name,organisationName,email,phoneNumber},config)
+
+
+        if(data.user){
+        dispatch({
+            type: UPDATE_USER_SUCCESS,
+            payload: data.user
+        })}
+
+
+
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_FAIL,
+            payload: error.errMessage
+        })
+    }
+
+}
+
 
 
 //clear errors

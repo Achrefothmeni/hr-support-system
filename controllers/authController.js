@@ -185,6 +185,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
+    organisationName : req.body.organisationName,
+    phoneNumber : req.body.phoneNumber,
   }
 
   //update avatar TO DO
