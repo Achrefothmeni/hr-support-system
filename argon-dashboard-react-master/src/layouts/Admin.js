@@ -47,7 +47,7 @@ const Admin = (props) => {
   }, [location]);
 
 
-  let routesSelected = routes;
+  let routesSelected
 
   //manager route
   if(user && user.admin)

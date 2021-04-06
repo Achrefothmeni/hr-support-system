@@ -280,7 +280,7 @@ const Profile = () => {
                       <hr className="my-4" />
                     {!disabled &&  < Button
                       color="primary"
-                      
+                      onClick={(e) => e.preventDefault()}
                       //onClick={submitHandler}
                       size="sm"
                     >
