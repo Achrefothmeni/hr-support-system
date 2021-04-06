@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from 'react'
+import React ,{useState,useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { addhr } from '../../actions/agentAction'
 // reactstrap components
@@ -34,8 +34,22 @@ import {
 // core components
 import UserHeader from 'components/Headers/UserHeader.js'
 
-const AddProfile = () => {
+const AddProfile = ({history}) => {
   const dispatch = useDispatch()
+
+  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+
+  useEffect(() => {
+    console.log(user.admin);
+    if(!user || (user && !user.admin)) {
+      console.log("not admin");
+      history.push('/auth/login')
+    }
+
+    
+    
+  }, [dispatch,isAuthenticated,error,history]);
+
   const listAgents = useSelector((state) => state.listAgents)
 
   const [hr, setHr] = useState({
