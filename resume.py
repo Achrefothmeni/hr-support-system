@@ -13,6 +13,7 @@ import uuid
 from werkzeug.utils import secure_filename
 import os
 from flask_cors import CORS
+import pymongo
 
 
 app = Flask(__name__)
@@ -26,7 +27,10 @@ nltk.download('maxent_ne_chunker')
 nltk.download('words')
 spacy.load("en_core_web_sm")
 
-data = ResumeParser('C://Users//dell//Desktop//Achref//cv.pdf').get_extracted_data()
+
+client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
+db = client[ "hr-supp" ]
+col = db[ "profiles" ]
 
 #print(data)
 UPLOAD_FOLDER = './uploads'
@@ -78,23 +82,29 @@ def index():
     file = request.files['file']
     if file.filename == '':
         return jsonify({"status": 403, "message": "No selected file"})
+    if allowed_file(file.filename) == False:
+        return jsonify({"status": 403, "message": "Please upload pdf file"})
     if file and allowed_file(file.filename):
         filename = str(uuid.uuid4())+".pdf"
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         user = {}
+        data = ResumeParser('./uploads/'+filename).get_extracted_data()
         text = extract_text_from_pdf('./uploads/'+filename)
+        #print(text)
         names = extract_names(text)
         emails = extract_emails(text)
         if emails:
             user["emails"] = emails
-            user["name"] = "Achref othmani"
-            user["skills"] = data["skills"]
+            user["name"] = emails[0].split("@")[0]
+        user["skills"] = data["skills"]
+        #user["data"] = text
+        user["source"] = "upload"
+        col.insert(user)
+        print(user)
+        user["_id"] = str(user["_id"])
+        user["status"] = 200
         return jsonify(user)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-
-    print(user)
-
