@@ -24,7 +24,7 @@ import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
 import Profile from "views/examples/Profile.js";
-
+import Settings from "views/examples/Settings";
 
 var routes = [
   {
@@ -108,8 +108,8 @@ export const notLoggedRoutes = [
     component: Register,
     layout: '/auth',
   },
-  
-  
+
+
 ]
 
 
@@ -127,7 +127,7 @@ export const managerRoutes = [
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin",
-    
+
   },
   {
     path: '/add-agent',
@@ -137,14 +137,28 @@ export const managerRoutes = [
     layout: '/admin',
   },
   {
+    path: "/settings",
+    name: "Settings",
+    icon: "ni ni-settings-gear-65 text-yellow",
+    component: Settings,
+    layout: "/admin",
+  },
+  {
+    path: "/tables",
+    name: "Tables",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Tables,
+    layout: "/admin",
+  },
+  {
     path: '/agent-tables',
     name: 'Agents Table',
     icon: 'ni ni-bullet-list-67 text-red',
     component: AgentsTable,
     layout: '/admin',
   },
-  
-  
+
+
 ]
 
 
@@ -162,9 +176,9 @@ export const agentRoutes = [
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin",
-    
+
   },
- 
+
   {
     path: '/tables',
     name: 'Scrapped Profiles',
@@ -172,7 +186,6 @@ export const agentRoutes = [
     component: Tables,
     layout: '/admin',
   },
-  
+
 ]
 export default routes
-
