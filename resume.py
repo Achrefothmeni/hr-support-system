@@ -28,7 +28,8 @@ nltk.download('words')
 spacy.load("en_core_web_sm")
 
 
-client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
+# client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb://localhost:27017/hr-supp")
 db = client[ "hr-supp" ]
 col = db[ "profiles" ]
 
@@ -107,4 +108,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

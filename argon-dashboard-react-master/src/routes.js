@@ -25,6 +25,7 @@ import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
 import Profile from "views/examples/Profile.js";
 import Settings from "views/examples/Settings";
+import CvUpload from 'views/examples/CvUpload'
 
 var routes = [
   {
@@ -184,6 +185,13 @@ export const agentRoutes = [
     name: 'Scrapped Profiles',
     icon: 'ni ni-bullet-list-67 text-red',
     component: Tables,
+    layout: '/admin',
+  },
+  {
+    path: '/upload',
+    name: 'Resume Upload',
+    icon: 'ni ni-bullet-list-67 text-red',
+    component: CvUpload,
     layout: '/admin',
   },
 

@@ -5,6 +5,7 @@ const connectDatabase = require('./config/database')
 const dotenv = require('dotenv')
 const auth = require('./routes/auth')
 const mailingRoutes = require('./routes/emailing')
+const profilesRoutes = require('./routes/profile')
 const router = express.Router()
 const cookieParser = require('cookie-parser')
 
@@ -21,6 +22,7 @@ app.get('/', (req, res) => res.send('App is working'))
 
 app.use(auth)
 app.use('/', mailingRoutes)
+app.use('/', profilesRoutes)
 // /me to test middleware
 
 //app.use('/api', routes)

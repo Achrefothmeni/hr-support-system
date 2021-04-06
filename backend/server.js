@@ -34,48 +34,11 @@ app.get('/api/settings', async (req , res) => {
          res.status(404).json({ message: error.message})
      }
     } )
-    app.post('/api/settings/add' , async (req, res ) => {
-/*
-      
-      const settingName = req.body.settingName;
-const adr = req.body.adress;
-adr.city = req.body.adress.city,
-adr.postalcode=  req.body.adress.postalcode,
-adr.country =  req.body.adress.country
-const newSettings = new SettingsModel({settingName });
-newSettings.adress.city = adr.city
-newSettings.adress.postalcode = adr.postalcode
-newSettings.adress.country = adr.country
-newSettings.save()
-.then(() => res.json('settings added!')) 
-.catch(err => res.status(400).json('Error: '+err));
-  */  
-/*
 
-      let adress = new Adress({
-         
-         _id: new mongoose.Types.ObjectId(),
-         city: req.body.adress.city,
-         postalcode: req.body.adress.postalcode,
-         country: req.body.adress.country
-       });   
-   
-         adress.save().then(() => {
-            let setting = new SettingsModel({
-               _id: new mongoose.Types.ObjectId(),
-               name: req.body.name,
-               adress: adress._id
-
-            })
-         })
-         setting.save().then(() => {
-            console.log(result)
-            res.status(201).json({ message: "Settings created"
-         })
-         })
-         */
-   
+    
+    app.post('/api/settings/add' , async (req, res ) => {   
        const setting = req.body
+       console.log(setting);
        const newSettings = new SettingsModel(setting)
        try {
           await newSettings.save()
