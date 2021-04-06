@@ -54,10 +54,10 @@ const Profile = () => {
   const handleInputDisable = ()=> {
     setDisabled(!disabled);
     if(btnName =='Edit'){
-      setbtnName('Cancel')
+      setbtnName('Candel')
     }
 
-    if(btnName =='Cancel'){
+    if(btnName =='Candel'){
       setbtnName('Edit')
     }
     
@@ -280,8 +280,8 @@ const Profile = () => {
                       <hr className="my-4" />
                     {!disabled &&  < Button
                       color="primary"
-                      onClick={(e) => e.preventDefault()}
-                      //onClick={submitHandler}
+                      //onClick={(e) => e.preventDefault()}
+                      onClick={submitHandler}
                       size="sm"
                     >
                       Save

@@ -33,9 +33,9 @@ const Auth = (props) => {
   const location = useLocation();
 
   
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     store.dispatch(loadUser())
-  }, []);
+  }, []); */
 
   React.useEffect(() => {
     document.body.classList.add("bg-default");
