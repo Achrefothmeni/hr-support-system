@@ -4,7 +4,9 @@ import thunk from 'redux-thunk'
 
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-const reducer = combineReducers({ listAgents: listAgentsReducer })
+const reducer = combineReducers({
+  listAgents: listAgentsReducer,
+})
 
 const initialState = {}
 

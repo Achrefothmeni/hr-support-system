@@ -5,6 +5,15 @@ import {
   ADD_AGENT_FAIL,
   ADD_AGENT_REQUEST,
   ADD_AGENT_SUCCESS,
+  BAN_AGENT_REQUEST,
+  BAN_AGENT_SUCCESS,
+  BAN_AGENT_FAIL,
+  UNBAN_AGENT_REQUEST,
+  UNBAN_AGENT_SUCCESS,
+  UNBAN_AGENT_FAIL,
+  REMOVE_AGENT_REQUEST,
+  REMOVE_AGENT_SUCCESS,
+  REMOVE_AGENT_FAIL,
 } from '../constants/agentConstants'
 import axios from 'axios'
 
@@ -43,6 +52,66 @@ export const addhr = (hr) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: ADD_AGENT_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    })
+  }
+}
+
+export const banHr = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: BAN_AGENT_REQUEST,
+    })
+
+    const { data } = await axios.put(`/ban-hr-test/${id}`)
+    if (data.msg === 'hr baned')
+      dispatch({ type: BAN_AGENT_SUCCESS, payload: id })
+  } catch (err) {
+    dispatch({
+      type: BAN_AGENT_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    })
+  }
+}
+
+export const unbanHr = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: UNBAN_AGENT_REQUEST,
+    })
+
+    const { data } = await axios.put(`/unban-hr-test/${id}`)
+    if (data.msg === 'hr unbaned')
+      dispatch({ type: UNBAN_AGENT_SUCCESS, payload: id })
+  } catch (err) {
+    dispatch({
+      type: UNBAN_AGENT_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    })
+  }
+}
+
+export const removeHr = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: REMOVE_AGENT_REQUEST,
+    })
+
+    const { data } = await axios.delete(`/remove-hr-test/${id}`)
+
+    dispatch({ type: REMOVE_AGENT_SUCCESS, payload: data.removed._id })
+  } catch (err) {
+    dispatch({
+      type: REMOVE_AGENT_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

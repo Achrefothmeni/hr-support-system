@@ -22,6 +22,7 @@ import Register from 'views/examples/Register.js'
 import Login from 'views/examples/Login.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
+import AgentsTable from 'views/examples/AgentsTable'
 
 var routes = [
   {
@@ -52,7 +53,13 @@ var routes = [
     component: Maps,
     layout: '/admin',
   },
-
+  {
+    path: '/agent-tables',
+    name: 'Agents Table',
+    icon: 'ni ni-bullet-list-67 text-red',
+    component: AgentsTable,
+    layout: '/admin',
+  },
   {
     path: '/tables',
     name: 'Tables',
