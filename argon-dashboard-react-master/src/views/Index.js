@@ -47,8 +47,7 @@ import {
 } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
-import { loadUser } from '../actions/userActions'
-import store from '../store'
+
 
 
 const Index = (props) => {
@@ -65,9 +64,7 @@ const Index = (props) => {
     setChartExample1Data("data" + index);
   };
 
-  useEffect(() => {
-    store.dispatch(loadUser())
-  }, []);
+  
   return (
     <>
       <Header />
