@@ -115,7 +115,7 @@ export const removeHr = (id) => async (dispatch) => {
       type: REMOVE_AGENT_FAIL,
       payload:
         err.response && err.response.data.errMessage
-          ? err.response.data.errMessagee
+          ? err.response.data.errMessage
           : err.message,
     })
   }

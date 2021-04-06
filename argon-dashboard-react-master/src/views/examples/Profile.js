@@ -35,17 +35,151 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 
+import { updateUser } from '../../actions/userActions'
+
+
 const Profile = () => {
 
   const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
 
+  const [disabled, setDisabled] = useState(true);
+  const [btnName, setbtnName] = useState('Edit');
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [organisationName, setOrganisationName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+
+
+  const handleInputDisable = ()=> {
+    setDisabled(!disabled);
+    if(btnName =='Edit'){
+      setbtnName('Cancel')
+    }
+
+    if(btnName =='Cancel'){
+      setbtnName('Edit')
+    }
+
+  }
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    setName(user.name)
+    setEmail(user.email)
+    setPhoneNumber(user.phoneNumber)
+    setOrganisationName(user.organisationName)
+  }, []);
+  const submitHandler = (e)=> {
+    e.preventDefault();
+    dispatch(updateUser(name,organisationName,email,phoneNumber))
+    console.log({name,organisationName,email,phoneNumber});
+
+  }
   return (
     <>
       <UserHeader />
       {/* Page content */}
       <Container className="mt--7" fluid>
-        <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+        <Row className="mt-1">
+
+
+
+        {profiles.map( profile =>  (
+
+<Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
+<Card className="card-profile shadow">
+  <Row className="justify-content-center">
+    <Col className="order-lg-2" lg="3">
+      <div className="card-profile-image">
+        <a href="#pablo" onClick={(e) => e.preventDefault()}>
+          <img
+            alt="..."
+            className="rounded-circle"
+            src={
+              require("../../assets/img/theme/team-1-800x800.jpg")
+                .default
+            }
+          />
+        </a>
+      </div>
+    </Col>
+  </Row>
+  <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+    <div className="d-flex justify-content-between">
+      <Button
+        className="mr-4"
+        color="info"
+        href="#pablo"
+        onClick={(e) => e.preventDefault()}
+        size="sm"
+      >
+        Mail
+      </Button>
+      <Button
+        className="ml-4"
+        color="default"
+        href="#pablo"
+        onClick={(e) => e.preventDefault()}
+        size="sm"
+      >
+         meet
+      </Button>
+    </div>
+  </CardHeader>
+  <CardBody className="pt-0 pt-md-4">
+  <br/>        <br/>
+    <div className="text-center">
+      <h3>
+        {profile.name}
+        <span className="font-weight-light">, 36</span>
+      </h3>
+      <div className="h5 font-weight-300">
+        <i className="ni location_pin mr-2" />
+        {profile.position}
+      </div>
+
+      <div>
+
+      </div>
+      <hr className="my-4" />
+      <h2>Skills & endorsements</h2>
+      <p>
+      {profile.skills.map( e => (
+                        {e}
+                      ))}
+      </p>
+      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+        Show more
+      </a>
+    </div>
+  </CardBody>
+</Card>
+</Col>
+
+        ))}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 {/* <Col className="order-lg-2" lg="3">
@@ -72,19 +206,22 @@ const Profile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                    Connect
+                    Mail
                   </Button>
                   <Button
-                    className="float-right"
+                    className="ml-4"
                     color="default"
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                    Message
+                     meet
                   </Button>
+
                 </div>
               </CardHeader>
+
+
               <CardBody className="pt-0 pt-md-4">
                 {/* <Row>
                   <div className="col">
@@ -109,13 +246,13 @@ const Profile = () => {
                 {user && <h3 >
                       {user.name}
                     </h3>}
-                  
-                  
+
+
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
                     Solution Manager - Creative Tim Officer
                   </div>
-                  
+
                   <hr className="my-4" />
                   {/* <p>
                     Ryan — the name taken by Melbourne-raised, Brooklyn-based
@@ -128,24 +265,31 @@ const Profile = () => {
                 </div>
               </CardBody>
             </Card>
+
+
+
+
+
+
           </Col>
           <Col className="order-xl-1" xl="8">
             <Card className="bg-secondary shadow">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
-                  <Col xs="8">
+                  <Col xs="6">
                     <h3 className="mb-0">My account</h3>
                   </Col>
-                  <Col className="text-right" xs="4">
+                  <Col className="text-right" xs="6">
                     <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      color="secondary"
+
+                      onClick={handleInputDisable}
                       size="sm"
                     >
-                      Settings
+                      {btnName}
                     </Button>
                   </Col>
+
                 </Row>
               </CardHeader>
               <CardBody>
@@ -166,9 +310,12 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.name}
+                            onChange={(e) => setName(e.target.value)}
+
                             id="input-username"
                             placeholder="Username"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -184,7 +331,10 @@ const Profile = () => {
                             className="form-control-alternative"
                             id="input-email"
                             defaultValue={user.email}
+                            onChange={(e) => setEmail(e.target.value)}
+
                             type="email"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -201,9 +351,12 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.organisationName}
+                            onChange={(e) => setOrganisationName(e.target.value)}
+
                             id="input-first-name"
                             placeholder="First name"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
@@ -218,15 +371,29 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             defaultValue={user.phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+
                             id="input-last-name"
                             placeholder="Last name"
                             type="text"
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
+                      <Col className="text-right" xs="12">
+                      <hr className="my-4" />
+                    {!disabled &&  < Button
+                      color="primary"
+                      onClick={(e) => e.preventDefault()}
+                      //onClick={submitHandler}
+                      size="sm"
+                    >
+                      Save
+                    </Button>}
+                  </Col>
                     </Row>
                   </div>
-                  <hr className="my-4" />
+
                   {/* Address */}
                   {/* <h6 className="heading-small text-muted mb-4">
                     Contact information
@@ -323,9 +490,22 @@ const Profile = () => {
                 </Form>
               </CardBody>
             </Card>
+
+
+
+
+
+
           </Col>
+
         </Row>
       </Container>
+
+
+
+
+
+
     </>
   );
 };

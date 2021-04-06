@@ -29,11 +29,18 @@ import store from './store'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 
-
+import "assets/plugins/nucleo/css/nucleo.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "assets/scss/argon-dashboard-react.scss";
+import {createStore, applyMiddleware , compose} from 'redux'
+import thunk from 'redux-thunk'
+import AdminLayout from "layouts/Admin.js";
+import AuthLayout from "layouts/Auth.js";
+import Store from './store'
+import { Provider } from "react-redux";
 
 ReactDOM.render(
-
-  <Provider store = {store}>
+  <Provider store= {Store}>
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />

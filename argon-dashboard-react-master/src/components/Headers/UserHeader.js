@@ -43,11 +43,11 @@ const UserHeader = ({ btnTitle }) => {
         style={{
           minHeight: '600px',
           backgroundImage:
-            'url(' +
-            require('../../assets/img/theme/profile-cover.jpg').default +
-            ')',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center top',
+            "url(" +
+            require("../../assets/img/theme/linkedincover.jpg").default +
+            ")",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
         }}
       >
         {/* Mask */}
