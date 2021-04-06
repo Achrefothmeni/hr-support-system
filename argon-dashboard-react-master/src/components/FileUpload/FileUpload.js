@@ -2,12 +2,15 @@ import React, { Fragment, useState } from 'react';
 import Message from './Message';
 import Progress from './Progress';
 import axios from 'axios';
+import { Badge, Button } from "reactstrap";
+
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
   const [filename, setFilename] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
+  const [similar, setSimilar] = useState(0);
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
   const onChange = e => {
@@ -42,6 +45,7 @@ const FileUpload = () => {
       setUploadedFile({ fileName, filePath });
 
       setMessage('File Uploaded');
+      setSimilar(3);
     } catch (err) {
       if (err.response.status === 500) {
         setMessage('There was a problem with the server');
@@ -83,6 +87,10 @@ const FileUpload = () => {
           </div>
         </div>
       ) : null}
+      {similar ? <Button color="primary" type="button">
+          <span>{similar} profile</span>
+          <Badge className="badge-white">View</Badge>
+        </Button> : null}
     </Fragment>
   );
 };

@@ -150,6 +150,7 @@ for url in profile_urls:
 
         user["skills"] = skill_set
         user["position"] = position
+        user["source"] = "linkedin"
         #user["scraped_at"] = datetime.datetime.now()
 
         col.insert(user)
