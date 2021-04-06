@@ -15,7 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React ,{useState,useEffect} from 'react';
+
+import { useDispatch, useSelector } from 'react-redux'
 
 // reactstrap components
 import {
@@ -34,6 +36,9 @@ import {
 import UserHeader from "components/Headers/UserHeader.js";
 
 const Profile = () => {
+
+  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+
   return (
     <>
       <UserHeader />
@@ -43,7 +48,7 @@ const Profile = () => {
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
-                <Col className="order-lg-2" lg="3">
+                {/* <Col className="order-lg-2" lg="3">
                   <div className="card-profile-image">
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
@@ -56,7 +61,7 @@ const Profile = () => {
                       />
                     </a>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                 <div className="d-flex justify-content-between">
@@ -81,7 +86,7 @@ const Profile = () => {
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                <Row>
+                {/* <Row>
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                       <div>
@@ -98,30 +103,25 @@ const Profile = () => {
                       </div>
                     </div>
                   </div>
-                </Row>
+                </Row> */}
                 <div className="text-center">
-                  <h3>
-                    Jessica Jones
-                    <span className="font-weight-light">, 27</span>
-                  </h3>
-                  <div className="h5 font-weight-300">
-                    <i className="ni location_pin mr-2" />
-                    Bucharest, Romania
-                  </div>
+
+                {user && <h3 >
+                      {user.name}
+                    </h3>}
+                  
+                  
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
                     Solution Manager - Creative Tim Officer
                   </div>
-                  <div>
-                    <i className="ni education_hat mr-2" />
-                    University of Computer Science
-                  </div>
+                  
                   <hr className="my-4" />
-                  <p>
+                  {/* <p>
                     Ryan — the name taken by Melbourne-raised, Brooklyn-based
                     Nick Murphy — writes, performs and records all of his own
                     music.
-                  </p>
+                  </p> */}
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
                   </a>
@@ -165,7 +165,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="lucky.jesse"
+                            defaultValue={user.name}
                             id="input-username"
                             placeholder="Username"
                             type="text"
@@ -183,7 +183,7 @@ const Profile = () => {
                           <Input
                             className="form-control-alternative"
                             id="input-email"
-                            placeholder="jesse@example.com"
+                            defaultValue={user.email}
                             type="email"
                           />
                         </FormGroup>
@@ -196,11 +196,11 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-first-name"
                           >
-                            First name
+                            Organisation name
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Lucky"
+                            defaultValue={user.organisationName}
                             id="input-first-name"
                             placeholder="First name"
                             type="text"
@@ -213,11 +213,11 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-last-name"
                           >
-                            Last name
+                            Phone Number
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Jesse"
+                            defaultValue={user.phoneNumber}
                             id="input-last-name"
                             placeholder="Last name"
                             type="text"
@@ -228,7 +228,7 @@ const Profile = () => {
                   </div>
                   <hr className="my-4" />
                   {/* Address */}
-                  <h6 className="heading-small text-muted mb-4">
+                  {/* <h6 className="heading-small text-muted mb-4">
                     Contact information
                   </h6>
                   <div className="pl-lg-4">
@@ -304,9 +304,9 @@ const Profile = () => {
                       </Col>
                     </Row>
                   </div>
-                  <hr className="my-4" />
+                  <hr className="my-4" /> */}
                   {/* Description */}
-                  <h6 className="heading-small text-muted mb-4">About me</h6>
+                 {/*  <h6 className="heading-small text-muted mb-4">About me</h6>
                   <div className="pl-lg-4">
                     <FormGroup>
                       <label>About Me</label>
@@ -319,7 +319,7 @@ const Profile = () => {
                         type="textarea"
                       />
                     </FormGroup>
-                  </div>
+                  </div> */}
                 </Form>
               </CardBody>
             </Card>

@@ -23,6 +23,8 @@ import Login from 'views/examples/Login.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
+import Profile from "views/examples/Profile.js";
+
 
 var routes = [
   {
@@ -82,4 +84,94 @@ var routes = [
     layout: '/auth',
   },
 ]
+
+
+export const notLoggedRoutes = [
+  {
+    path: '/index',
+    name: 'Dashboard',
+    icon: 'ni ni-atom text-primary',
+    component: Index,
+    layout: '/admin',
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    icon: 'ni ni-key-25 text-info',
+    component: Login,
+    layout: '/auth',
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    icon: 'ni ni-circle-08 text-pink',
+    component: Register,
+    layout: '/auth',
+  },
+  
+]
+
+
+export const managerRoutes = [
+  {
+    path: '/index',
+    name: 'Dashboard',
+    icon: 'ni ni-atom text-primary',
+    component: Index,
+    layout: '/admin',
+  },
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
+    layout: "/admin",
+    
+  },
+  {
+    path: '/add-agent',
+    name: 'Add Agent',
+    icon: 'ni ni-badge text-green',
+    component: AddProfile,
+    layout: '/admin',
+  },
+  {
+    path: '/agent-tables',
+    name: 'Agents Table',
+    icon: 'ni ni-bullet-list-67 text-red',
+    component: AgentsTable,
+    layout: '/admin',
+  },
+  
+  
+]
+
+
+export const agentRoutes = [
+  {
+    path: '/index',
+    name: 'Dashboard',
+    icon: 'ni ni-atom text-primary',
+    component: Index,
+    layout: '/admin',
+  },
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
+    layout: "/admin",
+    
+  },
+ 
+  {
+    path: '/tables',
+    name: 'Scrapped Profiles',
+    icon: 'ni ni-bullet-list-67 text-red',
+    component: Tables,
+    layout: '/admin',
+  },
+  
+]
 export default routes
+

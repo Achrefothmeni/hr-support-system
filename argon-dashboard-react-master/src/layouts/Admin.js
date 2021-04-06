@@ -15,7 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React ,{useState,useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
@@ -26,12 +27,14 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import { loadUser } from '../actions/userActions'
 import store from '../store'
 
-import routes from "routes.js";
+import routes,{notLoggedRoutes,managerRoutes,agentRoutes} from "routes.js";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
+  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
     store.dispatch(loadUser())
@@ -43,6 +46,26 @@ const Admin = (props) => {
     mainContent.current.scrollTop = 0;
   }, [location]);
 
+
+  let routesSelected = routes;
+
+  //manager route
+  if(user && user.admin)
+  {
+    routesSelected = managerRoutes;
+
+  }
+//agent route
+  if(user && !user.admin)
+  {
+    routesSelected = agentRoutes;
+
+  }
+
+  //not logged it route
+  if(!user){
+    routesSelected = notLoggedRoutes
+  }
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
@@ -75,7 +98,7 @@ const Admin = (props) => {
     <>
       <Sidebar
         {...props}
-        routes={routes}
+        routes={routesSelected}
         logo={{
           innerLink: "/admin/index",
           imgSrc: require("../assets/img/brand/argon-react.png").default,
@@ -83,12 +106,14 @@ const Admin = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
-        <AdminNavbar
+
+      {user && <AdminNavbar
           {...props}
           brandText={getBrandText(props.location.pathname)}
-        />
+        />}
+        
         <Switch>
-          {getRoutes(routes)}
+          {getRoutes(routesSelected)}
           <Redirect from="*" to="/admin/index" />
         </Switch>
         <Container fluid>
