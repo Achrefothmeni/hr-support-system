@@ -16,7 +16,8 @@
 
 */
 import React, { useState } from 'react'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { addhr } from '../../actions/agentAction'
 // reactstrap components
 import {
   Button,
@@ -34,6 +35,9 @@ import {
 import UserHeader from 'components/Headers/UserHeader.js'
 
 const AddProfile = () => {
+  const dispatch = useDispatch()
+  const listAgents = useSelector((state) => state.listAgents)
+
   const [hr, setHr] = useState({
     name: '',
     organisationName: '',
@@ -53,17 +57,8 @@ const AddProfile = () => {
 
   const addAgent = async (e) => {
     e.preventDefault()
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    try {
-      const res = await axios.post('/add-hr-test', hr, config)
-      console.log(res)
-    } catch (error) {
-      console.log(error.message)
-    }
+
+    dispatch(addhr(hr))
     resetHR()
   }
 

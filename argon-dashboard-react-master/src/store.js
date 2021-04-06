@@ -4,9 +4,10 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 
 import{authReducer} from './reducers/userReducers'
+import { listAgentsReducer } from './reducers/agentReducer'
 const reducer = combineReducers({
 
-auth:authReducer
+auth:authReducer,listAgents: listAgentsReducer,
 
 })
 
