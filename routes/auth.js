@@ -69,7 +69,7 @@ router.route('/add-hr').post(
     const { name, organisationNname, email, password, phoneNumber } = req.body
     const user = await User.create({
       name,
-      organisationNname,
+      organisationName,
       email,
       password,
       phoneNumber,
@@ -91,7 +91,7 @@ router.route('/add-hr-test').post(
     const { name, organisationNname, email, password, phoneNumber } = req.body
     const user = await User.create({
       name,
-      organisationNname,
+      organisationName,
       email,
       password,
       phoneNumber,

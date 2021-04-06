@@ -36,7 +36,7 @@ import UserHeader from 'components/Headers/UserHeader.js'
 const AddProfile = () => {
   const [hr, setHr] = useState({
     name: '',
-    organisationNname: '',
+    organisationName: '',
     email: '',
     password: '',
     phoneNumber: '',
@@ -44,7 +44,7 @@ const AddProfile = () => {
   const resetHR = () => {
     setHr({
       name: '',
-      organisationNname: '',
+      organisationName: '',
       email: '',
       password: '',
       phoneNumber: '',
@@ -181,7 +181,7 @@ const AddProfile = () => {
                             id='input-Organization'
                             placeholder='Organization name'
                             type='text'
-                            value={hr.organisationNname}
+                            value={hr.organisationName}
                             onChange={(e) =>
                               setHr({ ...hr, [e.target.name]: e.target.value })
                             }
