@@ -15,9 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React ,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux'
 
 import { Link } from "react-router-dom";
 // reactstrap components
@@ -38,9 +37,19 @@ import {
   Media,
 } from "reactstrap";
 
+import { logout, clearErrors } from '../../actions/userActions'
+import { useDispatch, useSelector } from 'react-redux'
+
+
+
 const AdminNavbar = (props) => {
 
-  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+  const { isAuthenticated, error, loading, user } = useSelector(state => state.auth)
+
+  const dispatch = useDispatch()
+  const logoutHandler = () => {
+    dispatch(logout());
+  }
 
   return (
     <>
@@ -81,7 +90,7 @@ const AdminNavbar = (props) => {
                     {user && <span className="mb-0 text-sm font-weight-bold">
                       {user.name}
                     </span>}
-                    
+
                   </Media>
                 </Media>
               </DropdownToggle>
@@ -106,7 +115,7 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={logoutHandler}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
