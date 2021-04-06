@@ -22,13 +22,15 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       url: '',
     },
   })
+
+  const userToReturn = await User.findOne({ email })
   /* const token = user.getJwtToken();
     res.status(201).json({
         success: true,
 
         token
     }) */
-  sendToken(user, 200, res)
+  sendToken(userToReturn, 200, res)
 })
 
 ////login user  => /api/v1/login
@@ -59,7 +61,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         success:true,
         token
     }) */
-  sendToken(user, 200, res)
+    const userToReturn = await User.findOne({ email })
+  sendToken(userToReturn, 200, res)
 })
 
 //Forgot password /api/v1/password/forgot
@@ -199,6 +202,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    user,
     message: 'Profile updated',
   })
 })

@@ -28,18 +28,21 @@ import { Provider } from 'react-redux'
 import store from './store'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
-import {createStore, applyMiddleware , compose} from 'redux'
-import thunk from 'redux-thunk'
+
+import App from './App';
 
 ReactDOM.render(
-  <Provider store= {store}>
-  <BrowserRouter>
+
+  <Provider store = {store}>
+  {/* <BrowserRouter>
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
       <Redirect from="/" to="/admin/index" />
     </Switch>
-  </BrowserRouter>,
+  </BrowserRouter>, */}
+  <App/>
   </Provider>,
   document.getElementById("root")
 );
+

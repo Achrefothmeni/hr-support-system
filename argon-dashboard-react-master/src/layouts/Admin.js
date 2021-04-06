@@ -24,8 +24,8 @@ import { Container } from "reactstrap";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import { loadUser } from '../actions/userActions'
-import store from '../store'
+/* import { loadUser } from '../actions/userActions'
+import store from '../store' */
 
 import routes,{notLoggedRoutes,managerRoutes,agentRoutes} from "routes.js";
 
@@ -36,10 +36,10 @@ const Admin = (props) => {
   const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     store.dispatch(loadUser())
   }, []);
-
+ */
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
