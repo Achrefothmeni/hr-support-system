@@ -54,10 +54,10 @@ const Profile = () => {
   const handleInputDisable = ()=> {
     setDisabled(!disabled);
     if(btnName =='Edit'){
-      setbtnName('Candel')
+      setbtnName('Cancel')
     }
 
-    if(btnName =='Candel'){
+    if(btnName =='Cancel'){
       setbtnName('Edit')
     }
     
