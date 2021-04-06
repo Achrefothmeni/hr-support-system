@@ -40,14 +40,11 @@ const AddProfile = ({history}) => {
   const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
 
   useEffect(() => {
-    console.log(user.admin);
+    
     if(!user || (user && !user.admin)) {
       console.log("not admin");
       history.push('/auth/login')
     }
-
-    
-    
   }, [dispatch,isAuthenticated,error,history]);
 
   const listAgents = useSelector((state) => state.listAgents)

@@ -44,13 +44,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import Header from 'components/Headers/Header.js'
 import { banHr, removeHr, getAgents, unbanHr } from '../../actions/agentAction'
 
-const AgentsTable = () => {
+const AgentsTable = ({history}) => {
   const [forRemove, setForRemove] = useState(null)
 
   const [defaultModal, setDefaultModal] = useState(false)
   const dispatch = useDispatch()
   const listAgents = useSelector((state) => state.listAgents)
   const { loading, error, agents } = listAgents
+  const  {isAuthenticated,user} = useSelector(state => state.auth)
+
+  useEffect(() => {
+    
+    if(!user || (user && !user.admin)) {
+      console.log("not admin");
+      history.push('/auth/login')
+    }
+  }, [dispatch,isAuthenticated,history]);
+
   useEffect(() => {
     dispatch(getAgents())
   }, [dispatch])
