@@ -23,7 +23,7 @@ export const getAgents = () => async (dispatch) => {
       type: LIST_AGENT_REQUEST,
     })
 
-    const { data } = await axios.get('/get-hrs-test')
+    const { data } = await axios.get('/hrs')
     dispatch({ type: LIST_AGENT_SUCCESS, payload: [...data.users] })
   } catch (err) {
     dispatch({
@@ -46,7 +46,7 @@ export const addhr = (hr) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.post('/add-hr-test', hr, config)
+    const { data } = await axios.post('/add-hr', hr, config)
 
     dispatch({ type: ADD_AGENT_SUCCESS, payload: data.user })
   } catch (err) {
@@ -56,7 +56,6 @@ export const addhr = (hr) => async (dispatch) => {
         err.response && err.response.data.errMessage
           ? err.response.data.errMessage
           : err.message,
-          
     })
   }
 }
@@ -67,7 +66,7 @@ export const banHr = (id) => async (dispatch) => {
       type: BAN_AGENT_REQUEST,
     })
 
-    const { data } = await axios.put(`/ban-hr-test/${id}`)
+    const { data } = await axios.put(`/ban-hr/${id}`)
     if (data.msg === 'hr baned')
       dispatch({ type: BAN_AGENT_SUCCESS, payload: id })
   } catch (err) {
@@ -87,7 +86,7 @@ export const unbanHr = (id) => async (dispatch) => {
       type: UNBAN_AGENT_REQUEST,
     })
 
-    const { data } = await axios.put(`/unban-hr-test/${id}`)
+    const { data } = await axios.put(`/unban-hr/${id}`)
     if (data.msg === 'hr unbaned')
       dispatch({ type: UNBAN_AGENT_SUCCESS, payload: id })
   } catch (err) {
@@ -107,7 +106,7 @@ export const removeHr = (id) => async (dispatch) => {
       type: REMOVE_AGENT_REQUEST,
     })
 
-    const { data } = await axios.delete(`/remove-hr-test/${id}`)
+    const { data } = await axios.delete(`/remove-hr/${id}`)
 
     dispatch({ type: REMOVE_AGENT_SUCCESS, payload: data.removed._id })
   } catch (err) {
@@ -115,7 +114,7 @@ export const removeHr = (id) => async (dispatch) => {
       type: REMOVE_AGENT_FAIL,
       payload:
         err.response && err.response.data.errMessage
-          ? err.response.data.errMessage
+          ? err.response.data.errMessagee
           : err.message,
     })
   }
