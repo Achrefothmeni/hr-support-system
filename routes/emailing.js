@@ -2,18 +2,25 @@ const mailer = require('nodemailer')
 const express = require('express')
 const schedule = require('node-schedule')
 const router = express.Router()
+const {
+  isAuthenticatedUser,
+  authorizedRoles,
+  onlyAdmin,
+} = require('../middlewares/auth')
+
 const transporter = mailer.createTransport({
   service: 'hotmail',
   auth: { user: 'gachi1231@outlook.com', pass: '13051998gachi' },
 })
-const options = {
-  from: 'gachi1231@outlook.com',
-  to: 'aziv07@gmail.com',
-  subject: 'email from node.js',
-  text: 'you got this!',
-}
 
-router.post('/email', async (req, res) => {
+router.post('/email', isAuthenticatedUser, async (req, res) => {
+  const { subject, content, email } = req.body
+  const options = {
+    from: 'gachi1231@outlook.com',
+    to: email,
+    subject: subject,
+    text: content,
+  }
   transporter.sendMail(options, (err, info) => {
     try {
       if (err) throw new Error(err)
