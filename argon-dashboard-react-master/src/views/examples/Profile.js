@@ -54,10 +54,10 @@ const Profile = () => {
   const handleInputDisable = ()=> {
     setDisabled(!disabled);
     if(btnName =='Edit'){
-      setbtnName('Candel')
+      setbtnName('Cancel')
     }
 
-    if(btnName =='Candel'){
+    if(btnName =='Cancel'){
       setbtnName('Edit')
     }
     
@@ -74,7 +74,8 @@ const Profile = () => {
   }, []);
   const submitHandler = (e)=> {
     e.preventDefault();
-    dispatch(updateUser(name,organisationName,email,phoneNumber))
+    dispatch(updateUser(user,name,organisationName,email,phoneNumber))
+    handleInputDisable();
     console.log({name,organisationName,email,phoneNumber});
 
   }

@@ -161,12 +161,13 @@ export const logout = () => async (dispatch) => {
 
 
 
-export const updateUser = (name,organisationName,email,phoneNumber) => async (dispatch) => {
+export const updateUser = (user,name,organisationName,email,phoneNumber) => async (dispatch) => {
 
     try {
 
         dispatch({
-            type: UPDATE_USER_REQUEST
+            type: UPDATE_USER_REQUEST,
+            payload: user
         })
 
         const config = {

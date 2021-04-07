@@ -34,6 +34,8 @@ export const authReducer = (state = { user: {} }, action) => {
             return {
                 loading: true,
                 isAuthenticated: true,
+                user: action.payload
+                
             }
 
         case LOGIN_SUCCESS:
