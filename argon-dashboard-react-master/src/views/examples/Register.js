@@ -50,6 +50,14 @@ const Register = ({ history }) => {
 
   const { isAuthenticated, error, loading } = useSelector(state => state.auth)
 
+  const [disabled, setDisabled] = useState(true);
+
+  const handleInputDisable = ()=> {
+    setDisabled(!disabled);
+    
+    
+  }
+
   useEffect(() => {
     if (isAuthenticated) {
       history.push('/admin/user-profile')
@@ -199,7 +207,7 @@ const Register = ({ history }) => {
                       <i className="fas fa-phone-alt" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Organisation Name" type="number"
+                  <Input placeholder="Phone Number" type="number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </InputGroup>
@@ -211,6 +219,7 @@ const Register = ({ history }) => {
                       className="custom-control-input"
                       id="customCheckRegister"
                       type="checkbox"
+                      onClick={handleInputDisable}
                     />
                     <label
                       className="custom-control-label"
@@ -218,7 +227,7 @@ const Register = ({ history }) => {
                     >
                       <span className="text-muted">
                         I agree with the{" "}
-                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        <a  >
                           Privacy Policy
                         </a>
                       </span>
@@ -227,7 +236,7 @@ const Register = ({ history }) => {
                 </Col>
               </Row>
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="submit">
+                <Button className="mt-4" color="primary" type="submit" disabled={disabled}>
                   Create account
                 </Button>
               </div>
