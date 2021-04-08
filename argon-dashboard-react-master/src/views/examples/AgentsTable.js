@@ -44,6 +44,7 @@ import {
   Row,
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastProvider, useToasts } from 'react-toast-notifications'
 import axios from 'axios'
 // core components
 import Header from 'components/Headers/Header.js'
@@ -105,7 +106,7 @@ const AgentsTable = ({ history }) => {
     }
   }
   return (
-    <>
+    <ToastProvider>
       <Header />
       {/* Page content */}
       <Container className='mt--7' fluid>
@@ -425,7 +426,7 @@ const AgentsTable = ({ history }) => {
         </Row>
         {/* Dark table */}
       </Container>
-    </>
+    </ToastProvider>
   )
 }
 
