@@ -16,7 +16,7 @@
 
 */
 import React, { useEffect, useState } from 'react'
-
+import { ADD_ERROR } from '../../constants/alertConstant'
 // reactstrap components
 import {
   Badge,
@@ -44,7 +44,7 @@ import {
   Row,
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastProvider, useToasts } from 'react-toast-notifications'
+
 import axios from 'axios'
 // core components
 import Header from 'components/Headers/Header.js'
@@ -100,13 +100,21 @@ const AgentsTable = ({ history }) => {
     }
     try {
       await axios.post('/email', forMail, config)
+      dispatch({
+        type: ADD_ERROR,
+        payload: { type: 'success', message: 'Email sent successfully!' },
+      })
       toggleMailModal()
     } catch (error) {
+      dispatch({
+        type: ADD_ERROR,
+        payload: { type: 'error', message: 'Failed to send Email!' },
+      })
       console.log(error)
     }
   }
   return (
-    <ToastProvider>
+    <>
       <Header />
       {/* Page content */}
       <Container className='mt--7' fluid>
@@ -426,7 +434,7 @@ const AgentsTable = ({ history }) => {
         </Row>
         {/* Dark table */}
       </Container>
-    </ToastProvider>
+    </>
   )
 }
 
