@@ -16,7 +16,7 @@
 
 */
 import React, { useEffect, useState } from 'react'
-import { ADD_ERROR } from '../../constants/alertConstant'
+import { ADD_ALERT } from '../../constants/alertConstant'
 // reactstrap components
 import {
   Badge,
@@ -101,13 +101,13 @@ const AgentsTable = ({ history }) => {
     try {
       await axios.post('/email', forMail, config)
       dispatch({
-        type: ADD_ERROR,
+        type: ADD_ALERT,
         payload: { type: 'success', message: 'Email sent successfully!' },
       })
       toggleMailModal()
     } catch (error) {
       dispatch({
-        type: ADD_ERROR,
+        type: ADD_ALERT,
         payload: { type: 'error', message: 'Failed to send Email!' },
       })
       console.log(error)

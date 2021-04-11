@@ -23,10 +23,10 @@ import Login from 'views/examples/Login.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
-import Profile from "views/examples/Profile.js";
-import Settings from "views/examples/Settings";
+import Profile from 'views/examples/Profile.js'
+import Settings from 'views/examples/Settings'
 import CvUpload from 'views/examples/CvUpload'
-
+import PlanMeets from 'views/examples/PlanMeets'
 var routes = [
   {
     path: '/index',
@@ -86,7 +86,6 @@ var routes = [
   },
 ]
 
-
 export const notLoggedRoutes = [
   {
     path: '/index',
@@ -109,10 +108,7 @@ export const notLoggedRoutes = [
     component: Register,
     layout: '/auth',
   },
-
-
 ]
-
 
 export const managerRoutes = [
   {
@@ -123,12 +119,11 @@ export const managerRoutes = [
     layout: '/admin',
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
+    path: '/user-profile',
+    name: 'User Profile',
+    icon: 'ni ni-single-02 text-yellow',
     component: Profile,
-    layout: "/admin",
-
+    layout: '/admin',
   },
   {
     path: '/add-agent',
@@ -138,18 +133,25 @@ export const managerRoutes = [
     layout: '/admin',
   },
   {
-    path: "/settings",
-    name: "Settings",
-    icon: "ni ni-settings-gear-65 text-yellow",
+    path: '/settings',
+    name: 'Settings',
+    icon: 'ni ni-settings-gear-65 text-yellow',
     component: Settings,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
+    path: '/meet-plan',
+    name: 'Meeting Planning',
+    icon: 'ni ni-calendar-grid-58 text-orange',
+    component: PlanMeets,
+    layout: '/admin',
+  },
+  {
+    path: '/tables',
+    name: 'Tables',
+    icon: 'ni ni-bullet-list-67 text-red',
     component: Tables,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
     path: '/agent-tables',
@@ -158,10 +160,7 @@ export const managerRoutes = [
     component: AgentsTable,
     layout: '/admin',
   },
-
-
 ]
-
 
 export const agentRoutes = [
   {
@@ -172,14 +171,19 @@ export const agentRoutes = [
     layout: '/admin',
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
+    path: '/user-profile',
+    name: 'User Profile',
+    icon: 'ni ni-single-02 text-yellow',
     component: Profile,
-    layout: "/admin",
-
+    layout: '/admin',
   },
-
+  {
+    path: '/meet-plan',
+    name: 'Meeting Planning',
+    icon: 'ni ni-calendar-grid-58 text-orange',
+    component: PlanMeets,
+    layout: '/admin',
+  },
   {
     path: '/tables',
     name: 'Scrapped Profiles',
@@ -194,6 +198,5 @@ export const agentRoutes = [
     component: CvUpload,
     layout: '/admin',
   },
-
 ]
 export default routes

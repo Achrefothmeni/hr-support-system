@@ -1,3 +1,3 @@
-export const ADD_ERROR = 'ADD_ERROR'
+export const ADD_ALERT = 'ADD_ALERT'
 
 export const REMOVE_ERROR = 'REMOVE_ERROR'

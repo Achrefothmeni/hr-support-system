@@ -16,7 +16,7 @@ import {
   REMOVE_AGENT_FAIL,
 } from '../constants/agentConstants'
 import axios from 'axios'
-import { ADD_ERROR, REMOVE_ERROR } from '../constants/alertConstant'
+import { ADD_ALERT, REMOVE_ERROR } from '../constants/alertConstant'
 export const getAgents = () => async (dispatch) => {
   try {
     dispatch({
@@ -50,12 +50,12 @@ export const addhr = (hr) => async (dispatch) => {
 
     dispatch({ type: ADD_AGENT_SUCCESS, payload: data.user })
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'success', message: 'Agent added successfully!' },
     })
   } catch (err) {
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'error', message: 'Adding agent failed!' },
     })
     dispatch({
@@ -78,13 +78,13 @@ export const banHr = (id) => async (dispatch) => {
     if (data.msg === 'hr baned') {
       dispatch({ type: BAN_AGENT_SUCCESS, payload: id })
       dispatch({
-        type: ADD_ERROR,
+        type: ADD_ALERT,
         payload: { type: 'success', message: 'Agent baned!' },
       })
     }
   } catch (err) {
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'error', message: 'Failed to ban Agent!' },
     })
     dispatch({
@@ -107,12 +107,12 @@ export const unbanHr = (id) => async (dispatch) => {
     if (data.msg === 'hr unbaned')
       dispatch({ type: UNBAN_AGENT_SUCCESS, payload: id })
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'success', message: 'Agent unbaned successfully!' },
     })
   } catch (err) {
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'error', message: 'Failed to unban Agent!' },
     })
     dispatch({
@@ -135,12 +135,12 @@ export const removeHr = (id) => async (dispatch) => {
 
     dispatch({ type: REMOVE_AGENT_SUCCESS, payload: data.removed._id })
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'success', message: 'Agent removed successfully!' },
     })
   } catch (err) {
     dispatch({
-      type: ADD_ERROR,
+      type: ADD_ALERT,
       payload: { type: 'error', message: 'Failed to remove Agent!' },
     })
     dispatch({

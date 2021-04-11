@@ -54,7 +54,7 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   manager: {
-    ref: 'User',
+    ref: 'Users',
     type: mongoose.Schema.Types.ObjectId,
     required: false,
   },
