@@ -1,0 +1,5 @@
+export const ADD_MEET_REQUEST = 'ADD_MEET_REQUEST'
+
+export const ADD_MEET_SUCCESS = 'ADD_MEET_SUCCESS'
+
+export const ADD_MEET_FAIL = 'ADD_MEET_FAIL'

@@ -1,6 +1,8 @@
 const mailer = require('nodemailer')
 const express = require('express')
 const schedule = require('node-schedule')
+const Meet = require('../models/meet')
+
 const router = express.Router()
 const {
   isAuthenticatedUser,
@@ -31,22 +33,71 @@ router.post('/email', isAuthenticatedUser, async (req, res) => {
   })
 })
 
-router.post('/schedule', async (req, res) => {
-  transporter.sendMail(options, (err, info) => {
-    try {
-      const job = schedule.scheduleJob(
-        `${req.body.minutes} * * * *`,
-        function () {
-          transporter.sendMail(options, (err, info) => {
-            if (err) throw new Error(err)
-          })
-        }
-      )
-      res.json({ msg: 'mail planed' })
-    } catch (error) {
-      res.status(500).json(err)
-    }
-  })
+router.post('/schedule', isAuthenticatedUser, async (req, res) => {
+  const { description, email, url, day } = req.body
+
+  const options = {
+    from: 'gachi1231@outlook.com',
+    to: email,
+    subject: 'Important :Planed Meet',
+    text: `You have an important meet with ${
+      req.user.admin ? 'manager' : 'HR agent'
+    } of ${
+      req.user.organisationName
+    } in 10 minutes here is the meet link : ${url}.\n${
+      description && 'Description :' + description
+    }`,
+  }
+  const options1 = {
+    from: 'gachi1231@outlook.com',
+    to: email,
+    subject: 'Important :Planed Meet',
+    text: `You have an important meet with ${
+      req.user.admin ? 'manager' : 'HR agent'
+    } of ${req.user.organisationName} Now here is the meet link : ${url}.\n${
+      description && 'Description :' + description
+    }`,
+  }
+
+  try {
+    const meet = await Meet.create({
+      email,
+      description,
+      url,
+      planedFor: day,
+      user: req.user._id,
+    })
+    const rule = new schedule.RecurrenceRule()
+    const dia = new Date(day)
+    rule.year = dia.getFullYear()
+    rule.month = dia.getMonth()
+    rule.date = dia.getDate()
+    rule.hour = dia.getHours()
+    rule.minute = dia.getMinutes() - 10
+    rule.second = 0
+    const job = schedule.scheduleJob(`${meet._id}1st`, rule, function () {
+      transporter.sendMail(options)
+    })
+    rule.minute = dia.getMinutes()
+
+    const job1 = schedule.scheduleJob(`${meet._id}2nd`, rule, function () {
+      transporter.sendMail(options1)
+    })
+    res.json({ meet })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+})
+router.put('/schedule/:id', async (req, res) => {
+  try {
+    const jobs = schedule.scheduledJobs[req.params.id]
+
+    jobs.cancel()
+    res.json({ msg: 'mail canceled' })
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
 
 module.exports = router
