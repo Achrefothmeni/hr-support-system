@@ -40,7 +40,7 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     from: 'gachi1231@outlook.com',
     to: email,
     subject: 'Important :Planed Meet',
-    text: `You have an important meet with ${
+    text: `You have an important meet with ${req.user.name} ${
       req.user.admin ? 'manager' : 'HR agent'
     } of ${
       req.user.organisationName
@@ -52,7 +52,7 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     from: 'gachi1231@outlook.com',
     to: email,
     subject: 'Important :Planed Meet',
-    text: `You have an important meet with ${
+    text: `You have an important meet with ${req.user.name} ${
       req.user.admin ? 'manager' : 'HR agent'
     } of ${req.user.organisationName} Now here is the meet link : ${url}.\n${
       description && 'Description :' + description
@@ -78,9 +78,16 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     const job = schedule.scheduleJob(`${meet._id}1st`, rule, function () {
       transporter.sendMail(options)
     })
-    rule.minute = dia.getMinutes()
+    const rule1 = new schedule.RecurrenceRule()
+    rule1.minute = dia.getMinutes()
 
-    const job1 = schedule.scheduleJob(`${meet._id}2nd`, rule, function () {
+    rule1.year = dia.getFullYear()
+    rule1.month = dia.getMonth()
+    rule1.date = dia.getDate()
+    rule1.hour = dia.getHours()
+    rule1.second = 0
+
+    const job1 = schedule.scheduleJob(`${meet._id}2nd`, rule1, function () {
       transporter.sendMail(options1)
     })
     res.json({ meet })

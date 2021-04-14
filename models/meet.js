@@ -5,6 +5,10 @@ const meetSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   url: {
     type: String,
     required: true,
