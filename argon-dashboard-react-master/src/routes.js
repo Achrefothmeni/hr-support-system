@@ -24,6 +24,7 @@ import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
 import Profile from "views/examples/Profile.js";
+import RecommendedProfile from "views/examples/RecommendedProfile";
 import Settings from "views/examples/Settings";
 import CvUpload from 'views/examples/CvUpload'
 
@@ -131,6 +132,14 @@ export const managerRoutes = [
 
   },
   {
+    path: "/recommended-profile",
+    name: "Recommended Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: RecommendedProfile,
+    layout: "/admin",
+
+  },
+  {
     path: '/add-agent',
     name: 'Add Agent',
     icon: 'ni ni-badge text-green',
@@ -158,6 +167,7 @@ export const managerRoutes = [
     component: AgentsTable,
     layout: '/admin',
   },
+  
 
 
 ]
