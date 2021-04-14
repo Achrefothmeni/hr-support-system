@@ -6,6 +6,7 @@ import { alertsReducer } from './reducers/alertReducer'
 import { profileReducer } from './reducers/profileReducer'
 import { authReducer } from './reducers/userReducers'
 import { listAgentsReducer } from './reducers/agentReducer'
+import { meetReducer } from './reducers/meetReducer'
 const reducer = combineReducers({
   auth: authReducer,
   alerts: alertsReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   settingList: settingReducer,
   profileList: profileReducer,
   settingAdd: settingAddReducer,
+  meet: meetReducer,
 })
 
 let initialState = {}

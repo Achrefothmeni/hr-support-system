@@ -17,7 +17,6 @@
 */
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addhr } from '../../actions/agentAction'
 import { ADD_ALERT } from '../../constants/alertConstant'
 // reactstrap components
 import {
@@ -37,6 +36,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
 import UserHeader from 'components/Headers/UserHeader.js'
+import { planforMeet, abdo } from '../../actions/meetAction'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -55,6 +55,9 @@ const PlanMeets = ({ history }) => {
   const classes = useStyles()
   const { isAuthenticated, error, loading, user } = useSelector(
     (state) => state.auth
+  )
+  const { error: errorMeet, loading: loadingMeet } = useSelector(
+    (state) => state.meet
   )
   let today = new Date()
   const [meet, setMeet] = useState({
@@ -78,8 +81,10 @@ const PlanMeets = ({ history }) => {
       history.push('/auth/login')
     }
   }, [dispatch, isAuthenticated, error, history])
-  const addMeet = () => {
+  const addMeet = async (e) => {
+    e.preventDefault()
     const test = new Date(meet.day.value) - new Date(Date.now()) > 0
+    console.log(meet)
     setMeet({
       ...meet,
       email: {
@@ -89,10 +94,6 @@ const PlanMeets = ({ history }) => {
       url: {
         ...meet.url,
         valid: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(meet.url.value),
-      },
-      day: {
-        ...meet.day,
-        valid: test,
       },
     })
     if (new Date(meet.day.value) - new Date(Date.now()) <= 0)
@@ -110,9 +111,23 @@ const PlanMeets = ({ history }) => {
         type: ADD_ALERT,
         payload: { type: 'error', message: 'invalid meet url!' },
       })
-    console.log(meet)
-    console.log(new Date(meet.day.value) - new Date(Date.now()) > 0)
-    console.log(meet.day.valid)
+    else {
+      dispatch(
+        planforMeet({
+          description: meet.description,
+          url: meet.url.value,
+          email: meet.email.value,
+          day: meet.day.value,
+        })
+      )
+
+      setMeet({
+        ...meet,
+        email: { value: '', valid: null },
+        url: { value: '', valid: null },
+        description: '',
+      })
+    }
   }
   return (
     <>
@@ -140,13 +155,7 @@ const PlanMeets = ({ history }) => {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-
-                    addMeet()
-                  }}
-                >
+                <Form onSubmit={addMeet}>
                   <h6 className='heading-small text-muted mb-4'>Meet Form</h6>
                   <div className='pl-lg-4'>
                     <Row>
@@ -192,6 +201,7 @@ const PlanMeets = ({ history }) => {
                                 }
                                 placeholder='Contact Email'
                                 type='email'
+                                value={meet.email.value}
                                 onChange={(e) => {
                                   const exp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                                   setMeet({
@@ -228,6 +238,7 @@ const PlanMeets = ({ history }) => {
                             >
                               <Input
                                 id='url'
+                                value={meet.url.value}
                                 className={
                                   meet.url.valid === null
                                     ? ''
