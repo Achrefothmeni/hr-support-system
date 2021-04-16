@@ -1,7 +1,7 @@
 const mailer = require('nodemailer')
 const express = require('express')
 const schedule = require('node-schedule')
-const Meet = require('../models/meet')
+const Activity = require('../models/activity')
 
 const router = express.Router()
 const {
@@ -60,12 +60,14 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
   }
 
   try {
-    const meet = await Meet.create({
+    const meet = await Activity.create({
+      type: 'planed-meet',
       email,
       description,
       url,
       planedFor: day,
       user: req.user._id,
+      cancelled: false,
     })
     const rule = new schedule.RecurrenceRule()
     const dia = new Date(day)

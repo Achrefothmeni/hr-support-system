@@ -21,7 +21,7 @@ function App() {
   const { addToast } = useToasts()
   React.useEffect(() => {
     if (!isAuthenticated) store.dispatch(loadUser())
-    if (error != null) {
+    if (error) {
       addToast(error.message, { appearance: error.type })
       dispatch({ type: REMOVE_ERROR })
     }

@@ -81,7 +81,7 @@ const PlanMeets = ({ history }) => {
       history.push('/auth/login')
     }
   }, [dispatch, isAuthenticated, error, history])
-  const addMeet = async (e) => {
+  const addMeet = (e) => {
     e.preventDefault()
     const test = new Date(meet.day.value) - new Date(Date.now()) > 0
     console.log(meet)
