@@ -136,9 +136,7 @@ export const logout = () => async (dispatch) => {
 
     try {
 
-        
-    
-
+       
         const {data} = await axios.get('/logout')
 
         dispatch({
@@ -208,3 +206,20 @@ export const clearErrors = () => async(dispatch) => {
     })
 
 }
+
+/* export const getUsersByName = () => async (name) => {
+    try {
+      
+  
+      const { data } = await axios.get('admin/usersByName?name=amineee')
+      dispatch({ type: LIST_AGENT_SUCCESS, payload: [...data.users] })
+    } catch (err) {
+      dispatch({
+        type: LIST_AGENT_FAIL,
+        payload:
+          err.response && err.response.data.errMessage
+            ? err.response.data.errMessage
+            : err.message,
+      })
+    }
+  } */

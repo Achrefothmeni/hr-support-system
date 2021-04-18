@@ -275,3 +275,19 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     user,
   })
 })
+
+
+//testing
+exports.getAllUsersByName = catchAsyncErrors(async (req, res, next) => {
+
+  let name = req.query.name;
+  const users = await User.find({name : name})
+
+  if (!users) {
+    return next(new ErrorHandler('There are no users', 400))
+  }
+  res.status(200).json({
+    success: true,
+    users,
+  })
+})

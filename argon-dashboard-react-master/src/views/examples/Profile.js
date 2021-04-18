@@ -31,17 +31,28 @@ import {
   Container,
   Row,
   Col,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 
 import { updateUser } from '../../actions/userActions'
-
+//testing
+import { SameProfiles } from '../../actions/profileAction'
 
 const Profile = () => {
 
   const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
 
+  //testing
+
+  const listProfiles = useSelector((state) => state.profileList)
+  const { profiles } = listProfiles
+
+//
   const [disabled, setDisabled] = useState(true);
   const [btnName, setbtnName] = useState('Edit');
 
@@ -72,6 +83,12 @@ const Profile = () => {
     setPhoneNumber(user.phoneNumber)
     setOrganisationName(user.organisationName)
   }, []);
+
+  useEffect(async () => {
+    dispatch(SameProfiles(user.name))
+  }, [dispatch])
+
+
   const submitHandler = (e)=> {
     e.preventDefault();
     dispatch(updateUser(user,name,organisationName,email,phoneNumber))
@@ -84,7 +101,37 @@ const Profile = () => {
       <UserHeader />
       {/* Page content */}
       <Container className="mt--7" fluid>
+
+        
         <Row>
+
+        <Row>
+                {profiles && profiles.length !== 0 && (
+                  <UncontrolledDropdown>
+                    <DropdownToggle
+                      caret
+                      color='secondary'
+                      id='dropdownMenuButton'
+                      type='button'
+                    >
+                      --Select a profile--
+                    </DropdownToggle>
+
+                    <DropdownMenu aria-labelledby='dropdownMenuButton'>
+                      {profiles.users.map((p, i) => (
+                        <DropdownItem
+                          key={i}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {p.name + ' ' + p.email}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                )}
+                
+              </Row>
+            
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
