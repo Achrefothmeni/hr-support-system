@@ -45,7 +45,6 @@ import { updateUser } from '../../actions/userActions'
 //testing
 import { SameProfiles } from '../../actions/profileAction'
 
-import ModalsTest from '../../components/ModalsTest.js'
 
 const Profile = () => {
 
