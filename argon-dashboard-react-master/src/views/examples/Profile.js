@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React ,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -35,24 +35,28 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
+
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
+import { Modal } from "react-bootstrap";
 
 import { updateUser } from '../../actions/userActions'
 //testing
 import { SameProfiles } from '../../actions/profileAction'
 
+import ModalsTest from '../../components/ModalsTest.js'
+
 const Profile = () => {
 
-  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+  const { isAuthenticated, error, loading, user } = useSelector(state => state.auth)
 
   //testing
 
   const listProfiles = useSelector((state) => state.profileList)
   const { profiles } = listProfiles
 
-//
+  //
   const [disabled, setDisabled] = useState(true);
   const [btnName, setbtnName] = useState('Edit');
 
@@ -61,17 +65,37 @@ const Profile = () => {
   const [organisationName, setOrganisationName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
 
+  const [exampleModal, setExampleModal] = useState(false)
 
-  const handleInputDisable = ()=> {
+  const toggleModal = () => {
+    setExampleModal(true)
+    console.log("exampleModal", exampleModal)
+  };
+
+
+  const [show, setShow] = useState(false);
+
+  const handleShow = (p) => {
+    setShow(true)
+    console.log(p)
+    setTestProfile(p)
+  };
+  const handleClose = () => setShow(false);
+
+  const [testProfile, setTestProfile] = useState('')
+
+
+
+  const handleInputDisable = () => {
     setDisabled(!disabled);
-    if(btnName =='Edit'){
+    if (btnName == 'Edit') {
       setbtnName('Cancel')
     }
 
-    if(btnName =='Cancel'){
+    if (btnName == 'Cancel') {
       setbtnName('Edit')
     }
-    
+
   }
 
   const dispatch = useDispatch();
@@ -82,6 +106,7 @@ const Profile = () => {
     setEmail(user.email)
     setPhoneNumber(user.phoneNumber)
     setOrganisationName(user.organisationName)
+    console.log("exampleModal", exampleModal)
   }, []);
 
   useEffect(async () => {
@@ -89,49 +114,177 @@ const Profile = () => {
   }, [dispatch])
 
 
-  const submitHandler = (e)=> {
+  const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser(user,name,organisationName,email,phoneNumber))
+    dispatch(updateUser(user, name, organisationName, email, phoneNumber))
     handleInputDisable();
-    console.log({name,organisationName,email,phoneNumber});
+    console.log({ name, organisationName, email, phoneNumber });
 
   }
   return (
     <>
+
+
+
+
       <UserHeader />
       {/* Page content */}
+
+     
+
+
+
+
+
+
       <Container className="mt--7" fluid>
 
-        
-        <Row>
+        {/*       {exampleModal &&  <ModalsTest name={"test"} exampleModal={exampleModal} />}
+ */}        <Row>
 
-        <Row>
-                {profiles && profiles.length !== 0 && (
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      caret
-                      color='secondary'
-                      id='dropdownMenuButton'
-                      type='button'
-                    >
-                      --Select a profile--
+          <Row>
+            {profiles && profiles.length !== 0 && (
+              <UncontrolledDropdown>
+                <DropdownToggle
+                  caret
+                  color='secondary'
+                  id='dropdownMenuButton'
+                  type='button'
+                >
+                  --Select a profile--
                     </DropdownToggle>
 
-                    <DropdownMenu aria-labelledby='dropdownMenuButton'>
-                      {profiles.users.map((p, i) => (
-                        <DropdownItem
-                          key={i}
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          {p.name + ' ' + p.email}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                )}
-                
-              </Row>
-            
+                <DropdownMenu aria-labelledby='dropdownMenuButton'>
+                  {profiles.users.map((p, i) => (
+
+                    <>
+                      <DropdownItem
+                        key={i}
+                        onClick={() => { handleShow(p) }}
+                      >
+                        {p.name + ' ' + p.createdAt}
+                      </DropdownItem>
+
+                      <Modal show={show}>
+                        <Modal.Header >
+                          <Modal.Title>{testProfile.createdAt}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <>
+
+
+                            <Card className="bg-secondary shadow">
+                              
+                              <CardBody>
+                                <Form>
+                                  <h3 className="heading-small text-muted mb-4">
+                                    Changed informations are displayed in red
+                        </h3>
+                                  <div className="pl-lg-4">
+                                    <Row>
+                                      <Col lg="6">
+                                        <FormGroup>
+                                          <label
+                                            className="form-control-label"
+                                            htmlFor="input-username"
+                                          >
+                                            Username
+                          </label>
+                                          <Input
+                                            defaultValue={testProfile.name}
+                                            id="input-username"
+                                            placeholder="Username"
+                                            type="text"
+                                            disabled
+                                            className={testProfile.name!=user.name ? 'redTest form-control-alternative' : 'form-control-alternative'}
+
+                                          />
+                                        </FormGroup>
+                                      </Col>
+                                      <Col lg="6">
+                                        <FormGroup>
+                                          <label
+                                            className="form-control-label"
+                                            htmlFor="input-email"
+                                          >
+                                            Email address
+                          </label>
+                                          <Input
+                                            className={testProfile.email!=user.email ? 'redTest form-control-alternative' : 'form-control-alternative'}
+                                            id="input-email"
+                                            defaultValue={testProfile.email}
+                                            type="email"
+                                            disabled
+                                          />
+                                        </FormGroup>
+                                      </Col>
+                                    </Row>
+                                    <Row>
+                                      <Col lg="6">
+                                        <FormGroup>
+                                          <label
+                                            className="form-control-label"
+                                            htmlFor="input-first-name"
+                                          >
+                                            Organisation name
+                          </label>
+                                          <Input
+                                            className={testProfile.organisationName!=user.organisationName ? 'redTest form-control-alternative' : 'form-control-alternative'}
+                                            defaultValue={testProfile.organisationName}
+                                            id="input-first-name"
+                                            placeholder="First name"
+                                            type="text"
+                                            disabled
+                                          />
+                                        </FormGroup>
+                                      </Col>
+                                      <Col lg="6">
+                                        <FormGroup>
+                                          <label
+                                            className="form-control-label"
+                                            htmlFor="input-last-name"
+                                          >
+                                            Phone Number
+                          </label>
+                                          <Input
+                                            className={testProfile.phoneNumber!=user.phoneNumber ? 'redTest form-control-alternative' : 'form-control-alternative'}
+                                            defaultValue={testProfile.phoneNumber}
+                                            id="input-last-name"
+                                            placeholder="Last name"
+                                            type="text"
+                                            disabled
+                                          />
+                                        </FormGroup>
+                                      </Col>
+                                   
+                                    </Row>
+                                  </div>
+
+
+                                </Form>
+                              </CardBody>
+                            </Card>
+
+
+
+
+
+                          </>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>Close Modal</Button>
+                        </Modal.Footer>
+                      </Modal>
+
+                    </>
+
+                  ))}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            )}
+
+          </Row>
+
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
@@ -193,16 +346,16 @@ const Profile = () => {
                 </Row> */}
                 <div className="text-center">
 
-                {user && <h3 >
-                      {user.name}
-                    </h3>}
-                  
-                  
+                  {user && <h3 >
+                    {user.name}
+                  </h3>}
+
+
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
                     Solution Manager - Creative Tim Officer
                   </div>
-                  
+
                   <hr className="my-4" />
                   {/* <p>
                     Ryan — the name taken by Melbourne-raised, Brooklyn-based
@@ -226,14 +379,14 @@ const Profile = () => {
                   <Col className="text-right" xs="6">
                     <Button
                       color="secondary"
-                      
+
                       onClick={handleInputDisable}
                       size="sm"
                     >
                       {btnName}
                     </Button>
                   </Col>
-                  
+
                 </Row>
               </CardHeader>
               <CardBody>
@@ -325,19 +478,19 @@ const Profile = () => {
                         </FormGroup>
                       </Col>
                       <Col className="text-right" xs="12">
-                      <hr className="my-4" />
-                    {!disabled &&  < Button
-                      color="primary"
-                      //onClick={(e) => e.preventDefault()}
-                      onClick={submitHandler}
-                      size="sm"
-                    >
-                      Save
+                        <hr className="my-4" />
+                        {!disabled && < Button
+                          color="primary"
+                          //onClick={(e) => e.preventDefault()}
+                          onClick={submitHandler}
+                          size="sm"
+                        >
+                          Save
                     </Button>}
-                  </Col>
+                      </Col>
                     </Row>
                   </div>
-                 
+
                   {/* Address */}
                   {/* <h6 className="heading-small text-muted mb-4">
                     Contact information
@@ -417,7 +570,7 @@ const Profile = () => {
                   </div>
                   <hr className="my-4" /> */}
                   {/* Description */}
-                 {/*  <h6 className="heading-small text-muted mb-4">About me</h6>
+                  {/*  <h6 className="heading-small text-muted mb-4">About me</h6>
                   <div className="pl-lg-4">
                     <FormGroup>
                       <label>About Me</label>
