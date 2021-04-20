@@ -98,13 +98,27 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     res.status(500).json(error)
   }
 })
-router.put('/schedule/:id', async (req, res) => {
+router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
   try {
-    const jobs = schedule.scheduledJobs[req.params.id]
-
+    const jobs = schedule.scheduledJobs[`${req.params.id}1st`]
+    const jobs1 = schedule.scheduledJobs[`${req.params.id}2nd`]
     jobs.cancel()
+    jobs1.cancel()
     res.json({ msg: 'mail canceled' })
   } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
+router.get('/meets', isAuthenticatedUser, async (req, res) => {
+  try {
+    const meets = await Activity.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    })
+
+    res.json({ meets })
+  } catch (error) {
+    console.log(error)
     res.status(500).json(error)
   }
 })

@@ -2,12 +2,14 @@ import {
   ADD_MEET_REQUEST,
   ADD_MEET_SUCCESS,
   ADD_MEET_FAIL,
+  GET_MEETS_SUCCESS,
+  GET_MEETS_REQUEST,
+  GET_MEETS_FAIL,
 } from '../constants/meetConstant'
 import axios from 'axios'
-import { ADD_ALERT, REMOVE_ERROR } from '../constants/alertConstant'
+import { ADD_ALERT } from '../constants/alertConstant'
 
 export const planforMeet = (meet) => async (dispatch) => {
-  console.log(meet)
   try {
     dispatch({
       type: ADD_MEET_REQUEST,
@@ -18,7 +20,7 @@ export const planforMeet = (meet) => async (dispatch) => {
       },
     }
     const { data } = await axios.post('/schedule', meet, config)
-    console.log(data)
+
     dispatch({ type: ADD_MEET_SUCCESS, payload: data.meet })
     dispatch({
       type: ADD_ALERT,
@@ -31,6 +33,30 @@ export const planforMeet = (meet) => async (dispatch) => {
     })
     dispatch({
       type: ADD_MEET_FAIL,
+      payload:
+        err.response && err.response.data.errMessage
+          ? err.response.data.errMessage
+          : err.message,
+    })
+  }
+}
+
+export const getMeets = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_MEETS_REQUEST,
+    })
+
+    const { data } = await axios.get('/meets')
+
+    dispatch({ type: GET_MEETS_SUCCESS, payload: data.meets })
+  } catch (err) {
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'error', message: 'Fetching meets failed!' },
+    })
+    dispatch({
+      type: GET_MEETS_FAIL,
       payload:
         err.response && err.response.data.errMessage
           ? err.response.data.errMessage

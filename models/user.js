@@ -4,67 +4,72 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
-const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please enter your name'],
-    maxLength: [100, 'Your name cannot exceed 100 charachers'],
-  },
-  organisationName: {
-    type: String,
-    required: [true, 'Please enter your organisation name'],
-    maxLength: [100, 'Your name cannot exceed 100 charachers'],
-  },
+const userSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please enter your name'],
+      maxLength: [100, 'Your name cannot exceed 100 charachers'],
+    },
+    organisationName: {
+      type: String,
+      required: [true, 'Please enter your organisation name'],
+      maxLength: [100, 'Your name cannot exceed 100 charachers'],
+    },
 
-  email: {
-    type: String,
-    required: [true, 'Please enter your email'],
-    unique: true,
-    validate: [validator.isEmail, 'Please enter a valid email adress'],
-  },
-  password: {
-    type: String,
-    required: [true, 'Please enter your password'],
-    minlength: [6, 'Your password must be longer than 6 characters'],
-    //when display dont show password
-    select: false,
-  },
-  phoneNumber: {
-    type: Number,
-    required: [true, 'Please enter your phone number'],
-  },
-  avatar: {
-    public_id: {
+    email: {
       type: String,
-      //required: true
+      required: [true, 'Please enter your email'],
+      unique: true,
+      validate: [validator.isEmail, 'Please enter a valid email adress'],
     },
-    url: {
+    password: {
       type: String,
-      //required: true
+      required: [true, 'Please enter your password'],
+      minlength: [6, 'Your password must be longer than 6 characters'],
+      //when display dont show password
+      select: false,
     },
+    phoneNumber: {
+      type: Number,
+      required: [true, 'Please enter your phone number'],
+    },
+    avatar: {
+      public_id: {
+        type: String,
+        //required: true
+      },
+      url: {
+        type: String,
+        //required: true
+      },
+    },
+    baned: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    admin: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    manager: {
+      ref: 'Users',
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
-  baned: {
-    type: Boolean,
-    default: false,
-    required: false,
-  },
-  admin: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
-  manager: {
-    ref: 'Users',
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
-})
+  {
+    timestamps: true,
+  }
+)
 
 //encrypting password before saving user
 userSchema.pre('save', async function (next) {
