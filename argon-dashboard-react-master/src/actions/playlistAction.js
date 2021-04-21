@@ -12,8 +12,15 @@ export const addSong = (song) => async (dispatch) => {
     })
 
     const { data } = await axios.get(`/get-mp3?vid=${song.id.videoId}`)
-    console.log(data)
-    dispatch({ type: ADD_MUSIC_SUCCESS, payload: data })
+    if (data.status === true)
+      dispatch({
+        type: ADD_MUSIC_SUCCESS,
+        payload: {
+          musicSrc: `https://py-endp.herokuapp.com/js?vid=${song.id.videoId}`,
+          name: song.snippet.title,
+          cover: song.snippet.thumbnails.default.url,
+        },
+      })
   } catch (err) {
     dispatch({
       type: ADD_ALERT,

@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/get-mp3',
     createProxyMiddleware({
-      target: 'http://localhost:8888',
+      target: 'https://py-endp.herokuapp.com',
       changeOrigin: true,
     })
   )

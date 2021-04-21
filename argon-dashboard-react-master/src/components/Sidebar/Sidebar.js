@@ -61,7 +61,7 @@ var ps
 const Sidebar = (props) => {
   const dispatch = useDispatch()
   const { playlist, Musicerror: error, loadingMusic: loading } = useSelector(
-    (state) => state.auth
+    (state) => state.musicList
   )
   const [music, setMusic] = useState([])
   const [keyword, setKeyword] = useState('')
@@ -260,7 +260,7 @@ const Sidebar = (props) => {
           <h6 className='navbar-heading text-muted'>find your music</h6>
           {/* Navigation */}
           <Row>
-            <Col sm={9}>
+            <Col sm={8}>
               <Input
                 className='form-control-sm mb-3'
                 placeholder='Search ...'
@@ -270,7 +270,7 @@ const Sidebar = (props) => {
                 onChange={(e) => setKeyword(e.target.value)}
               />
             </Col>
-            <Col sm={3}>
+            <Col sm={2}>
               <Button
                 color='primary'
                 size='sm'
@@ -282,6 +282,23 @@ const Sidebar = (props) => {
                 </span>
               </Button>
             </Col>
+            {music.length > 0 && (
+              <Col sm={2}>
+                <Button
+                  color='danger'
+                  size='sm'
+                  type='button'
+                  onClick={() => {
+                    setKeyword('')
+                    setMusic([])
+                  }}
+                >
+                  <span className='btn-inner--icon'>
+                    <i class='fas fa-trash-alt'></i>
+                  </span>
+                </Button>
+              </Col>
+            )}
           </Row>
           <Col sm={3}>
             <Table striped bordered hover size='sm'>
@@ -299,10 +316,7 @@ const Sidebar = (props) => {
                         className='avatar rounded-circle'
                         onClick={(e) => e.preventDefault()}
                       >
-                        <img
-                          alt='cover'
-                          src={e.snippet.thumbnails.default.url}
-                        />
+                        <img alt='cover' src={e.snippet.thumbnails.high.url} />
                       </a>
                     </td>
                     <td>

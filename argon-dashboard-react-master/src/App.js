@@ -14,6 +14,7 @@ import ReactJkMusicPlayer from 'react-jinke-music-player'
 import 'react-jinke-music-player/assets/index.css'
 import store from './store'
 import { useToasts } from 'react-toast-notifications'
+import { REMOVE_MUSIC } from 'constants/playlistConstant'
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -27,6 +28,10 @@ function App() {
   ])
   const { error } = useSelector((state) => state.alerts)
   const { isAuthenticated } = useSelector((state) => state.auth)
+
+  const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
+    (state) => state.musicList
+  )
   const { addToast } = useToasts()
   React.useEffect(() => {
     if (!isAuthenticated) store.dispatch(loadUser())
@@ -48,14 +53,14 @@ function App() {
         <ReactJkMusicPlayer
           quietUpdate
           onAudioListsChange={(currentPlayId, audioLists, audioInfo) => {
-            console.log(audioLists)
+            dispatch({ type: REMOVE_MUSIC, payload: audioLists })
           }}
-          remove={false}
+          remove={true}
           showDownload={false}
           autoPlay={false}
           mode='mini'
           clearPriorAudioLists
-          audioLists={audioLists}
+          audioLists={playlist}
         />
       )}
     </>
