@@ -11,7 +11,8 @@ import AuthLayout from 'layouts/Auth.js'
 
 import { loadUser } from './actions/userActions'
 import store from './store'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
     React.useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
                 <Redirect from="/" to="/admin/index" />
             </Switch>
+            <ToastContainer/>
         </BrowserRouter>)
 }
 

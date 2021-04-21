@@ -17,6 +17,7 @@ import {
     CLEAR_ERRORS
 
 } from '../constants/userConstants'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 //login request
@@ -52,6 +53,20 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
             type: REGISTER_FAIL,
             payload: error.response.data.errMessage
         })
+
+        const customId = "custom-id-yes";
+        toast.error(error.response.data.errMessage, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: customId
+            });
+
+        
     }
 
 }
@@ -75,10 +90,27 @@ export const login = (email, password) => async (dispatch) => {
 
         const {data} = await axios.post('/login' , {email,password},config)
 
+        
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user
         })
+
+        
+            
+        toast.success(`🦄 Weclome Back ${data.user.name} `, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            
+            });
+
+        
+        
 
 
 
@@ -89,6 +121,18 @@ export const login = (email, password) => async (dispatch) => {
             type: LOGIN_FAIL,
             payload: error.response.data.errMessage
         })
+        const customId = "custom-id-yes";
+        toast.error(error.response.data.errMessage, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: customId
+
+            }); 
 
     }
 
@@ -142,6 +186,17 @@ export const logout = () => async (dispatch) => {
         dispatch({
             type: LOGOUT_SUCCESS
         })
+
+        toast.success(`👋 Logout successful `, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            
+            });
 
 
 
