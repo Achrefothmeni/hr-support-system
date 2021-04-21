@@ -65,8 +65,8 @@ const Sidebar = (props) => {
   )
   const [music, setMusic] = useState([])
   const [keyword, setKeyword] = useState('')
-  const addToPlaylist = (song) => {
-    dispatch(addSong(song))
+  const addToPlaylist = (song, i) => {
+    dispatch(addSong(song, i))
   }
 
   const listMusic = async (e) => {
@@ -312,10 +312,7 @@ const Sidebar = (props) => {
                 {music.map((e, i) => (
                   <tr key={i}>
                     <td>
-                      <a
-                        className='avatar rounded-circle'
-                        onClick={(e) => e.preventDefault()}
-                      >
+                      <a className='avatar' onClick={(e) => e.preventDefault()}>
                         <img alt='cover' src={e.snippet.thumbnails.high.url} />
                       </a>
                     </td>
@@ -327,7 +324,7 @@ const Sidebar = (props) => {
                         type='button'
                         onClick={(ev) => {
                           ev.preventDefault()
-                          addToPlaylist(e)
+                          addToPlaylist(e, i)
                         }}
                       >
                         <span className='btn-inner--icon'>

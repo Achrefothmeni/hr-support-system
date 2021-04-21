@@ -5,7 +5,7 @@ import {
 } from '../constants/playlistConstant'
 import { ADD_ALERT } from '../constants/alertConstant'
 import axios from 'axios'
-export const addSong = (song) => async (dispatch) => {
+export const addSong = (song, i) => async (dispatch) => {
   try {
     dispatch({
       type: ADD_MUSIC_REQUEST,
@@ -16,9 +16,10 @@ export const addSong = (song) => async (dispatch) => {
       dispatch({
         type: ADD_MUSIC_SUCCESS,
         payload: {
+          __PLAYER_KEY__: i,
           musicSrc: `https://py-endp.herokuapp.com/js?vid=${song.id.videoId}`,
           name: song.snippet.title,
-          cover: song.snippet.thumbnails.default.url,
+          cover: song.snippet.thumbnails.high.url,
         },
       })
   } catch (err) {

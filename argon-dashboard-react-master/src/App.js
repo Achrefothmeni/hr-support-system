@@ -59,6 +59,7 @@ function App() {
           showDownload={false}
           autoPlay={false}
           mode='mini'
+          theme='light'
           clearPriorAudioLists
           audioLists={playlist}
         />
