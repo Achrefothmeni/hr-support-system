@@ -45,6 +45,17 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
             payload: data.user
         })}
 
+        toast.success(`🦄 Weclome to HR support `, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            
+            });
+
 
 
 

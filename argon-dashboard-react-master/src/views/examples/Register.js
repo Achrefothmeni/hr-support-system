@@ -49,6 +49,31 @@ const Register = ({ history }) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [disable, setDisable] = useState(true)
 
+  const [eye,setEye] = useState('fas fa-eye')
+  const [passwordType,SetPasswordType] = useState('password')
+
+
+  const handleEye = (e)=> {
+    e.preventDefault();
+
+    if(eye == 'fas fa-eye'){
+      setEye('fas fa-eye-slash')
+      SetPasswordType('text')
+
+    }
+
+      else {
+
+      setEye('fas fa-eye')
+      SetPasswordType('password')
+
+
+      }
+
+    
+
+  }
+
   const dispatch = useDispatch();
 
   const { isAuthenticated, error, loading } = useSelector(state => state.auth)
@@ -179,30 +204,18 @@ const Register = ({ history }) => {
                       <i className="ni ni-lock-circle-open" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input
+                  <Input 
                     placeholder="Password"
-                    type="password"
+                    type={passwordType}
                     autoComplete="new-password"
                     onChange={(e) => setPassword(e.target.value)}
 
                   />
+                  <i className={eye} style={{cursor: "pointer",paddingTop:10}} onClick= {handleEye} />
                 </InputGroup>
               </FormGroup>
               
-              <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    placeholder="Confirm Password"
-                    type="password"
-                    autoComplete="new-password"
-                  />
-                </InputGroup>
-              </FormGroup>
+             
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
@@ -211,7 +224,7 @@ const Register = ({ history }) => {
                       <i className="fas fa-phone-alt" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Organisation Name" type="number"
+                  <Input placeholder="Phone number" type="number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </InputGroup>
