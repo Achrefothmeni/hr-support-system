@@ -14,7 +14,11 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL,
-    CLEAR_ERRORS
+
+    CLEAR_ERRORS,
+    GET_TAGS_SUCCESS,
+    GET_TAGS_REQUEST,
+    GET_TAGS_FAIL,
 
 } from '../constants/userConstants'
 
@@ -110,6 +114,25 @@ export const authReducer = (state = { user: {} }, action) => {
             return {
                 ...state,
                 error: null
+            }
+
+
+        case GET_TAGS_REQUEST:
+            return {
+                loadingTags: true,
+                tags: null
+            }
+        case GET_TAGS_SUCCESS:
+            return {
+               
+                loadingTags: false,
+                tags: action.payload
+            }
+        case GET_TAGS_FAIL:
+            return {
+                loadingTags: false,
+                tags: null,
+                error: action.payload
             }
 
 

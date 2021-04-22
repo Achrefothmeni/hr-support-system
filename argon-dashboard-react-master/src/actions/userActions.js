@@ -14,6 +14,9 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL,
+    GET_TAGS_SUCCESS,
+    GET_TAGS_REQUEST,
+    GET_TAGS_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/userConstants'
@@ -22,7 +25,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 //login request
 
-export const register = (name,organisationName,email, password,phoneNumber) => async (dispatch) => {
+export const register = (name, organisationName, email, password, phoneNumber) => async (dispatch) => {
 
     try {
 
@@ -32,18 +35,19 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
 
         const config = {
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             }
         }
 
-        const {data} = await axios.post('/register' , {name,organisationName,email, password,phoneNumber},config)
+        const { data } = await axios.post('/register', { name, organisationName, email, password, phoneNumber }, config)
 
 
-        if(data.user){
-        dispatch({
-            type: REGISTER_SUCCESS,
-            payload: data.user
-        })}
+        if (data.user) {
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: data.user
+            })
+        }
 
         toast.success(`🦄 Weclome to HR support `, {
             position: "bottom-right",
@@ -53,8 +57,8 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            
-            });
+
+        });
 
 
 
@@ -75,9 +79,9 @@ export const register = (name,organisationName,email, password,phoneNumber) => a
             draggable: true,
             progress: undefined,
             toastId: customId
-            });
+        });
 
-        
+
     }
 
 }
@@ -95,20 +99,20 @@ export const login = (email, password) => async (dispatch) => {
 
         const config = {
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             }
         }
 
-        const {data} = await axios.post('/login' , {email,password},config)
+        const { data } = await axios.post('/login', { email, password }, config)
 
-        
+
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user
         })
 
-        
-            
+
+
         toast.success(`🦄 Weclome Back ${data.user.name} `, {
             position: "bottom-right",
             autoClose: 4000,
@@ -117,11 +121,11 @@ export const login = (email, password) => async (dispatch) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            
-            });
 
-        
-        
+        });
+
+
+
 
 
 
@@ -143,7 +147,7 @@ export const login = (email, password) => async (dispatch) => {
             progress: undefined,
             toastId: customId
 
-            }); 
+        });
 
     }
 
@@ -159,9 +163,9 @@ export const loadUser = () => async (dispatch) => {
             type: LOAD_USER_REQUEST
         })
 
-    
 
-        const {data} = await axios.get('/me')
+
+        const { data } = await axios.get('/me')
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -191,8 +195,8 @@ export const logout = () => async (dispatch) => {
 
     try {
 
-       
-        const {data} = await axios.get('/logout')
+
+        const { data } = await axios.get('/logout')
 
         dispatch({
             type: LOGOUT_SUCCESS
@@ -206,8 +210,8 @@ export const logout = () => async (dispatch) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            
-            });
+
+        });
 
 
 
@@ -225,7 +229,7 @@ export const logout = () => async (dispatch) => {
 
 
 
-export const updateUser = (user,name,organisationName,email,phoneNumber) => async (dispatch) => {
+export const updateUser = (user, name, organisationName, email, phoneNumber) => async (dispatch) => {
 
     try {
 
@@ -236,18 +240,19 @@ export const updateUser = (user,name,organisationName,email,phoneNumber) => asyn
 
         const config = {
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             }
         }
 
-        const {data} = await axios.put('/me/update' , {name,organisationName,email,phoneNumber},config)
+        const { data } = await axios.put('/me/update', { name, organisationName, email, phoneNumber }, config)
 
 
-        if(data.user){
-        dispatch({
-            type: UPDATE_USER_SUCCESS,
-            payload: data.user
-        })}
+        if (data.user) {
+            dispatch({
+                type: UPDATE_USER_SUCCESS,
+                payload: data.user
+            })
+        }
 
 
 
@@ -265,7 +270,7 @@ export const updateUser = (user,name,organisationName,email,phoneNumber) => asyn
 
 //clear errors
 
-export const clearErrors = () => async(dispatch) => {
+export const clearErrors = () => async (dispatch) => {
 
     dispatch({
         type: CLEAR_ERRORS
@@ -273,10 +278,59 @@ export const clearErrors = () => async(dispatch) => {
 
 }
 
+
+export const getTags = (startDate,endDate) => async (dispatch) => {
+
+    try {
+
+        dispatch({
+            type: GET_TAGS_REQUEST
+        })
+
+        
+
+        const { data } = await axios.get('https://api.stackexchange.com/2.2/tags?order=desc&sort=popular&site=stackoverflow', {
+           params: {
+                fromdate: startDate,
+                todate : endDate
+            }
+        })
+
+
+        //const {data} = await axios.get('https://api.stackexchange.com/2.2/tags?fromdate='+{startDate},'&todate='+{endDate},'&order=desc&sort=popular&site=stackoverflow')
+
+        dispatch({
+            type: GET_TAGS_SUCCESS,
+            payload: data.items
+        })
+
+
+
+
+
+
+
+
+
+
+
+    } catch (error) {
+        console.log(error);
+        dispatch({
+            type: GET_TAGS_FAIL,
+            payload: error
+        })
+        
+
+
+    }
+
+}
+
 /* export const getUsersByName = () => async (name) => {
     try {
-      
-  
+
+
       const { data } = await axios.get('admin/usersByName?name=amineee')
       dispatch({ type: LIST_AGENT_SUCCESS, payload: [...data.users] })
     } catch (err) {
