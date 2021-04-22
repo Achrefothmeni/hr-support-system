@@ -49,7 +49,9 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler('Invalid email or password', 401))
   }
-
+  if (user.admin === false && user.baned === true) {
+    return next(new ErrorHandler('Your account is Baned', 401))
+  }
   //check if password is correct or not
   const isPasswordMatched = await user.comparePassword(password)
   if (!isPasswordMatched) {
@@ -61,7 +63,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         success:true,
         token
     }) */
-    const userToReturn = await User.findOne({ email })
+  const userToReturn = await User.findOne({ email })
   sendToken(userToReturn, 200, res)
 })
 
@@ -188,8 +190,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
-    organisationName : req.body.organisationName,
-    phoneNumber : req.body.phoneNumber,
+    organisationName: req.body.organisationName,
+    phoneNumber: req.body.phoneNumber,
   }
 
   //update avatar TO DO
