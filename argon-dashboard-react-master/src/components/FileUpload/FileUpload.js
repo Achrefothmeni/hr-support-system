@@ -88,7 +88,7 @@ const FileUpload = () => {
         </div>
       ) : null}
       {similar ? <Button color="primary" type="button">
-          <span>{similar} profile</span>
+          <span>{similar} similar profile, check them out !</span>
           <Badge className="badge-white">View</Badge>
         </Button> : null}
     </Fragment>
