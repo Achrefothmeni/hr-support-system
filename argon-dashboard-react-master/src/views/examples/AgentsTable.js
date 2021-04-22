@@ -16,7 +16,7 @@
 
 */
 import React, { useEffect, useState } from 'react'
-
+import { ADD_ALERT } from '../../constants/alertConstant'
 // reactstrap components
 import {
   Badge,
@@ -31,35 +31,45 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
-  Progress,
   Table,
   Container,
   Button,
-  Row,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
   Modal,
+  Row,
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
+import axios from 'axios'
 // core components
 import Header from 'components/Headers/Header.js'
 import { banHr, removeHr, getAgents, unbanHr } from '../../actions/agentAction'
 
-const AgentsTable = ({history}) => {
+const AgentsTable = ({ history }) => {
   const [forRemove, setForRemove] = useState(null)
-
+  const [forMail, setForMail] = useState({
+    subject: '',
+    content: '',
+    email: '',
+  })
   const [defaultModal, setDefaultModal] = useState(false)
+  const [mailModal, setMailModal] = useState(false)
   const dispatch = useDispatch()
   const listAgents = useSelector((state) => state.listAgents)
   const { loading, error, agents } = listAgents
-  const  {isAuthenticated,user} = useSelector(state => state.auth)
+  const { isAuthenticated, user } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    
-    if(!user || (user && !user.admin)) {
-      console.log("not admin");
+    if (!user || (user && !user.admin)) {
+      console.log('not admin')
       history.push('/auth/login')
     }
-  }, [dispatch,isAuthenticated,history]);
+  }, [dispatch, isAuthenticated, history])
 
   useEffect(() => {
     dispatch(getAgents())
@@ -78,6 +88,30 @@ const AgentsTable = ({history}) => {
   }
   const toggleModal = () => {
     !defaultModal ? setDefaultModal(true) : setDefaultModal(false)
+  }
+  const toggleMailModal = () => {
+    setMailModal(mailModal ? false : true)
+  }
+  const sendMail = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    try {
+      await axios.post('/email', forMail, config)
+      dispatch({
+        type: ADD_ALERT,
+        payload: { type: 'success', message: 'Email sent successfully!' },
+      })
+      toggleMailModal()
+    } catch (error) {
+      dispatch({
+        type: ADD_ALERT,
+        payload: { type: 'error', message: 'Failed to send Email!' },
+      })
+      console.log(error)
+    }
   }
   return (
     <>
@@ -131,6 +165,118 @@ const AgentsTable = ({history}) => {
                               <i className='fas fa-ellipsis-v' />
                             </DropdownToggle>
                             <DropdownMenu className='dropdown-menu-arrow' right>
+                              <DropdownItem onClick={(e) => e.preventDefault()}>
+                                <Button
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    unbanAgent(a)
+                                  }}
+                                  color='info'
+                                  className='btn btn-block'
+                                  type='button'
+                                  onClick={() => {
+                                    setForMail({
+                                      email: a.email,
+                                      subject: '',
+                                      content: '',
+                                    })
+                                    toggleMailModal()
+                                  }}
+                                >
+                                  Send Email
+                                </Button>
+                                <Modal
+                                  className='modal-dialog-centered'
+                                  isOpen={mailModal}
+                                  toggle={() => {
+                                    toggleMailModal()
+                                  }}
+                                >
+                                  <div className='modal-header'>
+                                    <h1
+                                      className='modal-title'
+                                      id='modal-title-default'
+                                    >
+                                      Send Email to your HR Agent
+                                    </h1>
+                                    <button
+                                      aria-label='Close'
+                                      className='close'
+                                      data-dismiss='modal'
+                                      type='button'
+                                      onClick={() => toggleMailModal()}
+                                    >
+                                      <span aria-hidden={true}>×</span>
+                                    </button>
+                                  </div>
+                                  <div className='modal-body'>
+                                    <Form
+                                      role='form'
+                                      onSubmit={(e) => {
+                                        e.preventDefault()
+                                        sendMail()
+                                      }}
+                                    >
+                                      <FormGroup className='mb-3'>
+                                        <InputGroup className='input-group-alternative'>
+                                          <InputGroupAddon addonType='prepend'>
+                                            <InputGroupText>
+                                              <i className='ni ni-chat-round' />
+                                            </InputGroupText>
+                                          </InputGroupAddon>
+                                          <Input
+                                            value={forMail.subject}
+                                            onChange={(e) =>
+                                              setForMail({
+                                                ...forMail,
+                                                subject: e.target.value,
+                                              })
+                                            }
+                                            placeholder='Subject'
+                                            type='text'
+                                          />
+                                        </InputGroup>
+                                      </FormGroup>
+                                      <FormGroup>
+                                        <InputGroup className='input-group-alternative'>
+                                          <InputGroupAddon addonType='prepend'>
+                                            <InputGroupText>
+                                              <i className='ni ni-email-83' />
+                                            </InputGroupText>
+                                          </InputGroupAddon>
+                                          <Input
+                                            value={forMail.content}
+                                            onChange={(e) =>
+                                              setForMail({
+                                                ...forMail,
+                                                content: e.target.value,
+                                              })
+                                            }
+                                            placeholder='Email content ...'
+                                            rows='5'
+                                            type='textarea'
+                                          />
+                                        </InputGroup>
+                                      </FormGroup>
+
+                                      <div className='text-center'>
+                                        <Button
+                                          className='my-4'
+                                          color='primary'
+                                          type='submit'
+                                        >
+                                          <span className='btn-inner-send'>
+                                            <i className='ni ni-send' />
+                                          </span>{' '}
+                                          <span className='btn-inner--text'>
+                                            Send
+                                          </span>
+                                        </Button>
+                                      </div>
+                                    </Form>
+                                  </div>
+                                </Modal>
+                              </DropdownItem>
                               <DropdownItem onClick={(e) => e.preventDefault()}>
                                 {a.baned ? (
                                   <Button

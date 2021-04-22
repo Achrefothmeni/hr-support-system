@@ -1,0 +1,7 @@
+export const ADD_MUSIC_REQUEST = 'ADD_MUSIC_REQUEST'
+
+export const ADD_MUSIC_SUCCESS = 'ADD_MUSIC_SUCCESS'
+
+export const ADD_MUSIC_FAIL = 'ADD_MUSIC_FAIL'
+
+export const REMOVE_MUSIC = 'REMOVE_MUSIC'

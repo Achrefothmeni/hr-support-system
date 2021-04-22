@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const SettingsModel =  require('./../models/settingsModel');
-
+const ProfileModel = require('./../models/profileModel')
 
 router.get('/api/settings', async (req , res) => {
    
@@ -13,6 +13,17 @@ router.get('/api/settings', async (req , res) => {
         res.status(404).json({ message: error.message})
     }
    } )
+
+   router.get('/api/profiles', async (req , res) => {
+   
+      try {
+          const allProfiles = await ProfileModel.find()
+          console.log( allProfiles)
+          res.status(200).json(allProfiles)
+      } catch (error) {
+          res.status(404).json({ message: error.message})
+      }
+     } )
 
    
    router.post('/api/settings/add' , async (req, res ) => {   

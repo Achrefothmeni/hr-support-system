@@ -16,14 +16,14 @@ import {
   REMOVE_AGENT_FAIL,
 } from '../constants/agentConstants'
 import axios from 'axios'
-
+import { ADD_ALERT, REMOVE_ERROR } from '../constants/alertConstant'
 export const getAgents = () => async (dispatch) => {
   try {
     dispatch({
       type: LIST_AGENT_REQUEST,
     })
 
-    const { data } = await axios.get('/get-hrs-test')
+    const { data } = await axios.get('/hrs')
     dispatch({ type: LIST_AGENT_SUCCESS, payload: [...data.users] })
   } catch (err) {
     dispatch({
@@ -46,17 +46,24 @@ export const addhr = (hr) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.post('/add-hr-test', hr, config)
+    const { data } = await axios.post('/add-hr', hr, config)
 
     dispatch({ type: ADD_AGENT_SUCCESS, payload: data.user })
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'success', message: 'Agent added successfully!' },
+    })
   } catch (err) {
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'error', message: 'Adding agent failed!' },
+    })
     dispatch({
       type: ADD_AGENT_FAIL,
       payload:
         err.response && err.response.data.errMessage
           ? err.response.data.errMessage
           : err.message,
-          
     })
   }
 }
@@ -67,10 +74,19 @@ export const banHr = (id) => async (dispatch) => {
       type: BAN_AGENT_REQUEST,
     })
 
-    const { data } = await axios.put(`/ban-hr-test/${id}`)
-    if (data.msg === 'hr baned')
+    const { data } = await axios.put(`/ban-hr/${id}`)
+    if (data.msg === 'hr baned') {
       dispatch({ type: BAN_AGENT_SUCCESS, payload: id })
+      dispatch({
+        type: ADD_ALERT,
+        payload: { type: 'success', message: 'Agent baned!' },
+      })
+    }
   } catch (err) {
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'error', message: 'Failed to ban Agent!' },
+    })
     dispatch({
       type: BAN_AGENT_FAIL,
       payload:
@@ -87,10 +103,18 @@ export const unbanHr = (id) => async (dispatch) => {
       type: UNBAN_AGENT_REQUEST,
     })
 
-    const { data } = await axios.put(`/unban-hr-test/${id}`)
+    const { data } = await axios.put(`/unban-hr/${id}`)
     if (data.msg === 'hr unbaned')
       dispatch({ type: UNBAN_AGENT_SUCCESS, payload: id })
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'success', message: 'Agent unbaned successfully!' },
+    })
   } catch (err) {
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'error', message: 'Failed to unban Agent!' },
+    })
     dispatch({
       type: UNBAN_AGENT_FAIL,
       payload:
@@ -107,15 +131,23 @@ export const removeHr = (id) => async (dispatch) => {
       type: REMOVE_AGENT_REQUEST,
     })
 
-    const { data } = await axios.delete(`/remove-hr-test/${id}`)
+    const { data } = await axios.delete(`/remove-hr/${id}`)
 
     dispatch({ type: REMOVE_AGENT_SUCCESS, payload: data.removed._id })
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'success', message: 'Agent removed successfully!' },
+    })
   } catch (err) {
+    dispatch({
+      type: ADD_ALERT,
+      payload: { type: 'error', message: 'Failed to remove Agent!' },
+    })
     dispatch({
       type: REMOVE_AGENT_FAIL,
       payload:
         err.response && err.response.data.errMessage
-          ? err.response.data.errMessage
+          ? err.response.data.errMessagee
           : err.message,
     })
   }

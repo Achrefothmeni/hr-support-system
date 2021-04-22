@@ -74,7 +74,8 @@ const Profile = () => {
   }, []);
   const submitHandler = (e)=> {
     e.preventDefault();
-    dispatch(updateUser(name,organisationName,email,phoneNumber))
+    dispatch(updateUser(user,name,organisationName,email,phoneNumber))
+    handleInputDisable();
     console.log({name,organisationName,email,phoneNumber});
 
   }
@@ -280,8 +281,8 @@ const Profile = () => {
                       <hr className="my-4" />
                     {!disabled &&  < Button
                       color="primary"
-                      onClick={(e) => e.preventDefault()}
-                      //onClick={submitHandler}
+                      //onClick={(e) => e.preventDefault()}
+                      onClick={submitHandler}
                       size="sm"
                     >
                       Save

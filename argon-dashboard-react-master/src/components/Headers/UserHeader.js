@@ -43,11 +43,11 @@ const UserHeader = ({ btnTitle }) => {
         style={{
           minHeight: '600px',
           backgroundImage:
-            "url(" +
-            require("../../assets/img/theme/linkedincover.jpg").default +
-            ")",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
+            'url(' +
+            require('../../assets/img/theme/linkedincover.jpg').default +
+            ')',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
         }}
       >
         {/* Mask */}
@@ -62,7 +62,7 @@ const UserHeader = ({ btnTitle }) => {
                 with your work and manage your projects or assigned tasks
               </p>
               <Row>
-                {agents && agents.length !== 0 && (
+                {btnTitle && agents && agents.length !== 0 && (
                   <UncontrolledDropdown>
                     <DropdownToggle
                       caret
@@ -85,13 +85,15 @@ const UserHeader = ({ btnTitle }) => {
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 )}
-                <Button
-                  color='info'
-                  href='#pablo'
-                  onClick={(e) => e.preventDefault()}
-                >
-                  {btnTitle}
-                </Button>
+                {btnTitle && (
+                  <Button
+                    color='info'
+                    href='#pablo'
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {btnTitle}
+                  </Button>
+                )}
               </Row>
             </Col>
           </Row>

@@ -54,10 +54,12 @@ router
 
 router.route('/hrs').get([isAuthenticatedUser, onlyAdmin], async (req, res) => {
   try {
-    const hrs = await User.find({ manager: req.user._id, admin: false }).sort({
-      createdAt: -1,
-    })
-    res.json({ hrs })
+    const users = await User.find({ manager: req.user._id, admin: false }).sort(
+      {
+        createdAt: -1,
+      }
+    )
+    res.json({ users })
   } catch (error) {
     res.status(500).send('server Error!')
   }
@@ -156,11 +158,12 @@ router.route('/ban-hr-test/:id').put(
   })
 )
 
-router.route('/unban-hr-test/:id').put(
+router.route('/unban-hr/:id').put(
+  [isAuthenticatedUser, onlyAdmin],
   catchAsyncErrors(async (req, res, next) => {
     try {
       const user = await User.findOne({
-        admin: false,
+        manager: req.user._id,
         _id: req.params.id,
       })
       if (!user) {
@@ -176,17 +179,17 @@ router.route('/unban-hr-test/:id').put(
   })
 )
 
-router.route('/remove-hr-test/:id').delete(
+router.route('/remove-hr/:id').delete(
+  [isAuthenticatedUser, onlyAdmin],
   catchAsyncErrors(async (req, res, next) => {
     try {
       const user = await User.findOne({
-        admin: false,
+        manager: req.user._id,
         _id: req.params.id,
       })
       if (!user) {
         res.status(404).json({ msg: 'HR agent not found !' })
       }
-
       const removed = await user.remove()
       res.status(200).json({ removed })
     } catch (error) {

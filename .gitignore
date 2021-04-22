@@ -1,3 +1,5 @@
 /node_modules
 /argon-dashboard-react-master/node_modules
 /env
+/frontend
+.env

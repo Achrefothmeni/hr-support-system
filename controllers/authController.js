@@ -22,13 +22,15 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       url: '',
     },
   })
+
+  const userToReturn = await User.findOne({ email })
   /* const token = user.getJwtToken();
     res.status(201).json({
         success: true,
 
         token
     }) */
-  sendToken(user, 200, res)
+  sendToken(userToReturn, 200, res)
 })
 
 ////login user  => /api/v1/login
@@ -47,7 +49,9 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler('Invalid email or password', 401))
   }
-
+  if (user.admin === false && user.baned === true) {
+    return next(new ErrorHandler('Your account is Baned', 401))
+  }
   //check if password is correct or not
   const isPasswordMatched = await user.comparePassword(password)
   if (!isPasswordMatched) {
@@ -59,7 +63,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         success:true,
         token
     }) */
-  sendToken(user, 200, res)
+  const userToReturn = await User.findOne({ email })
+  sendToken(userToReturn, 200, res)
 })
 
 //Forgot password /api/v1/password/forgot
@@ -87,7 +92,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: 'ShopIt password reset',
+      subject: ' password reset',
       message,
     })
 
@@ -185,8 +190,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
-    organisationName : req.body.organisationName,
-    phoneNumber : req.body.phoneNumber,
+    organisationName: req.body.organisationName,
+    phoneNumber: req.body.phoneNumber,
   }
 
   //update avatar TO DO
@@ -199,6 +204,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    user,
     message: 'Profile updated',
   })
 })
