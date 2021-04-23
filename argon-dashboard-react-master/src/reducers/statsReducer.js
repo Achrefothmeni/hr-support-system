@@ -29,7 +29,7 @@ export const statReducer = (state = { tags: {} }, action) => {
             return {
                 loadingTags: false,
                 tags: null,
-                error: action.payload
+                statsError: action.payload
             }
 
 

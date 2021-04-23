@@ -73,9 +73,9 @@ const Index = (props) => {
 
   }, []);
 
-  const { tags, loadingTags } = useSelector(state => state.stats)
+  const { tags, loadingTags,statsError } = useSelector(state => state.stats)
   let tagsForChart = ''
-  if (tags && !loadingTags) {
+  if (tags && Object.keys(tags).length>0 && !loadingTags) {
     console.log('test')
     console.log(tags)
 
@@ -96,6 +96,7 @@ const Index = (props) => {
 
 
   }
+  
 
 
 
@@ -137,19 +138,20 @@ const Index = (props) => {
 
         <div style={{ marginBottom: 10, display: "flex" }}>
 
-          <div style={{ marginRight: 10 }}> <h3>Start Date  </h3><DatePicker selected={startDate} onChange={date => {
+          <div style={{ marginRight: 10 }}> <h3>Start Date  </h3><DatePicker dateFormat="dd/MM/yyyy" selected={startDate} onChange={date => {
             setStartDate(date)
           }
 
           } /></div>
 
-          <div> <h3>End Date</h3><DatePicker selected={endDate} onChange={date => setEndDate(date)} /></div>
+          <div> <h3>End Date</h3><DatePicker dateFormat="dd/MM/yyyy" selected={endDate} onChange={date => setEndDate(date)} /></div>
 
 
           
         </div>
         <Button style={{ marginBottom: 10}} onClick={() => {
-            dispatch(getTags(Math.round (startDate.getTime() / 1000),Math.round (endDate.getTime() / 1000)))
+            
+            dispatch(getTags(Math.round (startDate),Math.round (endDate)))
 
           }} >search</Button>
 
@@ -182,6 +184,9 @@ const Index = (props) => {
         {tags && <h1>thiisss  {Object.keys(tags).length
 }</h1>
 } */}
+
+
+<h1>{statsError}</h1>
 
       </Container>
 

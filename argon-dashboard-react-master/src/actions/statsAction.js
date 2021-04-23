@@ -11,6 +11,17 @@ import {
 
 export const getTags = (startDate,endDate) => async (dispatch) => {
 
+
+    if(!startDate || startDate == '')
+        startDate = ''
+    else    
+        startDate = Math.round(startDate/1000)
+
+    if(!endDate ||endDate == '' )
+        endDate = ''
+    else    
+        endDate =  Math.round(endDate/1000)
+
     try {
 
         dispatch({
@@ -29,10 +40,20 @@ export const getTags = (startDate,endDate) => async (dispatch) => {
 
         //const {data} = await axios.get('https://api.stackexchange.com/2.2/tags?fromdate='+{startDate},'&todate='+{endDate},'&order=desc&sort=popular&site=stackoverflow')
 
+        if(data.items.length<= 0){
+            dispatch({
+                type: GET_TAGS_FAIL,
+                payload: 'No stats to display'
+            })
+        }
+        else {
         dispatch({
             type: GET_TAGS_SUCCESS,
             payload: data.items
         })
+    }
+
+        
 
 
     } catch (error) {
