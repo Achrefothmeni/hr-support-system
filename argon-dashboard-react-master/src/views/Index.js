@@ -45,7 +45,7 @@ import Header from "components/Headers/Header.js";
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getTags } from '../actions/userActions'
+import { getTags } from '../actions/statsAction'
 import { Chart } from "react-google-charts";
 import DatePicker from "react-datepicker";
 
@@ -73,7 +73,7 @@ const Index = (props) => {
 
   }, []);
 
-  const { tags, loadingTags } = useSelector(state => state.auth)
+  const { tags, loadingTags } = useSelector(state => state.stats)
   let tagsForChart = ''
   if (tags && !loadingTags) {
     console.log('test')

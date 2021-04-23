@@ -279,7 +279,7 @@ export const clearErrors = () => async (dispatch) => {
 }
 
 
-export const getTags = (startDate,endDate) => async (dispatch) => {
+/* export const getTags = (startDate,endDate) => async (dispatch) => {
 
     try {
 
@@ -325,7 +325,7 @@ export const getTags = (startDate,endDate) => async (dispatch) => {
 
     }
 
-}
+} */
 
 /* export const getUsersByName = () => async (name) => {
     try {

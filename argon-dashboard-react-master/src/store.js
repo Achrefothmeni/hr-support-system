@@ -4,10 +4,12 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {settingReducer , settingAddReducer} from './reducers/settingsReducer'
 import {profileReducer} from './reducers/profileReducer'
 import{authReducer} from './reducers/userReducers'
+import{statReducer} from './reducers/statsReducer'
 import { listAgentsReducer } from './reducers/agentReducer'
 const reducer = combineReducers({
 
-auth:authReducer,listAgents: listAgentsReducer,settingList : settingReducer, profileList : profileReducer , settingAdd : settingAddReducer
+auth:authReducer,listAgents: listAgentsReducer,settingList : settingReducer, profileList : profileReducer , settingAdd : settingAddReducer,stats : statReducer
+
 
 })
 

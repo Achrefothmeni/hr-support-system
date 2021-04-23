@@ -117,7 +117,7 @@ export const authReducer = (state = { user: {} }, action) => {
             }
 
 
-        case GET_TAGS_REQUEST:
+        /* case GET_TAGS_REQUEST:
             return {
                 loadingTags: true,
                 tags: null
@@ -134,7 +134,7 @@ export const authReducer = (state = { user: {} }, action) => {
                 tags: null,
                 error: action.payload
             }
-
+ */
 
         default:
             return state
