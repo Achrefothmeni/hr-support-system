@@ -177,11 +177,11 @@ const Index = (props) => {
 
         {loadingTags && <h1>Loading </h1>}
 
-       <h1>thiisss  {Math.round (startDate.getTime() / 1000)}</h1>
+       {/* <h1>thiisss  {Math.round (startDate.getTime() / 1000)}</h1>
        { <h1>thiisss  {Math.round (endDate.getTime() / 1000)}</h1> }
         {tags && <h1>thiisss  {Object.keys(tags).length
 }</h1>
-}
+} */}
 
       </Container>
 
