@@ -8,7 +8,8 @@ const mailingRoutes = require('./routes/emailing')
 const profilesRoutes = require('./routes/profile')
 const router = express.Router()
 const cookieParser = require('cookie-parser')
-
+const collectionRoutes = require('./routes/collection')
+const selectedProfilesRoutes = require('./routes/selectedProfile')
 const app = express()
 //const routes = require('./routes')
 
@@ -23,8 +24,9 @@ app.get('/', (req, res) => res.send('App is working'))
 app.use(auth)
 app.use('/', mailingRoutes)
 app.use('/', profilesRoutes)
+app.use('/', selectedProfilesRoutes)
 // /me to test middleware
-
+app.use('/', collectionRoutes)
 //app.use('/api', routes)
 
 dotenv.config({ path: 'config/config.env' })
