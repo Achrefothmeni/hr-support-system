@@ -11,6 +11,19 @@ import {
 
 export const getTags = (startDate,endDate) => async (dispatch) => {
 
+
+    if(!startDate)
+        startDate = ''
+    else 
+        startDate =     Math.round(startDate.getTime() / 1000)
+
+    if(!endDate)
+        endDate = ''
+    else 
+        endDate =     Math.round(endDate.getTime() / 1000)
+
+
+
     try {
 
         dispatch({

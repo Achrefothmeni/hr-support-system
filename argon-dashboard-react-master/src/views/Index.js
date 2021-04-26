@@ -75,25 +75,15 @@ const Index = (props) => {
 
   const { tags, loadingTags } = useSelector(state => state.stats)
   let tagsForChart = ''
-  if (tags && !loadingTags) {
-    console.log('test')
-    console.log(tags)
+ 
+  if ( tags && Object.keys(tags).length > 0 &&  !loadingTags) {
+    
+   
 
-    tagsForChart = tags?.map((tag, i) => {
+    tagsForChart = tags.map((tag) => {
       return [tag.name, tag.count]
 
     })
-
-    let objectArray = ''
-    if (tagsForChart)
-      objectArray = Object.values(tagsForChart);
-
-
-
-
-    console.log(tagsForChart)
-    console.log(objectArray)
-
 
   }
 
@@ -146,14 +136,14 @@ const Index = (props) => {
           <div> <h3>End Date</h3><DatePicker selected={endDate} onChange={date => setEndDate(date)} /></div>
 
 
-          
+
         </div>
-        <Button style={{ marginBottom: 10}} onClick={() => {
-            dispatch(getTags(Math.round (startDate.getTime() / 1000),Math.round (endDate.getTime() / 1000)))
+        <Button style={{ marginBottom: 10 }} onClick={() => {
+          dispatch(getTags(startDate,endDate))
 
-          }} >search</Button>
+        }} >search</Button>
 
-        {tags && Object.keys(tags).length>0&& <Chart
+        {tags && Object.keys(tags).length > 0 && <Chart
           width={'100%'}
           height={'300px'}
           chartType="Bar"
@@ -177,7 +167,7 @@ const Index = (props) => {
 
         {loadingTags && <h1>Loading </h1>}
 
-       {/* <h1>thiisss  {Math.round (startDate.getTime() / 1000)}</h1>
+        {/* <h1>thiisss  {Math.round (startDate.getTime() / 1000)}</h1>
        { <h1>thiisss  {Math.round (endDate.getTime() / 1000)}</h1> }
         {tags && <h1>thiisss  {Object.keys(tags).length
 }</h1>
