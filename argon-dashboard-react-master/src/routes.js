@@ -25,9 +25,11 @@ import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
 import Profile from "views/examples/Profile.js";
 import RecommendedProfile from "views/examples/RecommendedProfile";
-import Settings from "views/examples/Settings";
+import Settings from "views/examples/Tables";
+
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
+
 var routes = [
   {
     path: '/index',
@@ -145,7 +147,7 @@ export const managerRoutes = [
     path: '/settings',
     name: 'Settings',
     icon: 'ni ni-settings-gear-65 text-yellow',
-    component: Settings,
+    component: Tables,
     layout: '/admin',
   },
   {

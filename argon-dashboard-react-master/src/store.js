@@ -8,6 +8,8 @@ import { authReducer } from './reducers/userReducers'
 import { listAgentsReducer } from './reducers/agentReducer'
 import { meetReducer } from './reducers/meetReducer'
 import { playlistReducer } from 'reducers/playlistReducer'
+import { activityReducer } from './reducers/activityReducer'
+
 const reducer = combineReducers({
   auth: authReducer,
   alerts: alertsReducer,
@@ -17,6 +19,8 @@ const reducer = combineReducers({
   settingAdd: settingAddReducer,
   meet: meetReducer,
   musicList: playlistReducer,
+  activityList: activityReducer,
+
 })
 
 let initialState = {}
