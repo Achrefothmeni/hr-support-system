@@ -138,10 +138,19 @@ const Index = (props) => {
 
 
         </div>
-        <Button style={{ marginBottom: 10 }} onClick={() => {
+        <Button color="primary" style={{ marginBottom: 10 }} onClick={() => {
           dispatch(getTags(startDate,endDate))
 
         }} >search</Button>
+
+        <Button style={{ marginBottom: 10 }} onClick={() => {
+          dispatch(getTags(''));
+          setStartDate(new Date())
+          setEndDate(new Date())
+
+        }} ><i class="fas fa-undo"></i>
+
+</Button>
 
         {tags && Object.keys(tags).length > 0 && <Chart
           width={'100%'}
