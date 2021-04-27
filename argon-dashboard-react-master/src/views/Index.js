@@ -127,13 +127,13 @@ const Index = (props) => {
 
         <div style={{ marginBottom: 10, display: "flex" }}>
 
-          <div style={{ marginRight: 10 }}> <h3>Start Date  </h3><DatePicker selected={startDate} onChange={date => {
+          <div style={{ marginRight: 10 }}> <h3>Start Date  </h3><DatePicker wrapperClassName="datePicker" dateFormat="dd/MM/yyyy" selected={startDate} onChange={date => {
             setStartDate(date)
           }
 
           } /></div>
 
-          <div> <h3>End Date</h3><DatePicker selected={endDate} onChange={date => setEndDate(date)} /></div>
+          <div> <h3>End Date</h3><DatePicker  wrapperClassName="datePicker" dateFormat="dd/MM/yyyy" selected={endDate} onChange={date => setEndDate(date)} /></div>
 
 
 

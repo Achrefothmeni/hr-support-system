@@ -24,6 +24,12 @@
     max-height: 12rem; }
 
 
+    .react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    display: block;
+    width: 100%;
+}
 @media (min-width: 768px){
     .navbar-vertical.navbar-expand-md .navbar-brand-img {
         max-height: 12.5rem;
