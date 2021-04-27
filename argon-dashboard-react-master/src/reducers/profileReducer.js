@@ -10,14 +10,37 @@ export const profileReducer = (state = { profiles: [] }, action) => {
 
     switch (action.type) {
         case PROFILE_LIST_REQUEST:
-        case SAME_PROFILE_REQUEST:
+        
             return { loading: true, profiles: [] }
         case PROFILE_LIST_SUCCESS:
-        case SAME_PROFILE_SUCCESS:
+        
             return { loading: false, profiles: action.payload }
         case PROFILE_LIST_FAIL:
-        case SAME_PROFILE_FAIL:
+        
             return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+
+export const SameProfileReducer = (state = { sameProfiles: [] }, action) => {
+
+    switch (action.type) {
+        
+        case SAME_PROFILE_REQUEST:
+            return { 
+                loading: true, 
+                sameProfiles: [] }
+        
+        case SAME_PROFILE_SUCCESS:
+            return {...state,
+                 loading: false,
+                 sameProfiles: action.payload }
+       
+        case SAME_PROFILE_FAIL:
+            return { loading: false,
+                 error: action.payload }
         default:
             return state
     }

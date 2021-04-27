@@ -44,7 +44,7 @@ const RecommendedProfile = () => {
   }, [dispatch])
   const { loadingg, errorr, activities } = activityList
   useEffect(() => {
-    dispatch(listActivity())
+    //dispatch(listActivity())
   }, [dispatch, callback])
   console.log(profiles)
 
@@ -173,7 +173,7 @@ const RecommendedProfile = () => {
 
 
 
-          <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
+         {/*  <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -729,7 +729,7 @@ const RecommendedProfile = () => {
 
 
           </Col>
-
+ */}
         </Row>
       </Container>
 

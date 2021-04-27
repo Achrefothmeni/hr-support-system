@@ -21,9 +21,8 @@ module.exports = function (app) {
       '/register',
       '/login',
       '/password/reset/:token',
-      
+      '/password/forgot',
       '/admin/usersByName',
-      '/password/reset',
       '/logout',
       '/password/update',
       '/me/update',
@@ -35,6 +34,7 @@ module.exports = function (app) {
       '/api/profile',
       '/api/settings/add',
       '/api/activity/add',
+      
       '/api/activities'
     ],
     createProxyMiddleware({
