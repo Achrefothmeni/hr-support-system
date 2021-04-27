@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { login, clearErrors } from '../../actions/userActions'
+import { forgotPassword, clearErrors } from '../../actions/userActions'
 
 
 // reactstrap components
@@ -38,20 +38,23 @@ import {
   Col,
 } from "reactstrap";
 
-const Login = ({ history }) => {
+const ForgotPassword = ({ history }) => {
 
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
+  const [disable, setDisable] = useState(false)
   const dispatch = useDispatch();
 
-  const { isAuthenticated, error, loading, user,errorAuth } = useSelector(state => state.auth)
+  const { isAuthenticated, error, user, errorAuth } = useSelector(state => state.auth)
+  const { loading} = useSelector(state => state.forgot)
+  
 
+
+  
   useEffect(() => {
     if (isAuthenticated) {
-      
+
       history.push('/admin/user-profile')
-      
+
     }
 
 
@@ -60,17 +63,17 @@ const Login = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password))
+    dispatch(forgotPassword(email))
     
-    
-    console.log("test");
+
+    console.log(disable);
 
   }
 
   return (
 
     <>
-      {loading ? <h1>laoding</h1> : (<>
+      <>
         <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0">
 
@@ -78,7 +81,7 @@ const Login = ({ history }) => {
             <CardHeader className="bg-transparent pb-5">
 
               <img className="center"
-              
+
                 alt="..."
                 src={
                   require("../../assets/img/HR.png")
@@ -146,68 +149,23 @@ const Login = ({ history }) => {
                     />
                   </InputGroup>
                 </FormGroup>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="ni ni-lock-circle-open" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      placeholder="Password"
-                      type="password"
-                      autoComplete="new-password"
-                      //value = {password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </InputGroup>
-                </FormGroup>
-                <div className="custom-control custom-control-alternative custom-checkbox">
-                  <input
-                    className="custom-control-input"
-                    id=" customCheckLogin"
-                    type="checkbox"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor=" customCheckLogin"
-                  >
-                    <span className="text-muted">Remember me</span>
-                  </label>
-                </div>
+
+
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="submit">
-                    Sign in
+                  <Button className="my-4" color="primary" type="submit" disabled={loading?true:false} >
+                    Send Email
                 </Button>
                 </div>
               </Form>
             </CardBody>
           </Card>
-          <Row className="mt-3">
-            <Col xs="6">
-              <Link to="/auth/forgotPassword"
-                className="text-light"
 
-
-              >
-                <small>Forgot password?</small>
-              </Link>
-            </Col>
-            <Col className="text-right" xs="6">
-              <Link to='/auth/register'
-                className="text-light"
-
-              >
-                <small>Create new account</small>
-              </Link>
-            </Col>
-          </Row>
         </Col>
-      </>)}
+      </>
 
-      
+
     </>
   );
 };
 
-export default Login;
+export default ForgotPassword;

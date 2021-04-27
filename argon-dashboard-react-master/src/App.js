@@ -8,6 +8,9 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
+import Home from 'layouts/Home.js'
+import ResetPassword from 'views/examples/resetPassword.js'
+import ForgotPassword from 'views/examples/ForgotPassword.js'
 
 import { loadUser } from './actions/userActions'
 import store from './store'
@@ -25,6 +28,8 @@ function App() {
             <Switch>
                 <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
                 <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+                <Route path="/home" render={(props) => <Home {...props} />} />
+                <Route path="/resetPassword/:token" render={(props) => <ResetPassword {...props} />} />
                 <Redirect from="/" to="/admin/index" />
             </Switch>
             <ToastContainer/>
