@@ -30,10 +30,10 @@ import {
   Col,
 } from "reactstrap";
 
-const AdminNavbar = () => {
+const HomeNavbar = () => {
   return (
     <>
-      <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
+      <Navbar className="navbar-top navbar-horizontal " expand="md">
         <Container className="px-4">
          {/*  <NavbarBrand to="/" tag={Link}>
             <img
@@ -70,9 +70,9 @@ const AdminNavbar = () => {
             </div>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink className="nav-link-icon" to="/" tag={Link}>
+                <NavLink className="nav-link-icon" to="/home" tag={Link}>
                   <i className="ni ni-planet" />
-                  <span className="nav-link-inner--text">Dashboard</span>
+                  <span className="nav-link-inner--text">Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -109,4 +109,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default HomeNavbar;

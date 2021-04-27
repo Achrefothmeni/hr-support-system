@@ -1,13 +1,14 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { settingReducer, settingAddReducer } from './reducers/settingsReducer'
 import { alertsReducer } from './reducers/alertReducer'
 import { profileReducer } from './reducers/profileReducer'
-import { authReducer } from './reducers/userReducers'
+import { authReducer, forgotPasswordReducer } from './reducers/userReducers'
+import { statReducer } from './reducers/statsReducer'
 import { listAgentsReducer } from './reducers/agentReducer'
 import { meetReducer } from './reducers/meetReducer'
-import { playlistReducer } from 'reducers/playlistReducer'
+import { playlistReducer } from './reducers/playlistReducer'
 import { activityReducer } from './reducers/activityReducer'
 
 const reducer = combineReducers({
@@ -20,6 +21,8 @@ const reducer = combineReducers({
   meet: meetReducer,
   musicList: playlistReducer,
   activityList: activityReducer,
+  stats: statReducer,
+  forgot: forgotPasswordReducer,
 
 })
 
@@ -31,5 +34,6 @@ const store = createStore(
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 )
+
 
 export default store

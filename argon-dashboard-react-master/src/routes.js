@@ -20,6 +20,7 @@ import AddProfile from 'views/examples/AddProfile'
 import Maps from 'views/examples/Maps.js'
 import Register from 'views/examples/Register.js'
 import Login from 'views/examples/Login.js'
+import ForgotPassword from 'views/examples/ForgotPassword.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
@@ -88,6 +89,16 @@ var routes = [
     component: Register,
     layout: '/auth',
   },
+  {
+    path: "/forgotPassword",
+    
+    component: ForgotPassword,
+    layout: '/auth',
+  }, 
+
+  
+  /* S */
+
 ]
 
 export const notLoggedRoutes = [
@@ -112,6 +123,17 @@ export const notLoggedRoutes = [
     component: Register,
     layout: '/auth',
   },
+
+   {
+    path: "/forgotPassword",
+    name: 'forgot',
+    icon: 'ni ni-circle-08 text-pink',
+    component: ForgotPassword,
+    layout: '/auth',
+    invisible:true
+  }, 
+
+
 ]
 
 export const managerRoutes = [

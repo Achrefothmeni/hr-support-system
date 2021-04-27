@@ -83,10 +83,12 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   })
 
   //create reset password URL
-  const resetUrl = `${req.protocol}://${req.get(
+  /*const resetUrl = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/password/reset/${resetToken}`
+  )}/api/v1/password/reset/${resetToken}`*/
+  
 
+  const resetUrl = `localhost:3000/resetPassword/${resetToken}`
   const message = `Your password reset token is as follow : \n\n${resetUrl}`
 
   try {
@@ -275,5 +277,21 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     user,
+  })
+})
+
+
+//testing
+exports.getAllUsersByName = catchAsyncErrors(async (req, res, next) => {
+
+  let name = req.query.name;
+  const users = await User.find({name : name})
+
+  if (!users) {
+    return next(new ErrorHandler('There are no users', 400))
+  }
+  res.status(200).json({
+    success: true,
+    users,
   })
 })

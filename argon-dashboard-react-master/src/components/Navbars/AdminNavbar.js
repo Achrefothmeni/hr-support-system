@@ -81,7 +81,7 @@ const AdminNavbar = (props) => {
                     <img
                       alt="..."
                       src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
+                        require("../../assets/img/Sample_User_Icon.png")
                           .default
                       }
                     />

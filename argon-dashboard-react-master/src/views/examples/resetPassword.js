@@ -17,9 +17,11 @@
 */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
+
 import { Link } from 'react-router-dom'
 
-import { login, clearErrors } from '../../actions/userActions'
+import { setNewPassword, clearErrors } from '../../actions/userActions.js'
 
 
 // reactstrap components
@@ -36,22 +38,26 @@ import {
   InputGroup,
   Row,
   Col,
+  Container
 } from "reactstrap";
+import { param } from 'jquery';
 
-const Login = ({ history }) => {
-
+const ResetPassword = ({ history, match }) => {
+  const { token } = useParams();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
 
   const dispatch = useDispatch();
 
-  const { isAuthenticated, error, loading, user,errorAuth } = useSelector(state => state.auth)
+  const { isAuthenticated, error, loading, user, errorAuth } = useSelector(state => state.auth)
 
   useEffect(() => {
     if (isAuthenticated) {
-      
+
       history.push('/admin/user-profile')
-      
+
     }
 
 
@@ -60,25 +66,27 @@ const Login = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password))
-    
-    
-    console.log("test");
+
+    dispatch(setNewPassword(match.params.token, password, confirmPassword))
+
+
 
   }
 
   return (
 
     <>
-      {loading ? <h1>laoding</h1> : (<>
-        <Col lg="5" md="7">
+      <Container style={{ width: 450 }}>
+
+        {loading ? <h1>laoding</h1> : (<>
+
           <Card className="bg-secondary shadow border-0">
 
 
             <CardHeader className="bg-transparent pb-5">
 
               <img className="center"
-              
+
                 alt="..."
                 src={
                   require("../../assets/img/HR.png")
@@ -130,22 +138,7 @@ const Login = ({ history }) => {
               <small>Or sign in with credentials</small>
             </div> */}
               <Form role="form" onSubmit={submitHandler}>
-                <FormGroup className="mb-3">
-                  <InputGroup className="input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="ni ni-email-83" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      placeholder="Email"
-                      type="email"
-                      autoComplete="new-email"
-                      //value = {email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </InputGroup>
-                </FormGroup>
+
                 <FormGroup>
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -162,38 +155,42 @@ const Login = ({ history }) => {
                     />
                   </InputGroup>
                 </FormGroup>
+
+                <FormGroup>
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-lock-circle-open" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Confirm password"
+                      type="password"
+                      autoComplete="Confirm password"
+                      //value = {password}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </InputGroup>
+                </FormGroup>
                 <div className="custom-control custom-control-alternative custom-checkbox">
                   <input
                     className="custom-control-input"
                     id=" customCheckLogin"
                     type="checkbox"
                   />
-                  <label
-                    className="custom-control-label"
-                    htmlFor=" customCheckLogin"
-                  >
-                    <span className="text-muted">Remember me</span>
-                  </label>
+
                 </div>
                 <div className="text-center">
                   <Button className="my-4" color="primary" type="submit">
-                    Sign in
+                    Reset password
                 </Button>
                 </div>
               </Form>
             </CardBody>
           </Card>
           <Row className="mt-3">
-            <Col xs="6">
-              <Link to="/auth/forgotPassword"
-                className="text-light"
-
-
-              >
-                <small>Forgot password?</small>
-              </Link>
-            </Col>
-            <Col className="text-right" xs="6">
+            
+            <Col className="text-center" xs="6">
               <Link to='/auth/register'
                 className="text-light"
 
@@ -202,12 +199,12 @@ const Login = ({ history }) => {
               </Link>
             </Col>
           </Row>
-        </Col>
-      </>)}
 
-      
+        </>)}
+      </Container>
+
     </>
   );
 };
 
-export default Login;
+export default ResetPassword;

@@ -1,3 +1,30 @@
 .card-700{
     height: 700px;
 }
+
+
+.redTest{
+    color: red;
+}
+
+.center{
+    display: block;
+    margin-left: 50%;
+    
+    width: 60%;
+}
+
+.sideLogo 
+{
+     height:600px !important;
+}
+
+.navbar-vertical .navbar-brand > img {
+    max-width: 100%;
+    max-height: 12rem; }
+
+
+@media (min-width: 768px){
+    .navbar-vertical.navbar-expand-md .navbar-brand-img {
+        max-height: 12.5rem;
+}}

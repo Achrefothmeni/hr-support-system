@@ -15,6 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
+
+
 const Chart = require("chart.js");
 //
 // Chart extension for making the bars rounded
@@ -22,6 +25,7 @@ const Chart = require("chart.js");
 //
 
 Chart.elements.Rectangle.prototype.draw = function () {
+  
   var ctx = this._chart.ctx;
   var vm = this._view;
   var left, right, top, bottom, signX, signY, borderSkipped, radius;
@@ -183,6 +187,7 @@ var colors = {
 
 // Chart.js global options
 function chartOptions() {
+
   // Options
   var options = {
     defaults: {
@@ -411,9 +416,12 @@ let chartExample2 = {
   },
 };
 
+
 module.exports = {
   chartOptions, // used inside src/views/Index.js
   parseOptions, // used inside src/views/Index.js
   chartExample1, // used inside src/views/Index.js
   chartExample2, // used inside src/views/Index.js
 };
+
+

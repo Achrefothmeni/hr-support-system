@@ -9,12 +9,18 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 import { useDispatch, useSelector } from 'react-redux'
+import Home from 'layouts/Home.js'
+import ResetPassword from 'views/examples/resetPassword.js'
+import ForgotPassword from 'views/examples/ForgotPassword.js'
+
 import { loadUser } from './actions/userActions'
 import ReactJkMusicPlayer from 'react-jinke-music-player'
 import 'react-jinke-music-player/assets/index.css'
 import store from './store'
 import { useToasts } from 'react-toast-notifications'
 import { REMOVE_MUSIC } from 'constants/playlistConstant'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -40,14 +46,20 @@ function App() {
       dispatch({ type: REMOVE_ERROR })
     }
   }, [error])
+
+
+
   return (
     <>
       <BrowserRouter>
         <Switch>
-          <Route path='/admin' render={(props) => <AdminLayout {...props} />} />
-          <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
-          <Redirect from='/' to='/admin/index' />
+          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+          <Route path="/home" render={(props) => <Home {...props} />} />
+          <Route path="/resetPassword/:token" render={(props) => <ResetPassword {...props} />} />
+          <Redirect from="/" to="/admin/index" />
         </Switch>
+        <ToastContainer />
       </BrowserRouter>
       {isAuthenticated && (
         <ReactJkMusicPlayer
@@ -66,6 +78,7 @@ function App() {
       )}
     </>
   )
+  
 }
 
 export default App
