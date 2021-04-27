@@ -54,8 +54,8 @@ const Profile = () => {
 
   //testing
 
-  const listProfiles = useSelector((state) => state.profileList)
-  const { profiles } = listProfiles
+  const listProfiles = useSelector((state) => state.same)
+  const { sameProfiles } = listProfiles
 
   //
   const [disabled, setDisabled] = useState(true);
@@ -147,7 +147,7 @@ const Profile = () => {
         {/*       {exampleModal &&  <ModalsTest name={"test"} exampleModal={exampleModal} />}
  */}
         <div style={{marginBottom : 10}} >
-          {profiles && profiles.length !== 0 && (
+          {sameProfiles && sameProfiles.length !== 0 && (
             <UncontrolledDropdown>
               <DropdownToggle
                 caret
@@ -159,7 +159,7 @@ const Profile = () => {
                     </DropdownToggle>
 
               <DropdownMenu aria-labelledby='dropdownMenuButton'>
-                {profiles.users.map((p, i) => (
+                {sameProfiles.users.map((p, i) => (
 
                   <>
                     <DropdownItem

@@ -20,8 +20,9 @@ module.exports = function (app) {
       '/unban-hr/',
       '/register',
       '/login',
+      '/password/reset/:token',
       '/password/forgot',
-      '/password/reset',
+      '/admin/usersByName',
       '/logout',
       '/password/update',
       '/me/update',
@@ -30,7 +31,11 @@ module.exports = function (app) {
       '/meets',
       '/api/settings',
       '/api/profiles',
+      '/api/profile',
       '/api/settings/add',
+      '/api/activity/add',
+      
+      '/api/activities'
     ],
     createProxyMiddleware({
       target: 'http://localhost:5000',

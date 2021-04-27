@@ -7,11 +7,11 @@ import axios from 'axios'
 export const listProfiles = () => async(dispatch) => {
  try {
      dispatch({type: PROFILE_LIST_REQUEST})
-     const {data} = await axios.post('api/profile')
+     const {data} = await axios.get('/api/profiles')
      await console.log(data);
      dispatch({type: PROFILE_LIST_SUCCESS, payload: data})
  } catch (error) {
-     dispatch({type: PROFILE_LIST_FAIL, payload: error.response && error.response.data.message ? error.response.data.message: error.message}
+     dispatch({type: PROFILE_LIST_FAIL, payload: error.response.data.errMessage}
         )
     }
 }
@@ -22,7 +22,12 @@ export const listProfiles = () => async(dispatch) => {
 export const SameProfiles = (name) => async (dispatch) => {
     try {
         dispatch({ type: SAME_PROFILE_REQUEST })
-        const { data } = await axios.get(`/admin/usersByName?name=${name}`)
+        const { data } = await axios.get(`/admin/usersByName`,{
+             params: {
+                name: name
+            }
+        })
+        
 
         dispatch({ type: SAME_PROFILE_SUCCESS, payload: data })
     } catch (error) {

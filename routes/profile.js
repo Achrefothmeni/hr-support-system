@@ -39,4 +39,18 @@ router.get('/api/settings', async (req , res) => {
           
    })
 
+
+   router.post('/api/profile/add' , async (req, res ) => {   
+      const profile = req.body
+      
+      const newProfile = new ProfileModel(profile)
+      try {
+         await newProfile.save()
+         res.status(201).json(newProfile)
+      } catch (error) {
+         res.status(409).json({message: error.message})
+      }
+          
+   })
+
 module.exports = router
