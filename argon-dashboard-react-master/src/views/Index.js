@@ -157,7 +157,7 @@ const Index = (props) => {
           options={{
             // Material design options
             chart: {
-              title: 'Most researched ',
+              title: 'Most researched technologies in stackoverflow ',
             },
           }}
           // For tests
