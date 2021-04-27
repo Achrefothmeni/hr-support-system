@@ -9,7 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 
 // reactstrap components
 import {
@@ -26,20 +26,42 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
-import {useSelector , useDispatch} from  'react-redux'
+import {useSelector , useDispatch } from  'react-redux'
 import { listProfiles} from '../../actions/profileAction'
+import {listActivity } from '../../actions/activityAction'
+import axios from 'axios';
 const RecommendedProfile = () => {
 
   const dispatch = useDispatch()
 
   const profileList = useSelector(state => state.profileList)
-  
+  const activityList = useSelector(state => state.activityList)
+
+  const [callback, setCallback] = useState(false)
   const {loading , error , profiles} = profileList
       useEffect( () => {
         dispatch(listProfiles())
       } , [dispatch])
-  
+      const {loadingg , errorr , activities} = activityList
+      useEffect( () => {
+        dispatch(listActivity())
+      } , [dispatch,callback])
       console.log(profiles)
+
+      const addReact = async (id) =>{
+        try {
+          await axios.post("/api/activity/add",{activity : {profile: id}})
+          console.log('jawha behi')
+          setCallback(!callback)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+
+     const veriff = (id) =>{
+       return activities.some(a => a.profile === id)
+     }
   return (
     <>
       <UserHeader />
@@ -94,6 +116,15 @@ const RecommendedProfile = () => {
   <CardBody className="pt-0 pt-md-4">
   <br/>        <br/>
     <div className="text-center">
+    <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
+           
+            
+           <i className={veriff(profile._id) ? 'fas fa-heart' : 'far fa-heart'} onClick={() =>  addReact(profile._id)} />
+       
+       
+      
+            
+             </div></center> <br></br> 
       <h3>
         {profile.name}
         <span className="font-weight-light">, 36</span>

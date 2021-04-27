@@ -10,27 +10,19 @@ const collectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    notifActivated: { type: Boolean, required: true },
-    views: [listSchema],
+    notifActivated: { type: Boolean, default: false, required: true },
+    views: [
+      {
+        viewer: {
+          ref: 'Users',
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+        },
+        createdAT: { require: true, type: Date, default: new Date() },
+      },
+    ],
 
     addedBy: {
-      ref: 'Users',
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    contactedProfileURL: {
-      type: String,
-      required: false,
-    },
-  },
-  {
-    timestamps: true,
-  }
-)
-
-const listSchema = mongoose.Schema(
-  {
-    viewer: {
       ref: 'Users',
       type: mongoose.Schema.Types.ObjectId,
       required: true,

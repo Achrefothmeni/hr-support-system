@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -45,7 +45,7 @@ import { listSettings} from '../../actions/settingsAction'
 
 const Tables = () => {
 
-
+  const [callback, setCallback] = useState(false)
 
 
 
@@ -56,7 +56,7 @@ const settingList = useSelector(state => state.settingList)
 const {loading , error , settings} = settingList
     useEffect( () => {
       dispatch(listSettings())
-    } , [dispatch])
+    } , [dispatch,callback])
 
     console.log(settings)
   return (
