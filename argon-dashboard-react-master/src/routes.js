@@ -24,6 +24,7 @@ import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
 import Profile from "views/examples/Profile.js";
+import RecommendedProfileList from "views/examples/RecommendedProfileList";
 import RecommendedProfile from "views/examples/RecommendedProfile";
 import Settings from "views/examples/Settings";
 import CvUpload from 'views/examples/CvUpload'
@@ -206,8 +207,15 @@ export const agentRoutes = [
   {
     path: '/upload',
     name: 'Resume Upload',
-    icon: 'ni ni-bullet-list-67 text-red',
+    icon: 'ni ni-atom text-red',
     component: CvUpload,
+    layout: '/admin',
+  },
+  {
+    path: '/recommended-profile-list',
+    name: 'Recommended profile',
+    icon: 'ni ni-single-02 text-red',
+    component: RecommendedProfileList,
     layout: '/admin',
   },
 ]

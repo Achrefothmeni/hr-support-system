@@ -14,6 +14,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask_cors import CORS
 import pymongo
+from fuzzywuzzy import fuzz
 
 
 app = Flask(__name__)
@@ -32,6 +33,7 @@ spacy.load("en_core_web_sm")
 client = pymongo.MongoClient("mongodb://localhost:27017/hr-supp")
 db = client[ "hr-supp" ]
 col = db[ "profiles" ]
+fav = db[ "favorite" ]
 
 #print(data)
 UPLOAD_FOLDER = './uploads'
@@ -75,6 +77,32 @@ def extract_text_from_pdf(pdf_path):
 
 def extract_emails(resume_text):
     return re.findall(EMAIL_REG, resume_text)
+
+
+@app.route('/add_favorite', methods=["POST"])
+def add_favorite():
+    profile = request.json
+    fav.insert(profile)
+    return jsonify(profile)
+
+@app.route('/recommendation', methods=["GET"])
+def recommendation():
+    similar_profile = []
+    favorites = db.favorite.find({})
+    for profile in favorites:
+        skills = profile["skills"]
+        exp = profile["years_exp"]
+        skills_string = ' '.join(skills)
+        profiles = db.profiles.find({})
+        for profile in profiles:
+            profile_skills = " ".join(profile["skills"])
+            years_exp = profile["years_exp"]
+            score = fuzz.token_sort_ratio(profile_skills, skills_string)
+            if score > 50 and abs(exp-years_exp) in [0, 1, 2]:
+                profile["_id"] = str(profile["_id"])
+                similar_profile.append(profile)
+    print(similar_profile)
+    return jsonify(similar_profile)
 
 @app.route('/upload', methods=["POST"])
 def index():
