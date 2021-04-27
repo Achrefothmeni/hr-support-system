@@ -46,7 +46,7 @@ const RecommendedProfile = () => {
   useEffect(() => {
     //dispatch(listActivity())
   }, [dispatch, callback])
-  console.log(profiles)
+  
 
   const addReact = async (id) => {
     try {
@@ -67,7 +67,7 @@ const RecommendedProfile = () => {
       <UserHeader />
       {/* Page content */}
       <Container className="mt--7" fluid>
-        
+      {profiles && profiles.length !== 0 && (
         <Row className="mt-1">
 
 
@@ -731,6 +731,7 @@ const RecommendedProfile = () => {
           </Col>
  */}
         </Row>
+      )}
       </Container>
 
 
