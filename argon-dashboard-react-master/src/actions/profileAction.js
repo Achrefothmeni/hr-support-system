@@ -7,7 +7,7 @@ import axios from 'axios'
 export const listProfiles = () => async(dispatch) => {
  try {
      dispatch({type: PROFILE_LIST_REQUEST})
-     const {data} = await axios.post('http://127.0.0.1:8000/recommendation')
+     const {data} = await axios.post('api/profile')
      await console.log(data);
      dispatch({type: PROFILE_LIST_SUCCESS, payload: data})
  } catch (error) {
