@@ -33,7 +33,7 @@ function App() {
     { musicSrc: './XXYlFuWEuKI.mp3' },
   ])
   const { error } = useSelector((state) => state.alerts)
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const { isAuthenticated,loading } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
@@ -51,6 +51,7 @@ function App() {
 
   return (
     <>
+      {loading == false && (
       <BrowserRouter>
         <Switch>
           <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
@@ -60,7 +61,7 @@ function App() {
           <Redirect from="/" to="/admin/index" />
         </Switch>
         <ToastContainer />
-      </BrowserRouter>
+      </BrowserRouter>)}
       {isAuthenticated && (
         <ReactJkMusicPlayer
           quietUpdate
