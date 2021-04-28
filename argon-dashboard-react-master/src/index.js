@@ -29,8 +29,7 @@ import store from './store'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 import { ToastProvider } from 'react-toast-notifications'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+
 
 
 import App from './App'
@@ -45,16 +44,7 @@ ReactDOM.render(
     </Switch>
   </BrowserRouter>, */}
     <ToastProvider autoDismiss autoDismissTimeout={6000}>
-      <div className ="loader">
-        <Loader
-          type="Puff"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          timeout={3000} //3 secs
-        />
-
-      </div>
+     
       <App/>
     </ToastProvider>
   </Provider>,
