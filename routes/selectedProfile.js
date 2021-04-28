@@ -6,7 +6,7 @@ const {
   authorizedRoles,
   onlyAdmin,
 } = require('../middlewares/auth')
-
+const Profile = require('../models/profileModel')
 const SelectedProfile = require('../models/selectedProfile')
 
 router.post('/selections', async (req, res) => {
@@ -94,15 +94,12 @@ router.post('/notes/:id', async (req, res) => {
   }
 })
 
-router.post('/ratings/:id', async (req, res) => {
-  const {
-    rate,
-
-    by,
-  } = req.body
+router.post('/ratings/:id', isAuthenticatedUser, async (req, res) => {
+  const { rate } = req.body
 
   try {
     //add user test condition
+
     const selected = await SelectedProfile.findOne({
       'events._id': req.params.id,
     })
@@ -112,9 +109,10 @@ router.post('/ratings/:id', async (req, res) => {
         e.ratings.push({
           rate,
 
-          by,
+          by: req.user._id,
         })
     })
+
     const saved = await selected.save()
     res.json({ selected: saved })
   } catch (error) {
@@ -123,7 +121,7 @@ router.post('/ratings/:id', async (req, res) => {
   }
 })
 
-router.put('/ratings/:id1/:id', async (req, res) => {
+router.put('/ratings/:id1/:id', isAuthenticatedUser, async (req, res) => {
   const { rate } = req.body
 
   try {
@@ -217,12 +215,12 @@ router.put('/notes/:id1/:id', async (req, res) => {
   }
 })
 
-router.get('/selected/:id', async (req, res) => {
+router.get('/selection/:id', isAuthenticatedUser, async (req, res) => {
   try {
     const selected = await SelectedProfile.find({
       to: req.params.id,
     })
-
+    selected.profile = await Profile.findById(selected.profile)
     res.json({ selected })
   } catch (error) {
     console.log(error)

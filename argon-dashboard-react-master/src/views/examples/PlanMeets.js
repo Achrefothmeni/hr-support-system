@@ -90,10 +90,6 @@ const PlanMeets = ({ history }) => {
     description: '',
   })
   useEffect(() => {
-    if (!user || (user && !user.admin)) {
-      console.log('not admin')
-      history.push('/auth/login')
-    }
     if (!meets || meets.length == 0) dispatch(getMeets())
     const arr = []
     meets.map((m) => {
@@ -107,7 +103,13 @@ const PlanMeets = ({ history }) => {
       })
     })
     setData(arr)
-  }, [dispatch, isAuthenticated, error, history, meets])
+  }, [meets, history])
+  useEffect(() => {
+    if (!user || (user && !user.admin)) {
+      console.log('not admin')
+      history.push('/auth/login')
+    }
+  }, [dispatch, isAuthenticated, error, history])
   const addMeet = (e) => {
     e.preventDefault()
     const test = new Date(meet.day.value) - new Date(Date.now()) > 0

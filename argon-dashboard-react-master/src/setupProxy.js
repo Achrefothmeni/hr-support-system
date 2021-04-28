@@ -34,8 +34,14 @@ module.exports = function (app) {
       '/api/profile',
       '/api/settings/add',
       '/api/activity/add',
-      
-      '/api/activities'
+
+      '/api/activities',
+      '/collections/',
+      '/views/',
+      '/selection/',
+      '/notes/',
+      '/events/',
+      '/ratings/',
     ],
     createProxyMiddleware({
       target: 'http://localhost:5000',
