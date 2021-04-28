@@ -21,6 +21,7 @@ import { useToasts } from 'react-toast-notifications'
 import { REMOVE_MUSIC } from 'constants/playlistConstant'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -51,6 +52,7 @@ function App() {
 
   return (
     <>
+
       {loading == false && (
       <BrowserRouter>
         <Switch>
