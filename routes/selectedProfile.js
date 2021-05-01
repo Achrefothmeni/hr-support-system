@@ -46,7 +46,7 @@ router.post('/events/:id', async (req, res) => {
   }
 })
 
-router.delete('/events/:id', async (req, res) => {
+router.delete('/events/:id', isAuthenticatedUser, async (req, res) => {
   try {
     //add user test condition
     const selected = await SelectedProfile.findOne({
@@ -168,7 +168,7 @@ router.delete('/ratings/:id1/:id', async (req, res) => {
   }
 })
 
-router.delete('/notes/:id1/:id', async (req, res) => {
+router.delete('/notes/:id1/:id', isAuthenticatedUser, async (req, res) => {
   try {
     //add user test condition
     const selected = await SelectedProfile.findOne({

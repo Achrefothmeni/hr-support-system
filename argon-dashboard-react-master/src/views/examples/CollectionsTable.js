@@ -56,6 +56,9 @@ import {
   getContent,
   addCol,
   subRate,
+  addNote,
+  deleteNote,
+  deleteElement,
 } from '../../actions/collectionAction'
 
 const CollectionsTable = ({ history }) => {
@@ -64,10 +67,12 @@ const CollectionsTable = ({ history }) => {
   const [rate, setRate] = useState(0)
   const [modal, setModal] = useState(false)
   const [element, setElement] = useState(null)
+
   const toggleModal = () => {
     setModal(!modal)
   }
   const { addToast } = useToasts()
+  const [elementForm, setElementForm] = useState({ value: '' })
   const dispatch = useDispatch()
   const [selected, setSelected] = useState(-1)
   const [show, setShow] = useState(true)
@@ -79,6 +84,12 @@ const CollectionsTable = ({ history }) => {
     if (element)
       dispatch(subRate({ rate: rate }, element._id, collections[selected]))
   }, [rate])
+  useEffect(() => {
+    if (element)
+      element.ratings.map((r) => {
+        if (r.by == user._id) setRate(r.rate)
+      })
+  }, [element, content])
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const {
     collections,
@@ -97,6 +108,32 @@ const CollectionsTable = ({ history }) => {
   useEffect(() => {
     if (selected !== -1) dispatch(getContent(collections[selected]))
   }, [selected])
+  const removeElement = () => {
+    setNote({ ...note, removeEle: true })
+    dispatch(deleteElement(element._id))
+  }
+  const submitAddNote = (e) => {
+    e.preventDefault()
+    setNote({ ...note, submit: true })
+    if (note.value) dispatch(addNote(note.value, element._id))
+  }
+  useEffect(() => {
+    if (note.submit && !loadingColl) {
+      setElement(content[note.index].events[note.index1])
+      setNote({ ...note, value: '', submit: false })
+    }
+    if (note.remove && !loadingColl) {
+      setElement(content[note.index].events[note.index1])
+      setNote({ ...note, value: '', remove: false })
+    }
+    if (note.removeEle && !loadingColl) {
+      setNote({ ...note, value: '', removeEle: false })
+    }
+  }, [content])
+  const removeNote = (n) => {
+    setNote({ ...note, remove: true })
+    dispatch(deleteNote(element._id, n._id))
+  }
   const addCollection = (e) => {
     e.preventDefault()
     let msg = ''
@@ -281,18 +318,18 @@ const CollectionsTable = ({ history }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {content.map((c) => (
+                  {content.map((c, indec) => (
                     <tr>
                       <th scope='row'>name</th>
                       <td>pos</td>
                       <td>
                         {c &&
-                          c.events.map((e) => (
+                          c.events.map((e, i) => (
                             <Button
                               color='primary'
                               onClick={(ev) => {
                                 setRate(0)
-                                setNote({ value: '', edit: false })
+                                setNote({ value: '', index: indec, index1: i })
                                 ev.ratings &&
                                   ev.ratings.map((r) => {
                                     if (r.by == user._id) {
@@ -301,6 +338,7 @@ const CollectionsTable = ({ history }) => {
                                   })
                                 ev.preventDefault()
                                 setElement(e)
+
                                 toggleModal()
                               }}
                               size='sm'
@@ -311,7 +349,29 @@ const CollectionsTable = ({ history }) => {
                           ))}
                       </td>
 
-                      <td className='text-right'></td>
+                      <td className='text-right'>
+                        <Row>
+                          <FormGroup className='mb-1 mr-3'>
+                            <Input
+                              value={elementForm.value}
+                              onChange={(e) =>
+                                setElementForm({
+                                  ...elementForm,
+                                  value: e.target.value,
+                                })
+                              }
+                              id='event-here'
+                              className='form-control-alternative'
+                              placeholder='Add Event ...'
+                              type='text'
+                              size='sm'
+                            />
+                          </FormGroup>
+                          <Button type='button' size='sm' color='success'>
+                            ADD
+                          </Button>
+                        </Row>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -350,6 +410,10 @@ const CollectionsTable = ({ history }) => {
                 <FormGroup className=' mb-1'>
                   <label htmlFor='note'>Note</label>
                   <Input
+                    value={note.value}
+                    onChange={(e) =>
+                      setNote({ ...note, value: e.target.value })
+                    }
                     id='note'
                     className='form-control-alternative'
                     placeholder='Add your notes ...'
@@ -362,14 +426,30 @@ const CollectionsTable = ({ history }) => {
                   className='mb-3'
                   size='sm'
                   type='button'
+                  onClick={submitAddNote}
                 >
                   add
                 </Button>
               </Form>
               {element &&
                 element.notes &&
-                element.notes.map((n) => (
-                  <Alert className='alert-default mb-1'>{n.note}</Alert>
+                element.notes.map((n, inx) => (
+                  <>
+                    <Alert key={inx} className='alert-default'>
+                      {n.note}{' '}
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          removeNote(n)
+                        }}
+                        color='danger'
+                        size='sm'
+                        type='button'
+                      >
+                        <i className='fas fa-trash-alt'></i>
+                      </Button>
+                    </Alert>
+                  </>
                 ))}
             </Container>
             <button
@@ -384,7 +464,16 @@ const CollectionsTable = ({ history }) => {
           </div>
           <div className='modal-body'>...</div>
           <div className='modal-footer'>
-            <Button color='danger' size='sm' type='button'>
+            <Button
+              color='danger'
+              onClick={(e) => {
+                toggleModal()
+                e.preventDefault()
+                removeElement()
+              }}
+              size='sm'
+              type='button'
+            >
               <i className='fas fa-trash-alt'></i>
             </Button>
             <Button

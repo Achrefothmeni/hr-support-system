@@ -14,6 +14,18 @@ import {
   UPDATE_RATE_SUCCESS,
   UPDATE_RATE_REQUEST,
   UPDATE_RATE_FAIL,
+  ADD_NOTE_REQUEST,
+  ADD_NOTE_FAIL,
+  ADD_NOTE_SUCCESS,
+  REMOVE_NOTE_REQUEST,
+  REMOVE_NOTE_FAIL,
+  REMOVE_NOTE_SUCCESS,
+  REMOVE_EVENT_REQUEST,
+  REMOVE_EVENT_SUCCESS,
+  REMOVE_EVENT_FAIL,
+  ADD_EVENT_REQUEST,
+  ADD_EVENT_SUCCESS,
+  ADD_EVENT_FAIL,
 } from '../constants/collectionConstants'
 
 export const collectionReducer = (
@@ -82,6 +94,30 @@ export const collectionReducer = (
         loading: false,
         error: action.payload,
       }
+    case ADD_NOTE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case ADD_NOTE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
+    case ADD_NOTE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        content: [
+          ...state.content.map((e) => {
+            if (e._id == action.payload._id) e = action.payload
+            return e
+          }),
+        ],
+        error: null,
+      }
     case UPDATE_RATE_REQUEST:
       return {
         ...state,
@@ -94,12 +130,81 @@ export const collectionReducer = (
         loading: false,
         content: [
           ...state.content.map((e) => {
-            if (e.id == action.payload._id) e = action.payload
+            if (e._id == action.payload._id) e = action.payload
             return e
           }),
         ],
       }
     case UPDATE_RATE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
+    case REMOVE_NOTE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case REMOVE_NOTE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        content: [
+          ...state.content.map((e) => {
+            if (e._id == action.payload._id) e = action.payload
+            return e
+          }),
+        ],
+      }
+    case REMOVE_NOTE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
+    case REMOVE_EVENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case REMOVE_EVENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
+    case REMOVE_EVENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        content: [
+          ...state.content.map((e) => {
+            if (e._id == action.payload._id) e = action.payload
+            return e
+          }),
+        ],
+      }
+    case ADD_EVENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case ADD_EVENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        content: [
+          ...state.content.map((e) => {
+            if (e._id == action.payload._id) e = action.payload
+            return e
+          }),
+        ],
+      }
+    case ADD_EVENT_FAIL:
       return {
         ...state,
         loading: false,
