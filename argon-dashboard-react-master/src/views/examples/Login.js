@@ -79,7 +79,7 @@ const Login = ({ history }) => {
 
               <img className="center"
               
-                alt="..."
+                alt="login logo"
                 src={
                   require("../../assets/img/HR.png")
                     .default
