@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
   },
-  "homepage": ".",
+  "homepage": "https://hr-support-webapp.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -86,5 +86,5 @@
     "eslint-plugin-flowtype": "5.2.0",
     "jquery": "3.5.1",
     "typescript": "4.1.3"
-  }
+  },"proxy":"https://hr-support-webapp.herokuapp.com"
 }

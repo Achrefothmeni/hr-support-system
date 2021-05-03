@@ -22,7 +22,7 @@ dotenv.config()
 //connect to database
 connectDatabase()
 app.use(errorMiddleware)
-app.get('/', (req, res) => res.send('App is working'))
+//app.get('/', (req, res) => res.send('App is working'))
 
 app.use(auth)
 app.use('/', mailingRoutes)
@@ -34,7 +34,37 @@ app.use('/', collectionRoutes)
 
 /*if (process.env.NODE_ENV === 'production') {
   app.use(express.static('argon-dashboard-react-master/build'))
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/login', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/admin/index', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/register', (req, res) => {
     res.sendFile(
       path.resolve(
         __dirname,
