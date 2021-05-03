@@ -11,14 +11,14 @@ const {
 } = require('../middlewares/auth')
 
 const transporter = mailer.createTransport({
-  service: 'hotmail',
-  auth: { user: 'gachi1231@outlook.com', pass: '13051998gachi' },
+  service: process.env.SMTP_HOST,
+  auth: { user: process.env.SMTP_FROM_EMAIL, pass: process.env.SMTP_PASSWORD },
 })
 
 router.post('/email', isAuthenticatedUser, async (req, res) => {
   const { subject, content, email } = req.body
   const options = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: subject,
     text: content,
@@ -37,7 +37,7 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
   const { description, email, url, day } = req.body
 
   const options = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: 'Important :Planed Meet',
     text: `You have an important meet with ${req.user.name} ${
@@ -49,7 +49,7 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     }`,
   }
   const options1 = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: 'Important :Planed Meet',
     text: `You have an important meet with ${req.user.name} ${
@@ -104,8 +104,12 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
     const jobs1 = schedule.scheduledJobs[`${req.params.id}2nd`]
     jobs.cancel()
     jobs1.cancel()
+    const meet = await Activity.findById(req.params.id)
+    meet.cancelled = true
     res.json({ msg: 'mail canceled' })
   } catch (error) {
+    console.log(error)
+
     res.status(500).json(error)
   }
 })

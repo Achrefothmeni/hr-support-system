@@ -6,7 +6,6 @@ const dotenv = require('dotenv')
 const auth = require('./routes/auth')
 const mailingRoutes = require('./routes/emailing')
 const profilesRoutes = require('./routes/profile')
-const activitiesRoutes = require('./routes/activity')
 const router = express.Router()
 const cookieParser = require('cookie-parser')
 const collectionRoutes = require('./routes/collection')
@@ -19,23 +18,62 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 const { isAuthenticatedUser, authorizedRoles } = require('./middlewares/auth')
-
-app.get('/', (req, res) => res.send('App is working'))
+dotenv.config()
+//connect to database
+connectDatabase()
+app.use(errorMiddleware)
+//app.get('/', (req, res) => res.send('App is working'))
 
 app.use(auth)
 app.use('/', mailingRoutes)
 app.use('/', profilesRoutes)
 app.use('/', selectedProfilesRoutes)
-app.use('/', activitiesRoutes)
-
 // /me to test middleware
 app.use('/', collectionRoutes)
 //app.use('/api', routes)
 
-dotenv.config({ path: 'config/config.env' })
+/*if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('argon-dashboard-react-master/build'))
+  app.get('/', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/login', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/admin/index', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/register', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+}*/
 
-//connect to database
-connectDatabase()
-app.use(errorMiddleware)
-
-app.listen(5000, () => console.log('Application listening on port 5000!'))
+app.listen(process.env.PORT, () => console.log('Application Started Working'))
