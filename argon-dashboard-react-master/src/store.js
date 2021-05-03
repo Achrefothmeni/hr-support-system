@@ -3,12 +3,14 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { settingReducer, settingAddReducer } from './reducers/settingsReducer'
 import { alertsReducer } from './reducers/alertReducer'
-import { profileReducer } from './reducers/profileReducer'
-import { authReducer } from './reducers/userReducers'
+import { profileReducer, SameProfileReducer } from './reducers/profileReducer'
+import { authReducer, forgotPasswordReducer } from './reducers/userReducers'
+import { statReducer } from './reducers/statsReducer'
 import { listAgentsReducer } from './reducers/agentReducer'
 import { meetReducer } from './reducers/meetReducer'
-import { playlistReducer } from 'reducers/playlistReducer'
+import { playlistReducer } from './reducers/playlistReducer'
 import { activityReducer } from './reducers/activityReducer'
+import { collectionReducer } from 'reducers/collectionReducer'
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -20,7 +22,10 @@ const reducer = combineReducers({
   meet: meetReducer,
   musicList: playlistReducer,
   activityList: activityReducer,
-
+  stats: statReducer,
+  forgot: forgotPasswordReducer,
+  same: SameProfileReducer,
+  collection: collectionReducer,
 })
 
 let initialState = {}

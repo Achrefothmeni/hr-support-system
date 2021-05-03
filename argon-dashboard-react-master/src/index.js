@@ -29,6 +29,9 @@ import store from './store'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 import { ToastProvider } from 'react-toast-notifications'
+
+
+
 import App from './App'
 
 ReactDOM.render(
@@ -41,7 +44,8 @@ ReactDOM.render(
     </Switch>
   </BrowserRouter>, */}
     <ToastProvider autoDismiss autoDismissTimeout={6000}>
-      <App />
+     
+      <App/>
     </ToastProvider>
   </Provider>,
   document.getElementById('root')
