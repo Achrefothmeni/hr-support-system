@@ -1,19 +1,13 @@
 /*!
-
 =========================================================
 * Argon Dashboard React - v1.2.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/argon-dashboard-react
 * Copyright 2021 Creative Tim (https://www.creative-tim.com)
 * Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
 * Coded by Creative Tim
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 */
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,9 +30,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
 import UserHeader from 'components/Headers/UserHeader.js'
-import { planforMeet, getMeets } from '../../actions/meetAction'
+import { planforMeet, getMeets, cancelMeet } from '../../actions/meetAction'
 import Scheduler from 'devextreme-react/scheduler'
-import notify from 'devextreme/ui/notify'
+
 import 'devextreme/dist/css/dx.common.css'
 import 'devextreme/dist/css/dx.light.css'
 const useStyles = makeStyles((theme) => ({
@@ -90,11 +84,7 @@ const PlanMeets = ({ history }) => {
     description: '',
   })
   useEffect(() => {
-    if (!user || (user && !user.admin)) {
-      console.log('not admin')
-      history.push('/auth/login')
-    }
-    if (!meets || meets.length == 0) dispatch(getMeets())
+    dispatch(getMeets())
     const arr = []
     meets.map((m) => {
       const d = new Date(m.planedFor)
@@ -104,14 +94,37 @@ const PlanMeets = ({ history }) => {
         text: `Planed meet with ${m.email}`,
         startDate: new Date(m.planedFor),
         endDate: d,
+        id: m._id,
       })
     })
     setData(arr)
-  }, [dispatch, isAuthenticated, error, history, meets])
+  }, [])
+  useEffect(() => {
+    if (!user || (user && !user.admin)) {
+      console.log('not admin')
+      history.push('/auth/login')
+    }
+  }, [dispatch, isAuthenticated, error, history])
+
+  useEffect(() => {
+    const arr = []
+    meets.map((m) => {
+      const d = new Date(m.planedFor)
+      d.setHours(d.getHours() + 1)
+
+      arr.push({
+        text: `Planed meet with ${m.email}`,
+        startDate: new Date(m.planedFor),
+        endDate: d,
+        id: m._id,
+      })
+    })
+    setData(arr)
+  }, [meets])
+
   const addMeet = (e) => {
     e.preventDefault()
-    const test = new Date(meet.day.value) - new Date(Date.now()) > 0
-    console.log(meet)
+
     setMeet({
       ...meet,
       email: {
@@ -362,6 +375,9 @@ const PlanMeets = ({ history }) => {
                     endDayHour={19}
                     height={600}
                     editing={editing}
+                    onAppointmentDeleted={(e) =>
+                      dispatch(cancelMeet(e.appointmentData.id))
+                    }
                   />
                 </Col>
               </CardBody>
