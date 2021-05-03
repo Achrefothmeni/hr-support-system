@@ -23,7 +23,8 @@ const reducer = combineReducers({
   activityList: activityReducer,
   stats: statReducer,
   forgot: forgotPasswordReducer,
-  same:SameProfileReducer
+  same:SameProfileReducer,
+  
 
 })
 

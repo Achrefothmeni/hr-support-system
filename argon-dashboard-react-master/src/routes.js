@@ -91,12 +91,12 @@ var routes = [
   },
   {
     path: "/forgotPassword",
-    
+
     component: ForgotPassword,
     layout: '/auth',
-  }, 
+  },
 
-  
+
   /* S */
 
 ]
@@ -131,7 +131,7 @@ export const notLoggedRoutes = [
     component: ForgotPassword,
     layout: '/auth',
     invisible:true
-  }, 
+  },
 
 
 ]

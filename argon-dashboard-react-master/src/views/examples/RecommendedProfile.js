@@ -109,7 +109,7 @@ const RecommendedProfile = () => {
         onClick={(e) => e.preventDefault()}
         size="sm"
       >
-         meet 
+         meet
       </Button>
     </div>
   </CardHeader>
@@ -117,14 +117,14 @@ const RecommendedProfile = () => {
   <br/>        <br/>
     <div className="text-center">
     <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
-           
-            
+
+
            <i className={veriff(profile._id) ? 'fas fa-heart' : 'far fa-heart'} onClick={() =>  addReact(profile._id)} />
-       
-       
-      
-            
-             </div></center> <br></br> 
+
+
+
+
+             </div></center> <br></br>
       <h3>
         {profile.name}
         <span className="font-weight-light">, 36</span>
@@ -133,24 +133,27 @@ const RecommendedProfile = () => {
         <i className="ni location_pin mr-2" />
         {profile.position}
       </div>
- 
+
       <div>
-     
+
       </div>
       <hr className="my-4" />
       <h2>Skills & endorsements</h2>
+
       <p>
       {profile.skills.map( s => (
          <p>
          {s.name}
           </p>
-                      
+
                       ))}
       </p>
       <a href="#pablo" onClick={(e) => e.preventDefault()}>
         Show more
       </a>
+
     </div>
+
   </CardBody>
 </Card>
 </Col>
@@ -158,7 +161,6 @@ const RecommendedProfile = () => {
         ))}
 
 
-     
 
 
 
@@ -174,7 +176,8 @@ const RecommendedProfile = () => {
 
 
 
-          
+
+
           <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
@@ -211,13 +214,13 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet 
+                     meet
                   </Button>
-                
+
                 </div>
               </CardHeader>
-             
-                 
+
+
               <CardBody className="pt-0 pt-md-4">
             <br></br> <br></br>
              <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -257,9 +260,9 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
-        
+
           <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
@@ -296,7 +299,7 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet 
+                     meet
                   </Button>
                 </div>
               </CardHeader>
@@ -317,7 +320,7 @@ const RecommendedProfile = () => {
                   </div>
                   <div>
                     <i className="ni education_hat mr-2" />
-                    University de Nice  
+                    University de Nice
                   </div>
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
@@ -335,7 +338,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
 
 
@@ -376,7 +379,7 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet 
+                     meet
                   </Button>
                 </div>
               </CardHeader>
@@ -415,7 +418,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
 
 
@@ -457,7 +460,7 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet 
+                     meet
                   </Button>
                 </div>
               </CardHeader>
@@ -474,7 +477,7 @@ const RecommendedProfile = () => {
                   </div>
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
-                    Solution Manager 
+                    Solution Manager
                   </div>
                   <div>
                     <i className="ni education_hat mr-2" />
@@ -496,7 +499,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
           <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
@@ -534,13 +537,13 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet 
+                     meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
               <br/>        <br/>
-               
+
                 <div className="text-center">
                   <h3>
                     Achraf Zaafrane
@@ -574,7 +577,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
           <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
@@ -612,7 +615,7 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     Meet 
+                     Meet
                   </Button>
                 </div>
               </CardHeader>
@@ -620,7 +623,7 @@ const RecommendedProfile = () => {
               <br/>        <br/>
                 <div className="text-center">
                   <h3>
-                   Oussema Trabelsi 
+                   Oussema Trabelsi
                     <span className="font-weight-light">, 25</span>
                   </h3>
                   <div className="h5 font-weight-300">
@@ -651,7 +654,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
           <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
             <Card className="card-profile shadow">
@@ -729,7 +732,7 @@ const RecommendedProfile = () => {
 
 
 
-            
+
           </Col>
 
         </Row>
@@ -739,7 +742,7 @@ const RecommendedProfile = () => {
 
 
 
-      
+
     </>
   );
 };
