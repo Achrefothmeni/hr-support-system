@@ -31,6 +31,8 @@ import Settings from 'views/examples/Tables'
 import CollectionsTable from 'views/examples/CollectionsTable'
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
+import ScrapeProfileByUrl from 'views/examples/ScrapeProfileByUrl'
+
 
 var routes = [
   {
@@ -246,7 +248,13 @@ export const agentRoutes = [
     path: '/collections',
     name: 'Collections',
     icon: 'ni ni-archive-2 text-orange',
-    component: CollectionsTable,
+    component: CollectionsTable,}
+  ,
+  {
+    path: '/scrape-profile',
+    name: 'Scrape url ',
+    icon: 'ni ni-bullet-list-67 text-orange',
+    component: ScrapeProfileByUrl,
     layout: '/admin',
   },
 ]
