@@ -106,6 +106,7 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
     jobs1.cancel()
     const meet = await Activity.findById(req.params.id)
     meet.cancelled = true
+    meet.save()
     res.json({ msg: 'mail canceled' })
   } catch (error) {
     console.log(error)
@@ -116,7 +117,11 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
 
 router.get('/meets', isAuthenticatedUser, async (req, res) => {
   try {
-    const meets = await Activity.find({ user: req.user._id }).sort({
+    const meets = await Activity.find({
+      user: req.user._id,
+      type: 'planed-meet',
+      cancelled: false,
+    }).sort({
       createdAt: -1,
     })
 
