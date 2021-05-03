@@ -31,6 +31,7 @@ import Settings from 'views/examples/Tables'
 
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
+import ScrapeProfile from 'views/examples/ScrapeProfile'
 import CollectionsTable from 'views/examples/CollectionsTable'
 
 var routes = [
@@ -241,6 +242,13 @@ export const agentRoutes = [
     name: 'Recommended profile',
     icon: 'ni ni-single-02 text-red',
     component: RecommendedProfileList,
+    layout: '/admin',
+  },
+  {
+    path: '/scrape-profile',
+    name: 'Scrape Linkedin Porfile',
+    icon: 'ni ni-bullet-list-67 text-orange',
+    component: ScrapeProfile,
     layout: '/admin',
   },
 ]
