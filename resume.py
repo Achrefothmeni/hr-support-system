@@ -15,13 +15,17 @@ import os
 from flask_cors import CORS
 import pymongo
 from fuzzywuzzy import fuzz
+import os 
+
+
+
 
 
 app = Flask(__name__)
 
 CORS(app)
 
-
+nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('maxent_ne_chunker')
@@ -29,14 +33,15 @@ nltk.download('words')
 spacy.load("en_core_web_sm")
 
 
-# client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
-client = pymongo.MongoClient("mongodb://localhost:27017/hr-supp")
+
+client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
+#client = pymongo.MongoClient("mongodb://localhost:27017/hr-supp")
 db = client[ "hr-supp" ]
 col = db[ "profiles" ]
 fav = db[ "favorite" ]
 
 #print(data)
-UPLOAD_FOLDER = './uploads'
+UPLOAD_FOLDER = str(os.path.dirname(os.path.realpath(__file__)))+"/uploads"
 ALLOWED_EXTENSIONS = {'pdf'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -106,6 +111,7 @@ def recommendation():
 
 @app.route('/upload', methods=["POST"])
 def index():
+    print(app.config['UPLOAD_FOLDER'])
     if 'file' not in request.files:
         return jsonify({"status": 403, "message": "No file part"})
     file = request.files['file']
@@ -117,8 +123,8 @@ def index():
         filename = str(uuid.uuid4())+".pdf"
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         user = {}
-        data = ResumeParser('./uploads/'+filename).get_extracted_data()
-        text = extract_text_from_pdf('./uploads/'+filename)
+        data = ResumeParser(app.config['UPLOAD_FOLDER']+"/"+filename).get_extracted_data()
+        text = extract_text_from_pdf(app.config['UPLOAD_FOLDER']+"/"+filename)
         #print(text)
         names = extract_names(text)
         emails = extract_emails(text)
