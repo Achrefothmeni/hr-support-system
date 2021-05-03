@@ -1,5 +1,6 @@
 import UserHeader from "components/Headers/UserHeader.js";
 import {useSelector , useDispatch} from  'react-redux'
+import {useState, useEffect} from 'react';
 import Header from "components/Headers/Header.js";
 import {
     Card,
@@ -14,11 +15,23 @@ import {
 
 const RecommendedProfileList = () => {
 
+  const [profiles, setProfiles] = useState(null)
+
+  useEffect(() => {
+    fetch('https://resume-parser-python-pi.herokuapp.com/recommendation').then(res => {return res.json();})
+    .then(data => {
+      console.log(data);
+      setProfiles(data);
+    })
+  }, [setProfiles]);
+ 
     return (
     <>
     <Header />
     <Container className="mt--7" fluid>
+      { profiles &&
         <Row className="mt-1">
+          {profiles.map((profile) => (
         <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
 <Card className="card-profile shadow">
   <Row className="justify-content-center">
@@ -29,7 +42,7 @@ const RecommendedProfileList = () => {
             alt="..."
             className="rounded-circle"
             src={
-              require("../../assets/img/theme/team-1-800x800.jpg")
+              require("../../assets/img/Sample_User_Icon.png")
                 .default
             }
           />
@@ -63,12 +76,12 @@ const RecommendedProfileList = () => {
   <br/>        <br/>
     <div className="text-center">
       <h3>
-        Test
-        <span className="font-weight-light">, 36</span>
+        {profile.name}
+        <span className="font-weight-light"></span>
       </h3>
       <div className="h5 font-weight-300">
         <i className="ni location_pin mr-2" />
-        Test
+        Experience: {profile.years_exp} ans
       </div>
  
       <div>
@@ -77,17 +90,18 @@ const RecommendedProfileList = () => {
       <hr className="my-4" />
       <h2>Skills & endorsements</h2>
       <p>
-      Test
+      {profile.skills}
       </p>
-      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+      <a href={profile.url} target="_blank">
         Show more
       </a>
     </div>
   </CardBody>
 </Card>
 </Col>
-
+) )}
         </Row>
+}
     </Container>
     </>
     )
