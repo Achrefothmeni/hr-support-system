@@ -104,8 +104,12 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
     const jobs1 = schedule.scheduledJobs[`${req.params.id}2nd`]
     jobs.cancel()
     jobs1.cancel()
+    const meet = await Activity.findById(req.params.id)
+    meet.cancelled = true
     res.json({ msg: 'mail canceled' })
   } catch (error) {
+    console.log(error)
+
     res.status(500).json(error)
   }
 })

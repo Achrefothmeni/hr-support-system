@@ -15,11 +15,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useToasts } from 'react-toast-notifications'
 import { Rate } from 'antd'
 import 'antd/dist/antd.css'
 // reactstrap components
+import EventForm from './EventForm'
 import {
   Badge,
   Card,
@@ -72,7 +73,7 @@ const CollectionsTable = ({ history }) => {
     setModal(!modal)
   }
   const { addToast } = useToasts()
-  const [elementForm, setElementForm] = useState({ value: '' })
+
   const dispatch = useDispatch()
   const [selected, setSelected] = useState(-1)
   const [show, setShow] = useState(true)
@@ -350,27 +351,7 @@ const CollectionsTable = ({ history }) => {
                       </td>
 
                       <td className='text-right'>
-                        <Row>
-                          <FormGroup className='mb-1 mr-3'>
-                            <Input
-                              value={elementForm.value}
-                              onChange={(e) =>
-                                setElementForm({
-                                  ...elementForm,
-                                  value: e.target.value,
-                                })
-                              }
-                              id='event-here'
-                              className='form-control-alternative'
-                              placeholder='Add Event ...'
-                              type='text'
-                              size='sm'
-                            />
-                          </FormGroup>
-                          <Button type='button' size='sm' color='success'>
-                            ADD
-                          </Button>
-                        </Row>
+                        <EventForm id={c._id} />
                       </td>
                     </tr>
                   ))}

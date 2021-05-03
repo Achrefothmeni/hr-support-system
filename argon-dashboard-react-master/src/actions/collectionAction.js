@@ -105,7 +105,7 @@ export const deleteNote = (id1, id) => async (dispatch) => {
   }
 }
 
-export const addEvent = (ev) => async (dispatch) => {
+export const addEvent = (ev, id) => async (dispatch) => {
   try {
     dispatch({
       type: ADD_EVENT_REQUEST,
@@ -115,7 +115,7 @@ export const addEvent = (ev) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.post('/events', ev, config)
+    const { data } = await axios.post(`/events/${id}`, ev, config)
     dispatch({ type: ADD_EVENT_SUCCESS, payload: data.selected })
   } catch (err) {
     dispatch({

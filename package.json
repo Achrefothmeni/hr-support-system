@@ -1,5 +1,5 @@
 {
-  "name": "HR-Support-project",
+  "name": "HR-Support-system",
   "version": "1.0.0",
   "description": "HR Support MERN project is a project that list profiles based on the needs of HR agent & the manager to make their choice easier.",
   "main": "app.js",
@@ -8,7 +8,8 @@
     "start": "nodemon app.js",
     "client": "npm start --prefix argon-dashboard-react-master",
     "dev": "concurrently \"npm run start\" \"npm run client\""
-  },"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm install --prefix argon-dashboard-react-master ",
+  },
+  "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm install --prefix argon-dashboard-react-master ",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Achrefothmeni/hr-support-system.git"

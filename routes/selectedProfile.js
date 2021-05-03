@@ -26,7 +26,7 @@ router.post('/selections', async (req, res) => {
   }
 })
 
-router.post('/events/:id', async (req, res) => {
+router.post('/events/:id', isAuthenticatedUser, async (req, res) => {
   const {
     title,
 
