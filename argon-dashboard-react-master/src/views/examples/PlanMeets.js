@@ -104,7 +104,7 @@ const PlanMeets = ({ history }) => {
       })
     })
     setData(arr)
-  }, [history])
+  }, [])
   useEffect(() => {
     if (!user || (user && !user.admin)) {
       console.log('not admin')
