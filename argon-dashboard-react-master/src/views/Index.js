@@ -39,9 +39,9 @@ import {
 
 // core components
 
-
+import axios from 'axios';
 import Header from "components/Headers/Header.js";
-
+import { listProfilesPhp,listProfilesAndroid,listProfilesJava,listProfilesJs,listProfilesPython,listProfilesSwift} from '../../src/actions/profileAction'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -50,6 +50,7 @@ import { Chart } from "react-google-charts";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { ButtonOptions } from "devextreme-react/form";
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -114,15 +115,170 @@ const Index = (props) => {
  
    }
   */
+   const [responseData, setResponseData] = useState('')
+   var options = {
+    method: 'GET',
+    url: 'https://covid-19-tracking.p.rapidapi.com/v1/tunisia',
+    headers: {
+      'x-rapidapi-key': '2410f79cfamsh18f92ca9a50d151p1f0d32jsn6b36b1b6edca',
+      'x-rapidapi-host': 'covid-19-tracking.p.rapidapi.com'
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    setResponseData(response.data)
+    console.log('ahayaa '+response.data["Total Cases_text"])
+  }).catch(function (error) {
+    console.error(error);
+  });
 
+   // -----------------------------------------------------
 
+   const [javaa, setJava] = useState(null)
+   const [phpp, setPhp] = useState(null)
+   const [pythonn, setPython] = useState(null)
+   const [androidd, setAndroid] = useState(null)
+   const [javascriptt, setJavaScript] = useState(null)
+   const [swiftt, setSwift] = useState(null)
+   const java = async () =>{
+    try {
+     const java=  await axios.get("/api/profiles/java")
+      setJava(java.data) 
 
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const php = async () =>{
+    try {
+     const php=  await axios.get("/api/profiles/php")
+      setPhp(php.data) 
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const python = async () =>{
+    try {
+     const python=  await axios.get("/api/profiles/python")
+      setPython(python.data) 
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const javascipt = async () =>{
+    try {
+     const javascipt=  await axios.get("/api/profiles/js")
+      setJavaScript(javascipt.data) 
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const swift = async () =>{
+    try {
+     const swift=  await axios.get("/api/profiles/swift")
+      setSwift(swift.data) 
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const android = async () =>{
+    try {
+     const android=  await axios.get("/api/profiles/android")
+      setAndroid(android.data) 
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
+
+
+    
       <Header />
       {/* Page content */}
+      <center>
+    <h1>{responseData.Country_text}</h1>
+      <div class="row">
+      <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Cases</h5>
+                    <span  class="h2 font-weight-bold mb-0">{responseData["Total Cases_text"]}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                      <i class="fas fa-lungs-virus"></i>
+                      </div>  
+                      </div>
 
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {responseData["New Cases_text"]}</span>
+                    <span class="text-nowrap">Today</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Deaths</h5>
+                    <span class="h2 font-weight-bold mb-0">{responseData["Total Deaths_text"]}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fas fa-skull-crossbones"></i>
+                      </div>  
+                      </div>
 
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {responseData["New Deaths_text"]}</span>
+                    <span class="text-nowrap">Today</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Recovered</h5>
+                   
+                    <span class="h2 font-weight-bold mb-0">{responseData["Total Recovered_text"]}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                      <i class="fas fa-briefcase-medical"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+               
+                
+                
+        </div>
+        </center>
       <Container className="mt--1" fluid>
 
         <div style={{ marginBottom: 10, display: "flex" }}>
@@ -183,7 +339,153 @@ const Index = (props) => {
 } */}
 
       </Container>
+      <br/>   <br/>
+      <div class="row">
+      <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                    <span  onClick={php()}class="h2 font-weight-bold mb-0">{phpp === '' ? 0 :phpp}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-php"></i>
+                      </div>  
+                      </div>
 
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                    <span  onClick={java()}class="h2 font-weight-bold mb-0">{javaa === '' ? 0 :javaa}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-java"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                   
+                    <span  onClick={javascipt()}class="h2 font-weight-bold mb-0">{javascriptt === '' ? 0 :javascriptt}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-js"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                      <span  onClick={swift()}class="h2 font-weight-bold mb-0">{swiftt === '' ? 0 :swiftt}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-swift"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                      <span onClick={python()} class="h2 font-weight-bold mb-0">{pythonn === '' ? 0 :pythonn}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-python"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Porfiles</h5>
+                      <span onClick={android()}class="h2 font-weight-bold mb-0">{androidd === '' ? 0 :androidd}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-android"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+        </div>
+        
     </>
   );
 };
