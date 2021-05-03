@@ -11,7 +11,9 @@ export const addSong = (song, i) => async (dispatch) => {
       type: ADD_MUSIC_REQUEST,
     })
 
-    const { data } = await axios.get(`/get-mp3?vid=${song.id.videoId}`)
+    const { data } = await axios.get(
+      `https://py-endp.herokuapp.com/get-mp3?vid=${song.id.videoId}`
+    )
     if (data.status === true)
       dispatch({
         type: ADD_MUSIC_SUCCESS,

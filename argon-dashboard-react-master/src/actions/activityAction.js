@@ -10,7 +10,7 @@ export const listActivity = () => async(dispatch) => {
 
      dispatch({type: ACTIVITY_LIST_SUCCESS, payload: data})
  } catch (error) {
-     dispatch({type: ACTIVITY_LIST_FAIL, payload: error.response.data.errMessage}
+     dispatch({type: ACTIVITY_LIST_FAIL, payload: error.response && error.response.data.message ? error.response.data.message: error.message}
         )
  }
 }

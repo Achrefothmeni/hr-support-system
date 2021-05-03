@@ -21,9 +21,6 @@ import { useToasts } from 'react-toast-notifications'
 import { REMOVE_MUSIC } from 'constants/playlistConstant'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
-
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -36,7 +33,7 @@ function App() {
     { musicSrc: './XXYlFuWEuKI.mp3' },
   ])
   const { error } = useSelector((state) => state.alerts)
-  const { isAuthenticated, loading } = useSelector((state) => state.auth)
+  const { isAuthenticated } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
@@ -54,27 +51,16 @@ function App() {
 
   return (
     <>
-
-      {loading == false ? (
-        <BrowserRouter>
-          <Switch>
-            <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-            <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-            <Route path="/home" render={(props) => <Home {...props} />} />
-            <Route path="/resetPassword/:token" render={(props) => <ResetPassword {...props} />} />
-            <Redirect from="/" to="/admin/index" />
-          </Switch>
-          <ToastContainer />
-        </BrowserRouter>) : (<div className="loader">
-          <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={3000} //3 secs
-          />
-
-      </div>)}
+      <BrowserRouter>
+        <Switch>
+          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+          <Route path="/home" render={(props) => <Home {...props} />} />
+          <Route path="/resetPassword/:token" render={(props) => <ResetPassword {...props} />} />
+          <Redirect from="/" to="/admin/index" />
+        </Switch>
+        <ToastContainer />
+      </BrowserRouter>
       {isAuthenticated && (
         <ReactJkMusicPlayer
           quietUpdate
@@ -92,7 +78,7 @@ function App() {
       )}
     </>
   )
-
+  
 }
 
 export default App

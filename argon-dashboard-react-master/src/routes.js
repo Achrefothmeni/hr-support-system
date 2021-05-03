@@ -24,15 +24,15 @@ import ForgotPassword from 'views/examples/ForgotPassword.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
-import Profile from 'views/examples/Profile.js'
-import RecommendedProfileList from 'views/examples/RecommendedProfileList'
-import RecommendedProfile from 'views/examples/RecommendedProfile'
-import Settings from 'views/examples/Tables'
+import Profile from "views/examples/Profile.js";
+import RecommendedProfileList from "views/examples/RecommendedProfileList";
+import RecommendedProfile from "views/examples/RecommendedProfile";
+import Settings from "views/examples/Tables";
 
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
-import ScrapeProfile from 'views/examples/ScrapeProfile'
-import CollectionsTable from 'views/examples/CollectionsTable'
+import ScrapeProfileByUrl from 'views/examples/ScrapeProfileByUrl'
+
 
 var routes = [
   {
@@ -92,13 +92,15 @@ var routes = [
     layout: '/auth',
   },
   {
-    path: '/forgotPassword',
+    path: "/forgotPassword",
 
     component: ForgotPassword,
     layout: '/auth',
   },
 
+
   /* S */
+
 ]
 
 export const notLoggedRoutes = [
@@ -124,14 +126,16 @@ export const notLoggedRoutes = [
     layout: '/auth',
   },
 
-  {
-    path: '/forgotPassword',
+   {
+    path: "/forgotPassword",
     name: 'forgot',
     icon: 'ni ni-circle-08 text-pink',
     component: ForgotPassword,
     layout: '/auth',
-    invisible: true,
+    invisible:true
   },
+
+
 ]
 
 export const managerRoutes = [
@@ -150,11 +154,12 @@ export const managerRoutes = [
     layout: '/admin',
   },
   {
-    path: '/recommended-profile',
-    name: 'Recommended Profile',
-    icon: 'ni ni-single-02 text-yellow',
+    path: "/recommended-profile",
+    name: "Recommended Profile",
+    icon: "ni ni-single-02 text-yellow",
     component: RecommendedProfile,
-    layout: '/admin',
+    layout: "/admin",
+
   },
   {
     path: '/add-agent',
@@ -192,13 +197,8 @@ export const managerRoutes = [
     layout: '/admin',
   },
 
-  {
-    path: '/collections',
-    name: 'Collections',
-    icon: 'ni ni-archive-2 text-orange',
-    component: CollectionsTable,
-    layout: '/admin',
-  },
+
+
 ]
 
 export const agentRoutes = [
@@ -244,11 +244,12 @@ export const agentRoutes = [
     component: RecommendedProfileList,
     layout: '/admin',
   },
+  ,
   {
     path: '/scrape-profile',
-    name: 'Scrape Linkedin Porfile',
+    name: 'Scrape url ',
     icon: 'ni ni-bullet-list-67 text-orange',
-    component: ScrapeProfile,
+    component: ScrapeProfileByUrl,
     layout: '/admin',
   },
 ]

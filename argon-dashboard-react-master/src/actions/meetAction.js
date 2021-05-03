@@ -5,9 +5,6 @@ import {
   GET_MEETS_SUCCESS,
   GET_MEETS_REQUEST,
   GET_MEETS_FAIL,
-  CANCEL_MEET_REQUEST,
-  CANCEL_MEET_SUCCESS,
-  CANCEL_MEET_FAIL,
 } from '../constants/meetConstant'
 import axios from 'axios'
 import { ADD_ALERT } from '../constants/alertConstant'
@@ -36,26 +33,6 @@ export const planforMeet = (meet) => async (dispatch) => {
     })
     dispatch({
       type: ADD_MEET_FAIL,
-      payload:
-        err.response && err.response.data.errMessage
-          ? err.response.data.errMessage
-          : err.message,
-    })
-  }
-}
-
-export const cancelMeet = (id) => async (dispatch) => {
-  try {
-    dispatch({
-      type: CANCEL_MEET_REQUEST,
-    })
-
-    await axios.put(`/schedule/${id}`)
-
-    dispatch({ type: CANCEL_MEET_SUCCESS, payload: id })
-  } catch (err) {
-    dispatch({
-      type: CANCEL_MEET_FAIL,
       payload:
         err.response && err.response.data.errMessage
           ? err.response.data.errMessage

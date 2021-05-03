@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const ActivityModel =  require('./../models/activity')
 
-router.post('/api/activity/add' , async (req, res ) => {   
+router.post('/api/activity/add' , async (req, res ) => {
     const activity = req.body.activity
     console.log(activity);
     const newActivity = new ActivityModel(activity)
@@ -17,11 +17,11 @@ router.post('/api/activity/add' , async (req, res ) => {
          await newActivity.save()
          res.status(201).json(newActivity)
         }
-      
+
     } catch (error) {
        res.status(409).json({message: error.message})
     }
-        
+
  })
 
  router.put('/api/activity/:id',async (req, res, next) => {
@@ -44,7 +44,7 @@ router.post('/api/activity/add' , async (req, res ) => {
 
 
     router.get('/api/activities', async (req , res) => {
-   
+
       try {
           const allActivities = await ActivityModel.find()
           console.log( allActivities)
