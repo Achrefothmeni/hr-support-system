@@ -34,3 +34,9 @@
     .navbar-vertical.navbar-expand-md .navbar-brand-img {
         max-height: 12.5rem;
 }}
+
+.loader{
+    position: fixed;
+    top:45%;
+    left: 45%;
+}

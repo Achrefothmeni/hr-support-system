@@ -13,6 +13,9 @@ import Home from 'layouts/Home.js'
 import ResetPassword from 'views/examples/resetPassword.js'
 import ForgotPassword from 'views/examples/ForgotPassword.js'
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 import { loadUser } from './actions/userActions'
 import ReactJkMusicPlayer from 'react-jinke-music-player'
 import 'react-jinke-music-player/assets/index.css'
@@ -41,7 +44,8 @@ function App() {
     { musicSrc: './XXYlFuWEuKI.mp3' },
   ])
   const { error } = useSelector((state) => state.alerts)
-  const { isAuthenticated, user } = useSelector((state) => state.auth)
+
+  const { isAuthenticated, user,loading } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
@@ -68,6 +72,7 @@ function App() {
   }, [isAuthenticated])
   return (
     <>
+    {loading == false ? (
       <BrowserRouter>
         <Switch>
           <Route path='/admin' render={(props) => <AdminLayout {...props} />} />
@@ -80,7 +85,17 @@ function App() {
           <Redirect from='/' to='/admin/index' />
         </Switch>
         <ToastContainer />
-      </BrowserRouter>
+      </BrowserRouter> ) : (<div className="loader">
+          <Loader
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={3000} //3 secs
+          />
+
+      </div>)}
+      
       {isAuthenticated && (
         <ReactJkMusicPlayer
           quietUpdate
