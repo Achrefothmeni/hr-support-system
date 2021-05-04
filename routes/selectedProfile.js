@@ -66,7 +66,7 @@ router.delete('/events/:id', isAuthenticatedUser, async (req, res) => {
   }
 })
 
-router.post('/notes/:id', async (req, res) => {
+router.post('/notes/:id', isAuthenticatedUser, async (req, res) => {
   const { note } = req.body
 
   try {
@@ -142,9 +142,7 @@ router.put('/ratings/:id1/:id', isAuthenticatedUser, async (req, res) => {
     res.status(500).json(error)
   }
 })
-router.delete('/ratings/:id1/:id', async (req, res) => {
-  const { rate } = req.body
-
+router.delete('/ratings/:id1/:id', isAuthenticatedUser, async (req, res) => {
   try {
     //add user test condition
     const selected = await SelectedProfile.findOne({
@@ -189,7 +187,7 @@ router.delete('/notes/:id1/:id', isAuthenticatedUser, async (req, res) => {
   }
 })
 
-router.put('/notes/:id1/:id', async (req, res) => {
+router.put('/notes/:id1/:id', isAuthenticatedUser, async (req, res) => {
   const { note } = req.body
 
   try {

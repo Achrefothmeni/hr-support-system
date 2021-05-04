@@ -23,7 +23,6 @@ app.use(cookieParser())
 try {
   io.on('connect', function (socket) {
     socket.on('userConnected', function (userId) {
-      console.log('joinnnnnnnnnnnnnnnnnn' + userId)
       socket.join(userId)
       message(userId, 'helo')
       app.set('socketio', io)
