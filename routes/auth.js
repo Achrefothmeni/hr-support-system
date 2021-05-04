@@ -60,7 +60,7 @@ router
   .put(isAuthenticatedUser, authorizedRoles('admin'), updateUser)
   .delete(isAuthenticatedUser, authorizedRoles('admin'), deleteUser)
 
-router.route('/hrs').get([isAuthenticatedUser, onlyAdmin], async (req, res) => {
+router.route('/hrs').get([isAuthenticatedUser], async (req, res) => {
   try {
     const users = await User.find({ manager: req.user._id, admin: false }).sort(
       {

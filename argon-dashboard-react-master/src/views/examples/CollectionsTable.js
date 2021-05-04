@@ -93,8 +93,8 @@ const CollectionsTable = ({ history }) => {
     loading: loadingColl,
   } = useSelector((state) => state.collection)
   useEffect(() => {
-    if (!user || (user && !user.admin)) {
-      console.log('not admin')
+    if (!user /* || (user && !user.admin) */) {
+      /* console.log('not admin') */
       history.push('/auth/login')
     }
     dispatch(getCollections())

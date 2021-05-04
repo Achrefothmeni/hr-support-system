@@ -44,6 +44,7 @@ import { Modal } from "react-bootstrap";
 import { updateUser } from '../../actions/userActions'
 //testing
 import { SameProfiles } from '../../actions/profileAction'
+import Header from "components/Headers/Header.js";
 
 
 
@@ -132,7 +133,7 @@ const Profile = () => {
 
 
 
-      <UserHeader />
+    <Header />
       {/* Page content */}
 
 

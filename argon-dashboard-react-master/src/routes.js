@@ -248,7 +248,9 @@ export const agentRoutes = [
     path: '/collections',
     name: 'Collections',
     icon: 'ni ni-archive-2 text-orange',
-    component: CollectionsTable,}
+    component: CollectionsTable,
+    layout: '/admin',
+  },
   ,
   {
     path: '/scrape-profile',

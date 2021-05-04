@@ -32,6 +32,8 @@ import TextField from '@material-ui/core/TextField'
 import UserHeader from 'components/Headers/UserHeader.js'
 import { planforMeet, getMeets, cancelMeet } from '../../actions/meetAction'
 import Scheduler from 'devextreme-react/scheduler'
+import Header from "components/Headers/Header.js";
+
 
 import 'devextreme/dist/css/dx.common.css'
 import 'devextreme/dist/css/dx.light.css'
@@ -100,8 +102,8 @@ const PlanMeets = ({ history }) => {
     setData(arr)
   }, [])
   useEffect(() => {
-    if (!user || (user && !user.admin)) {
-      console.log('not admin')
+    if (!user /* || (user && !user.admin) */) {
+      /* console.log('not admin') */
       history.push('/auth/login')
     }
   }, [dispatch, isAuthenticated, error, history])
@@ -171,7 +173,7 @@ const PlanMeets = ({ history }) => {
   }
   return (
     <>
-      <UserHeader />
+      <Header/>
       {/* Page content */}
       <Container className='mt--7' fluid>
         <Row>
