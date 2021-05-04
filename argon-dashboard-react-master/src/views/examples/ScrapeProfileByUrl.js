@@ -32,7 +32,12 @@ const ScrapeProfileByUrl = () => {
         e.preventDefault();
         dispatch(scrapeProfile(url))
         console.log({url});
-        setCompleted(1);
+        setTimeout(() => { setUploadPercentage(20); }, 2000);
+        setTimeout(() => { setUploadPercentage(uploadPercentage+80); }, 14000);
+        //setTimeout(() => { setUploadPercentage(uploadPercentage+20); }, 3000);
+        //setTimeout(() => { setUploadPercentage(uploadPercentage+30); }, 4000);
+        setTimeout(() => { setCompleted(1); }, 14000);
+        
       }
 
     return (
