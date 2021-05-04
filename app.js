@@ -12,10 +12,34 @@ const collectionRoutes = require('./routes/collection')
 const selectedProfilesRoutes = require('./routes/selectedProfile')
 const app = express()
 //const routes = require('./routes')
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server)
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+try {
+  io.on('connect', function (socket) {
+    socket.on('userConnected', function (userId) {
+      console.log('joinnnnnnnnnnnnnnnnnn' + userId)
+      socket.join(userId)
+      message(userId, 'helo')
+      app.set('socketio', io)
+    })
+    socket.on('userDisconnected', function (userId) {
+      socket.leave(userId)
+    })
+  })
+} catch (error) {
+  console.log(error)
+}
+
+const message = function (userId, data) {
+  console.log('sent')
+  io.sockets.in(userId).emit('message', data)
+}
 
 const { isAuthenticatedUser, authorizedRoles } = require('./middlewares/auth')
 dotenv.config()
@@ -76,4 +100,7 @@ app.use('/', collectionRoutes)
   })
 }*/
 
-app.listen(process.env.PORT, () => console.log('Application Started Working'))
+server.listen(process.env.PORT, () =>
+  console.log('Application Started Working')
+)
+exports.message = message

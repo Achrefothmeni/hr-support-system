@@ -19,8 +19,16 @@ import 'react-jinke-music-player/assets/index.css'
 import store from './store'
 import { useToasts } from 'react-toast-notifications'
 import { REMOVE_MUSIC } from 'constants/playlistConstant'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import socketIOClient from 'socket.io-client'
+const ENDPOINT = 'http://localhost:5000'
+const connectionOptions = {
+  'force new connection': true,
+  reconnectionAttempts: 'Infinity',
+  timeout: 10000,
+  transports: ['websocket'],
+}
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -33,31 +41,43 @@ function App() {
     { musicSrc: './XXYlFuWEuKI.mp3' },
   ])
   const { error } = useSelector((state) => state.alerts)
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const { isAuthenticated, user } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
   )
+  const socket = socketIOClient(ENDPOINT, connectionOptions)
   const { addToast } = useToasts()
+  socket.on('message', function (data) {
+    console.log(data)
+  })
   React.useEffect(() => {
+    socket.on('connect')
     if (!isAuthenticated) store.dispatch(loadUser())
     if (error) {
       addToast(error.message, { appearance: error.type })
       dispatch({ type: REMOVE_ERROR })
     }
   }, [error])
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      const userID = user._id
 
-
-
+      socket.emit('userConnected', userID)
+    }
+  }, [isAuthenticated])
   return (
     <>
       <BrowserRouter>
         <Switch>
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-          <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-          <Route path="/home" render={(props) => <Home {...props} />} />
-          <Route path="/resetPassword/:token" render={(props) => <ResetPassword {...props} />} />
-          <Redirect from="/" to="/admin/index" />
+          <Route path='/admin' render={(props) => <AdminLayout {...props} />} />
+          <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
+          <Route path='/home' render={(props) => <Home {...props} />} />
+          <Route
+            path='/resetPassword/:token'
+            render={(props) => <ResetPassword {...props} />}
+          />
+          <Redirect from='/' to='/admin/index' />
         </Switch>
         <ToastContainer />
       </BrowserRouter>
@@ -78,7 +98,6 @@ function App() {
       )}
     </>
   )
-  
 }
 
 export default App
