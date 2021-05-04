@@ -1,5 +1,5 @@
 const express = require('express')
-
+const msg = require('../app')
 const router = express.Router()
 const {
   isAuthenticatedUser,
@@ -74,6 +74,9 @@ router.put('/collections/:id', isAuthenticatedUser, async (req, res) => {
 })
 router.get('/collections', isAuthenticatedUser, async (req, res) => {
   try {
+    const io = req.app.get('socketio')
+
+    msg.message(String(req.user._id), 'helooo')
     const collections = await Collection.find({
       addedBy: { $in: [req.user._id, req.user.manager || req.user._id] },
     }).sort({ createdAt: -1 })

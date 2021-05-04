@@ -107,7 +107,7 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
     const meet = await Activity.findById(req.params.id)
     meet.cancelled = true
     meet.save()
-    res.json({ msg: 'mail canceled' })
+    res.json({ msg: 'meet canceled' })
   } catch (error) {
     console.log(error)
 

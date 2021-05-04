@@ -8,15 +8,16 @@ const {
 } = require('../middlewares/auth')
 const Profile = require('../models/profileModel')
 const SelectedProfile = require('../models/selectedProfile')
+const user = require('../models/user')
 
-router.post('/selections', async (req, res) => {
-  const { profile, to, addedBy } = req.body
+router.post('/selections', isAuthenticatedUser, async (req, res) => {
+  const { profile, to } = req.body
 
   try {
     const selected = await SelectedProfile.create({
       to,
       profile,
-      addedBy,
+      addedBy: req.user._id,
     })
 
     res.json({ selected })
@@ -66,11 +67,7 @@ router.delete('/events/:id', isAuthenticatedUser, async (req, res) => {
 })
 
 router.post('/notes/:id', async (req, res) => {
-  const {
-    note,
-
-    by,
-  } = req.body
+  const { note } = req.body
 
   try {
     //add user test condition
@@ -83,7 +80,7 @@ router.post('/notes/:id', async (req, res) => {
         e.notes.push({
           note,
 
-          by,
+          by: req.user._id,
         })
     })
     const saved = await selected.save()
