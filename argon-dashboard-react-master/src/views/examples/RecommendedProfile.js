@@ -29,6 +29,8 @@ import UserHeader from "components/Headers/UserHeader.js";
 import {useSelector , useDispatch } from  'react-redux'
 import { listProfiles} from '../../actions/profileAction'
 import {listActivity } from '../../actions/activityAction'
+import Header from "components/Headers/Header.js";
+
 import axios from 'axios';
 const RecommendedProfile = () => {
 
@@ -64,7 +66,7 @@ const RecommendedProfile = () => {
      }
   return (
     <>
-      <UserHeader />
+      <Header/>
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row className="mt-1">
