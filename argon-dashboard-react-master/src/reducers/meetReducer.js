@@ -8,6 +8,7 @@ import {
   CANCEL_MEET_REQUEST,
   CANCEL_MEET_SUCCESS,
   CANCEL_MEET_FAIL,
+  ADD_FOR_MEET,
 } from '../constants/meetConstant'
 
 export const meetReducer = (state = { meets: [] }, action) => {
@@ -43,6 +44,8 @@ export const meetReducer = (state = { meets: [] }, action) => {
         loading: false,
         error: null,
       }
+    case ADD_FOR_MEET:
+      return { ...state, meetProfile: action.payload }
     case CANCEL_MEET_FAIL:
       return { ...state, error: action.payload, loading: false }
     default:

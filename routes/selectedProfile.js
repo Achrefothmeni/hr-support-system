@@ -40,6 +40,10 @@ router.post('/events/:id', isAuthenticatedUser, async (req, res) => {
     if (!selected) res.status(404).json({ error: 'Profile not found !' })
     selected.events.push({ title, color })
     const saved = await selected.save()
+
+    const info = await Profile.findById(selected.profile)
+    selected.profile = info
+
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -59,6 +63,10 @@ router.delete('/events/:id', isAuthenticatedUser, async (req, res) => {
       1
     )
     const saved = await selected.save()
+
+    const info = await Profile.findById(saved.profile)
+    saved.profile = info
+
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -84,6 +92,10 @@ router.post('/notes/:id', isAuthenticatedUser, async (req, res) => {
         })
     })
     const saved = await selected.save()
+
+    const info = await Profile.findById(saved.profile)
+    saved.profile = info
+
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -111,6 +123,10 @@ router.post('/ratings/:id', isAuthenticatedUser, async (req, res) => {
     })
 
     const saved = await selected.save()
+    console.log(saved)
+    const info = await Profile.findById(saved.profile)
+    saved.profile = info
+
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -136,6 +152,8 @@ router.put('/ratings/:id1/:id', isAuthenticatedUser, async (req, res) => {
       }
     })
     const saved = await selected.save()
+    const info = await Profile.findById(selected[0].profile)
+    selected[0].profile = info
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -180,6 +198,9 @@ router.delete('/notes/:id1/:id', isAuthenticatedUser, async (req, res) => {
 
     const saved = await selected.save()
 
+    const info = await Profile.findById(saved.profile)
+    saved.profile = info
+
     res.json({ selected: saved })
   } catch (error) {
     console.log(error)
@@ -202,6 +223,8 @@ router.put('/notes/:id1/:id', isAuthenticatedUser, async (req, res) => {
     ].notes.map((e) => {
       if (e._id == req.params.id) e.note = note
     })
+    const info = await Profile.findById(selected[0].profile)
+    selected[0].profile = info
     const saved = await selected.save()
     res.json({ selected: saved })
   } catch (error) {
@@ -215,7 +238,9 @@ router.get('/selection/:id', isAuthenticatedUser, async (req, res) => {
     const selected = await SelectedProfile.find({
       to: req.params.id,
     })
-    selected.profile = await Profile.findById(selected.profile)
+
+    const info = await Profile.findById(selected[0].profile)
+    selected[0].profile = info
     res.json({ selected })
   } catch (error) {
     console.log(error)

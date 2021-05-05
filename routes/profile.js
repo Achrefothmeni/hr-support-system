@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const SettingsModel =  require('./../models/settingsModel');
 const ProfileModel = require('./../models/profileModel')
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
+const ErrorHandler = require('../utils/errorHandler')
+
 
 router.get('/api/settings', async (req , res) => {
    
@@ -17,13 +20,62 @@ router.get('/api/settings', async (req , res) => {
    router.get('/api/profiles', async (req , res) => {
    
       try {
-          const allProfiles = await ProfileModel.find({skills:{ $elemMatch: {name: 'Java' ,name: 'php'} } })
+          const allProfiles = await ProfileModel.find()
           console.log( allProfiles)
           res.status(200).json(allProfiles)
       } catch (error) {
           res.status(404).json({ message: error.message})
       }
      } )
+
+   router.get('/api/profileDetail/:id', catchAsyncErrors( async (req , res,next) => {
+    let id = req.params.id;
+   
+    const profile = await ProfileModel.findById(id)
+
+    if (!profile) {
+        
+        res.status(404).json({
+            error: 'profile not found'
+            
+          })
+      }
+
+      res.status(200).json({
+        success: true,
+        profile,
+      })
+      
+     }) )
+
+
+     router.get('/api/getAllProfilesByName', catchAsyncErrors( async (req , res,next) => {
+        let name = req.query.name;
+       
+        const profiles = await ProfileModel.find({name : name})
+    
+        if (!profiles) {
+            
+            res.status(404).json({
+                error: 'profile not found'
+                
+              })
+          }
+    
+          res.status(200).json({
+            success: true,
+            profiles,
+          })
+          
+         }) )
+
+
+
+
+     
+     
+
+
      router.get('/api/profiles/js', async (req , res) => {
    
       try {

@@ -326,8 +326,8 @@ const CollectionsTable = ({ history }) => {
                 <tbody>
                   {content.map((c, indec) => (
                     <tr>
-                      <th scope='row'>name</th>
-                      <td>pos</td>
+                      <th scope='row'>{c.profile.name}</th>
+                      <td>{c.profile.position}</td>
                       <td>
                         {c &&
                           c.events.map((e, i) => (

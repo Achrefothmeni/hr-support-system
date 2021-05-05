@@ -100,6 +100,6 @@ app.use('/', collectionRoutes)
 }*/
 
 server.listen(process.env.PORT, () =>
-  console.log('Application Started Working' + process.env.PORT)
+  console.log('Application Started Working')
 )
 exports.message = message

@@ -39,7 +39,7 @@ router.post('/email', isAuthenticatedUser, async (req, res) => {
 })
 
 router.post('/schedule', isAuthenticatedUser, async (req, res) => {
-  const { description, email, url, day } = req.body
+  const { description, email, url, day, profile } = req.body
   const day1 = new Date(day)
   //day1.setHours(day1.getHours() + 1)
 
@@ -67,15 +67,26 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
   }
 
   try {
-    const meet = await Activity.create({
-      type: 'planed-meet',
-      email,
-      description,
-      url,
-      planedFor: day1,
-      user: req.user._id,
-      cancelled: false,
-    })
+    const meet = profile
+      ? await Activity.create({
+          type: 'planed-meet',
+          email,
+          description,
+          url,
+          planedFor: day1,
+          user: req.user._id,
+          cancelled: false,
+          profile,
+        })
+      : await Activity.create({
+          type: 'planed-meet',
+          email,
+          description,
+          url,
+          planedFor: day1,
+          user: req.user._id,
+          cancelled: false,
+        })
     const rule = new schedule.RecurrenceRule()
     const dia = new Date(day1)
     rule.year = dia.getFullYear()

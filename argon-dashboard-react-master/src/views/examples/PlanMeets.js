@@ -24,6 +24,7 @@ import {
   Container,
   Row,
   Col,
+  Badge,
 } from 'reactstrap'
 // core components
 import { makeStyles } from '@material-ui/core/styles'
@@ -32,11 +33,11 @@ import TextField from '@material-ui/core/TextField'
 import UserHeader from 'components/Headers/UserHeader.js'
 import { planforMeet, getMeets, cancelMeet } from '../../actions/meetAction'
 import Scheduler from 'devextreme-react/scheduler'
-import Header from "components/Headers/Header.js";
-
+import Header from 'components/Headers/Header.js'
 
 import 'devextreme/dist/css/dx.common.css'
 import 'devextreme/dist/css/dx.light.css'
+import { ADD_FOR_MEET } from '../../constants/meetConstant'
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
@@ -66,9 +67,12 @@ const PlanMeets = ({ history }) => {
   const { isAuthenticated, error, loading, user } = useSelector(
     (state) => state.auth
   )
-  const { meets, error: meetError, loading: meetLoading } = useSelector(
-    (state) => state.meet
-  )
+  const {
+    meets,
+    error: meetError,
+    loading: meetLoading,
+    meetProfile,
+  } = useSelector((state) => state.meet)
   let today = new Date()
   const [meet, setMeet] = useState({
     day: {
@@ -154,14 +158,25 @@ const PlanMeets = ({ history }) => {
         payload: { type: 'error', message: 'invalid meet url!' },
       })
     else {
-      dispatch(
-        planforMeet({
-          description: meet.description,
-          url: meet.url.value,
-          email: meet.email.value,
-          day: meet.day.value,
-        })
-      )
+      if (meetProfile)
+        dispatch(
+          planforMeet({
+            description: meet.description,
+            url: meet.url.value,
+            email: meet.email.value,
+            day: meet.day.value,
+            profile: meetProfile,
+          })
+        )
+      else
+        dispatch(
+          planforMeet({
+            description: meet.description,
+            url: meet.url.value,
+            email: meet.email.value,
+            day: meet.day.value,
+          })
+        )
 
       setMeet({
         ...meet,
@@ -169,11 +184,12 @@ const PlanMeets = ({ history }) => {
         url: { value: '', valid: null },
         description: '',
       })
+      dispatch({ type: ADD_FOR_MEET, payload: null })
     }
   }
   return (
     <>
-      <Header/>
+      <Header />
       {/* Page content */}
       <Container className='mt--7' fluid>
         <Row>
@@ -200,6 +216,27 @@ const PlanMeets = ({ history }) => {
                 <Form onSubmit={addMeet}>
                   <h6 className='heading-small text-muted mb-4'>Meet Form</h6>
                   <div className='pl-lg-4'>
+                    {meetProfile && (
+                      <Button
+                        size='sm'
+                        className='mb-4'
+                        color='success'
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        {`meet with ${meetProfile.name}`}{' '}
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            dispatch({ type: ADD_FOR_MEET, payload: null })
+                          }}
+                          color='danger'
+                          size='sm'
+                          type='button'
+                        >
+                          <i className='fas fa-trash-alt'></i>
+                        </Button>
+                      </Button>
+                    )}
                     <Row>
                       <Col lg='12'>
                         <FormGroup>
