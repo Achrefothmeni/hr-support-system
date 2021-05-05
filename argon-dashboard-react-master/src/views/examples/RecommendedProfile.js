@@ -43,6 +43,7 @@ const RecommendedProfile = () => {
   const activityList = useSelector((state) => state.activityList)
 
   const [callback, setCallback] = useState(false)
+<<<<<<< Updated upstream
   const { loading, error, profiles } = profileList
   useEffect(() => {
     dispatch(listProfiles())
@@ -66,6 +67,52 @@ const RecommendedProfile = () => {
   /* const veriff = (id) =>{
     return activities.some(a => a.profile === id)
   } */
+=======
+  const {loading , error , profiles} = profileList
+      useEffect( () => {
+        dispatch(listProfiles())
+      } , [dispatch])
+      const {loadingg , errorr , activities} = activityList
+      useEffect( () => {
+        dispatch(listActivity())
+      } , [dispatch,callback])
+      console.log(profiles)
+
+      const addReact = async (id) =>{
+        try {
+          console.log(veriff(id))
+          if(veriff(id)===false){
+            console.log('jawha behi add')
+            await axios.post("/api/activity/add",{activity : {profile: id}})
+         
+            setCallback(!callback)
+          }else{
+            console.log('jawha behi delete')
+            await axios.delete(`/api/activity/delete/${id}`,{activity : {profile: id}})
+          
+           
+          }
+        
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      const deleteReact = async (id) =>{
+        try {
+          await axios.delete(`/api/activity/delete/${id}`,{activity : {profile: id}})
+          console.log('jawha behi delete')
+          setCallback(!callback)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+
+     const veriff = (id) =>{
+       return activities.some(a => a.profile === id)
+     }
+>>>>>>> Stashed changes
   return (
     <>
       <Header />

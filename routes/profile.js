@@ -1,10 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const SettingsModel =  require('./../models/settingsModel');
+<<<<<<< Updated upstream
 const ProfileModel = require('./../models/profileModel')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
 const ErrorHandler = require('../utils/errorHandler')
 
+=======
+const ProfileModel = require('./../models/profileModel');
+const settingsModel = require('./../models/settingsModel');
+const { route } = require('./activity');
+const { count } = require('./../models/settingsModel');
+>>>>>>> Stashed changes
 
 router.get('/api/settings', async (req , res) => {
    
@@ -151,6 +158,51 @@ router.get('/api/settings', async (req , res) => {
       }
           
    })
+   router.route('/api/settings/delete/:id' , ).delete(async (req, res, next) => {
+    
+  
+      try {
+        const setting = await settingsModel.findOne({
+          _id: req.params.id,
+        })
+        if (!setting) {
+          res.status(404).json({ msg: 'Setting  not found !' })
+        }
+        const removed = await setting.remove()
+        res.status(200).json({ removed })
+      } catch (error) {
+        console.log(error.message)
+        res.status(500).send('server Error!')
+      }
+    })
+  router.route('/api/settings/edit/:id').put(async (req, res) => {
+  
+  const {
+    settingName,
+    city,
+    country,
+    postalCode,
+    skills,
+ 
+  } = req.body
+
+  const setting = await SettingsModel.findById(req.params.id)
+
+  if (setting) {
+    setting.settingName = settingName
+    setting.city = city
+    setting.country = country
+    setting.postalCode = postalCode
+    setting.skills = skills
+   
+
+    const updatedSettings = await setting.save()
+    res.json(updatedSettings)
+  } else {
+    res.status(404)
+    throw new Error('Settings not found')
+  }
+})
 
 
    router.post('/api/profile/add' , async (req, res ) => {   

@@ -43,7 +43,7 @@ class InputTags extends React.Component {
         <div className="input-tag">
 
           <ul className="input-tag__tags">
-          <Input  onChange={(e) => tags }   value={tags} placeholder='Example : JAVA ...' className='form-control-alternative' type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} />
+          <Input  onChange={(e) => tags }   placeholder='Example : JAVA ...' className='form-control-alternative' type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} />
 <br></br>
             { tags.map((tag, i) => (
                 <UncontrolledAlert  color='info' >

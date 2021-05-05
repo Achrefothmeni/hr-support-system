@@ -33,9 +33,12 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 import InputTags from 'components/InputTags'
-import { addSettings } from "actions/settingsAction";
+import { addSettings,deleteSettings } from "actions/settingsAction";
 
 const Settings = () => {
+ 
+
+
  
 
   const [settingName, setSettingName] = useState('')
@@ -102,13 +105,7 @@ const Settings = () => {
                            Skills :  
                           </label>
                           <InputTags     /> 
-                          <Input
-                            className="form-control-alternative"
-                            id="input-job-name"
-                          
-                            placeholder="Job Name"
-                            type="text"
-                              /> 
+                        
                         </FormGroup>
                       </Col>
                     </Row>

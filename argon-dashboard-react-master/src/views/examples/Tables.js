@@ -41,13 +41,23 @@ import {
 import Header from "components/Headers/Header.js";
 import  Modals from '../../components/Modals.js'
 import {useSelector , useDispatch} from  'react-redux'
-import { listSettings} from '../../actions/settingsAction'
+import { listSettings , deleteSettings } from '../../actions/settingsAction'
+import { Link } from "react-router-dom";
 
-const Tables = () => {
+const Tables = ({ history}) => {
+  const settingDelete = useSelector((state) => state.settingDelete)
+  const {success: successDelete} = settingDelete
+  const deleteHandler = (id) => {
+    dispatch(deleteSettings(id))
+  }
 
   const [callback, setCallback] = useState(false)
 
-
+  useEffect(() => {
+ 
+      dispatch(listSettings())
+    
+  }, [dispatch, history, successDelete ])
 
   const dispatch = useDispatch()
 
@@ -125,15 +135,18 @@ const {loading , error , settings} = settingList
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
+                     
                           <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
+                          
+                           to={`/admin/settings-edit/${setting._id}`} tag={Link}
+                          
                           >
                             Modify
                           </DropdownItem>
+                          
                           <DropdownItem
                             href="#pablo"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={() => deleteHandler(setting._id)}
                           >
                             Delete
                           </DropdownItem>

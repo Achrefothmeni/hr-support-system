@@ -23,7 +23,26 @@ router.post('/api/activity/add' , async (req, res ) => {
     }
 
  })
-
+ router.route('/api/activity/delete/:id' , ).delete(async (req, res, next) => {
+    
+  
+  try {
+    console.log('aaselma')
+    const   {profile} =  activity
+    const activity = await ActivityModel.findOne({
+      profile,
+    })
+    console.log('test delete react'+activity)
+    if (!activity) {
+      res.status(404).json({ msg: 'activity  not found !' })
+    }
+    const removed = await activity.remove()
+    res.status(200).json({ removed })
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).send('server Error!')
+  }
+})
  router.put('/api/activity/:id',async (req, res, next) => {
       try {
         const activity = await ActivityModel.findOne({

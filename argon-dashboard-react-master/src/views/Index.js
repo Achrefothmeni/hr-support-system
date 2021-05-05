@@ -110,6 +110,7 @@ const Index = (props) => {
  
    }
   */
+<<<<<<< Updated upstream
   const [responseData, setResponseData] = useState('')
   var options = {
     method: 'GET',
@@ -128,6 +129,40 @@ const Index = (props) => {
   });*/
 
   // -----------------------------------------------------
+=======
+   const [responseData, setResponseData] = useState('')
+  
+ 
+  useEffect(() => {
+  
+    var options = {
+      method: 'GET',
+      url: 'https://covid-19-tracking.p.rapidapi.com/v1/tunisia',
+      headers: {
+        'x-rapidapi-key': '2410f79cfamsh18f92ca9a50d151p1f0d32jsn6b36b1b6edca',
+        'x-rapidapi-host': 'covid-19-tracking.p.rapidapi.com'
+      }
+    };
+    
+    axios.request(options).then(function (response) {
+      setResponseData(response.data)
+      const arr = []
+      responseData.map((m) => {
+        
+  
+        arr.push(m)
+      })
+      setResponseData(arr)
+      console.log('test use effect' + arr)
+    }).catch(function (error) {
+      console.error(error);
+    });
+  
+  }, []
+  
+  )
+   // -----------------------------------------------------
+>>>>>>> Stashed changes
 
   const [javaa, setJava] = useState(null)
   const [phpp, setPhp] = useState(null)
@@ -351,6 +386,7 @@ const Index = (props) => {
 }</h1>
 } */}
       </Container>
+<<<<<<< Updated upstream
       <br /> <br />
       <div class='row'>
         <div class='col-xl-3 col-md-6'>
@@ -515,6 +551,153 @@ const Index = (props) => {
               </p>
             </div>
           </div>
+=======
+      <br/>   <br/>
+      <div class="row">
+      <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                    <span  onClick={php()}class="h2 font-weight-bold mb-0">{phpp === '' ? 0 :phpp}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-php"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                    <span  onClick={java()}class="h2 font-weight-bold mb-0">{javaa === '' ? 0 :javaa}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-java"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 7.45%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                   
+                    <span  onClick={javascipt()}class="h2 font-weight-bold mb-0">{javascriptt === '' ? 0 :javascriptt}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-js"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 13.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                      <span  onClick={swift()}class="h2 font-weight-bold mb-0">{swiftt === '' ? 0 :swiftt}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-swift"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 1.14%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Profiles</h5>
+                      <span onClick={python()} class="h2 font-weight-bold mb-0">{pythonn === '' ? 0 :pythonn}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-python"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 33.7%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Porfiles</h5>
+                      <span onClick={android()}class="h2 font-weight-bold mb-0">{androidd === '' ? 0 :androidd}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                      <i class="fab fa-android"></i>
+                      </div>  
+                      </div>
+
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                    
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 2.4%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                    </div>
+                    </div>
+                    </div>
+>>>>>>> Stashed changes
         </div>
       </div>
     </>

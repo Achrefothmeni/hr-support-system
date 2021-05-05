@@ -24,11 +24,20 @@ import ForgotPassword from 'views/examples/ForgotPassword.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
+<<<<<<< Updated upstream
 import Profile from 'views/examples/Profile.js'
 import RecommendedProfileList from 'views/examples/RecommendedProfileList'
 import RecommendedProfile from 'views/examples/RecommendedProfile'
 import Settings from 'views/examples/Tables'
 import CollectionsTable from 'views/examples/CollectionsTable'
+=======
+import Profile from "views/examples/Profile.js";
+import RecommendedProfileList from "views/examples/RecommendedProfileList";
+import RecommendedProfile from "views/examples/RecommendedProfile";
+import Settings from "views/examples/Tables";
+import SettingsEdit from "views/examples/SettingsEdit";
+
+>>>>>>> Stashed changes
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
 import ScrapeProfileByUrl from 'views/examples/ScrapeProfileByUrl'
@@ -36,6 +45,13 @@ import ScrappedProfileDetail from 'views/examples/ScrappedProfileDetail'
 
 
 var routes = [
+  {
+    path: '/settings-edit/:id',
+    name: 'Edit Settings',
+    icon: 'ni ni-single-02 text-yellow',
+    component: SettingsEdit,
+    layout: '/admin',
+  },
   {
     path: '/index',
     name: 'Dashboard',
@@ -143,6 +159,7 @@ export const managerRoutes = [
     component: Index,
     layout: '/admin',
   },
+  
   {
     path: '/user-profile',
     name: 'User Profile',
@@ -165,12 +182,20 @@ export const managerRoutes = [
     layout: '/admin',
   },
   {
+    path: '/settings-edit/:id',
+    name: 'Edit Settings',
+    icon: 'ni ni-single-02 text-yellow',
+    component: SettingsEdit,
+    layout: '/admin',
+  },
+  {
     path: '/settings',
     name: 'Settings',
     icon: 'ni ni-settings-gear-65 text-yellow',
     component: Tables,
     layout: '/admin',
   },
+  
   {
     path: '/meet-plan',
     name: 'Meeting Planning',
@@ -217,6 +242,14 @@ export const agentRoutes = [
     name: 'User Profile',
     icon: 'ni ni-single-02 text-yellow',
     component: Profile,
+    layout: '/admin',
+  },
+
+  {
+    path: '/settings-edit/:id',
+    name: 'Edit Settings',
+    icon: 'ni ni-single-02 text-yellow',
+    component: SettingsEdit,
     layout: '/admin',
   },
   {
