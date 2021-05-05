@@ -16,7 +16,6 @@ const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
 const io = new Server(server)
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -44,7 +43,6 @@ const { isAuthenticatedUser, authorizedRoles } = require('./middlewares/auth')
 dotenv.config()
 //connect to database
 connectDatabase()
-app.use(errorMiddleware)
 //app.get('/', (req, res) => res.send('App is working'))
 
 app.use(auth)
@@ -98,6 +96,7 @@ app.use('/', collectionRoutes)
     )
   })
 }*/
+app.use(errorMiddleware)
 
 server.listen(process.env.PORT, () =>
   console.log('Application Started Working')
