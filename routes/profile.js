@@ -1,17 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const SettingsModel =  require('./../models/settingsModel');
-<<<<<<< Updated upstream
-const ProfileModel = require('./../models/profileModel')
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
-const ErrorHandler = require('../utils/errorHandler')
-
-=======
 const ProfileModel = require('./../models/profileModel');
 const settingsModel = require('./../models/settingsModel');
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
 const { route } = require('./activity');
 const { count } = require('./../models/settingsModel');
->>>>>>> Stashed changes
 
 router.get('/api/settings', async (req , res) => {
    

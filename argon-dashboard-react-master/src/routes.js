@@ -24,20 +24,12 @@ import ForgotPassword from 'views/examples/ForgotPassword.js'
 import Tables from 'views/examples/Tables.js'
 import Icons from 'views/examples/Icons.js'
 import AgentsTable from 'views/examples/AgentsTable'
-<<<<<<< Updated upstream
-import Profile from 'views/examples/Profile.js'
-import RecommendedProfileList from 'views/examples/RecommendedProfileList'
-import RecommendedProfile from 'views/examples/RecommendedProfile'
-import Settings from 'views/examples/Tables'
-import CollectionsTable from 'views/examples/CollectionsTable'
-=======
 import Profile from "views/examples/Profile.js";
 import RecommendedProfileList from "views/examples/RecommendedProfileList";
 import RecommendedProfile from "views/examples/RecommendedProfile";
 import Settings from "views/examples/Tables";
 import SettingsEdit from "views/examples/SettingsEdit";
-
->>>>>>> Stashed changes
+import CollectionsTable from 'views/examples/CollectionsTable'
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
 import ScrapeProfileByUrl from 'views/examples/ScrapeProfileByUrl'
@@ -115,7 +107,7 @@ var routes = [
     layout: '/auth',
   },
 
-  /* S */
+
 ]
 
 export const notLoggedRoutes = [
@@ -287,7 +279,7 @@ export const agentRoutes = [
     component: CollectionsTable,
     layout: '/admin',
   },
-  ,
+  
   {
     path: '/scrape-profile',
     name: 'Scrape url ',
@@ -295,7 +287,6 @@ export const agentRoutes = [
     component: ScrapeProfileByUrl,
     layout: '/admin',
   },
-
   {
     path: '/scrappedDetail/:id',
     name: 'Detail ',
