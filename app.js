@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser')
 const collectionRoutes = require('./routes/collection')
 const selectedProfilesRoutes = require('./routes/selectedProfile')
 const app = express()
-//const routes = require('./routes')
+
 const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
@@ -24,7 +24,7 @@ try {
   io.on('connect', function (socket) {
     socket.on('userConnected', function (userId) {
       socket.join(userId)
-      message(userId, 'helo')
+
       app.set('socketio', io)
     })
     socket.on('userDisconnected', function (userId) {
@@ -37,7 +37,7 @@ try {
 
 const message = function (userId, data) {
   console.log('sent')
-  io.sockets.in(userId).emit('message', data)
+  io.sockets.to(String(userId)).emit('message', data)
 }
 
 const { isAuthenticatedUser, authorizedRoles } = require('./middlewares/auth')
@@ -100,6 +100,6 @@ app.use('/', collectionRoutes)
 }*/
 
 server.listen(process.env.PORT, () =>
-  console.log('Application Started Working')
+  console.log('Application Started Working' + process.env.PORT)
 )
 exports.message = message

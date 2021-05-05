@@ -11,8 +11,13 @@ const {
 } = require('../middlewares/auth')
 
 const transporter = mailer.createTransport({
-  service: process.env.SMTP_HOST,
-  auth: { user: process.env.SMTP_FROM_EMAIL, pass: process.env.SMTP_PASSWORD },
+  service: 'gmail',
+
+  auth: { user: 'noreplyhr9@gmail.com', pass: '13051998mf' },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
 })
 
 router.post('/email', isAuthenticatedUser, async (req, res) => {
@@ -35,6 +40,8 @@ router.post('/email', isAuthenticatedUser, async (req, res) => {
 
 router.post('/schedule', isAuthenticatedUser, async (req, res) => {
   const { description, email, url, day } = req.body
+  const day1 = new Date(day)
+  //day1.setHours(day1.getHours() + 1)
 
   const options = {
     from: process.env.SMTP_FROM_EMAIL,
@@ -65,12 +72,12 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
       email,
       description,
       url,
-      planedFor: day,
+      planedFor: day1,
       user: req.user._id,
       cancelled: false,
     })
     const rule = new schedule.RecurrenceRule()
-    const dia = new Date(day)
+    const dia = new Date(day1)
     rule.year = dia.getFullYear()
     rule.month = dia.getMonth()
     rule.date = dia.getDate()

@@ -27,7 +27,8 @@ router.post('/collections', isAuthenticatedUser, async (req, res) => {
             notification,
             addedBy: req.user._id,
           })
-
+    if (req.user.admin === true && notifActivated)
+      msg.message(String(req.user._id), { title, notification })
     res.json({ collection })
   } catch (error) {
     console.log(error)
@@ -74,9 +75,6 @@ router.put('/collections/:id', isAuthenticatedUser, async (req, res) => {
 })
 router.get('/collections', isAuthenticatedUser, async (req, res) => {
   try {
-    const io = req.app.get('socketio')
-
-    msg.message(String(req.user._id), 'helooo')
     const collections = await Collection.find({
       addedBy: { $in: [req.user._id, req.user.manager || req.user._id] },
     }).sort({ createdAt: -1 })

@@ -13,8 +13,8 @@ import Home from 'layouts/Home.js'
 import ResetPassword from 'views/examples/resetPassword.js'
 import ForgotPassword from 'views/examples/ForgotPassword.js'
 
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import Loader from 'react-loader-spinner'
 
 import { loadUser } from './actions/userActions'
 import ReactJkMusicPlayer from 'react-jinke-music-player'
@@ -45,7 +45,7 @@ function App() {
   ])
   const { error } = useSelector((state) => state.alerts)
 
-  const { isAuthenticated, user,loading } = useSelector((state) => state.auth)
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
@@ -53,7 +53,16 @@ function App() {
   const socket = socketIOClient(ENDPOINT, connectionOptions)
   const { addToast } = useToasts()
   socket.on('message', function (data) {
-    console.log(data)
+    addToast(
+      user.admin
+        ? `Collection ${data.title} added successfully!`
+        : `Your manager added new Collection ${data.title} 
+         ${data.notification}`,
+      {
+        appearance: user.admin ? 'success' : 'info',
+        autoDismiss: user.admin ? true : false,
+      }
+    )
   })
   React.useEffect(() => {
     socket.on('connect')
@@ -65,37 +74,42 @@ function App() {
   }, [error])
   React.useEffect(() => {
     if (isAuthenticated && user) {
-      const userID = user._id
+      const userID = user.admin === true ? user._id : user.manager
 
       socket.emit('userConnected', userID)
     }
   }, [isAuthenticated])
   return (
     <>
-    {loading == false ? (
-      <BrowserRouter>
-        <Switch>
-          <Route path='/admin' render={(props) => <AdminLayout {...props} />} />
-          <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
-          <Route path='/home' render={(props) => <Home {...props} />} />
-          <Route
-            path='/resetPassword/:token'
-            render={(props) => <ResetPassword {...props} />}
-          />
-          <Redirect from='/' to='/admin/index' />
-        </Switch>
-        <ToastContainer />
-      </BrowserRouter> ) : (<div className="loader">
+      {loading == false ? (
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path='/admin'
+              render={(props) => <AdminLayout {...props} />}
+            />
+            <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
+            <Route path='/home' render={(props) => <Home {...props} />} />
+            <Route
+              path='/resetPassword/:token'
+              render={(props) => <ResetPassword {...props} />}
+            />
+            <Redirect from='/' to='/admin/index' />
+          </Switch>
+          <ToastContainer />
+        </BrowserRouter>
+      ) : (
+        <div className='loader'>
           <Loader
-            type="Puff"
-            color="#00BFFF"
+            type='Puff'
+            color='#00BFFF'
             height={100}
             width={100}
             timeout={3000} //3 secs
           />
+        </div>
+      )}
 
-      </div>)}
-      
       {isAuthenticated && (
         <ReactJkMusicPlayer
           quietUpdate

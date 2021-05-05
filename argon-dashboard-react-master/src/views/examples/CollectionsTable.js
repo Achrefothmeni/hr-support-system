@@ -250,6 +250,7 @@ const CollectionsTable = ({ history }) => {
                         id='input-title'
                         placeholder='Title'
                         type='text'
+                        value={collection.title.value}
                         onChange={(e) => {
                           setCollection({
                             ...collection,
@@ -289,6 +290,16 @@ const CollectionsTable = ({ history }) => {
                       <Input
                         disabled={!collection.notification.active}
                         id='notif'
+                        value={collection.notification.value}
+                        onChange={(e) =>
+                          setCollection({
+                            ...collection,
+                            notification: {
+                              ...collection.notification,
+                              value: e.target.value,
+                            },
+                          })
+                        }
                         className='form-control-alternative'
                         placeholder='Setup Notification message ...'
                         rows='4'
