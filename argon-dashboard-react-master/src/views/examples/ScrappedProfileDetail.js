@@ -144,7 +144,7 @@ const ScrappedProfileDetail = ({ match }) => {
       <Container className="mt--7" fluid>
 
         <div style={{ marginBottom: 10 }} >
-          {sameProfiles && sameProfiles.length !== 0 && (
+          {sameProfiles && sameProfiles.length !== 0 && sameProfiles.profiles.length >1 && (
             <UncontrolledDropdown>
               <DropdownToggle
                 caret
