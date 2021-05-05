@@ -56,7 +56,6 @@ const Profile = () => {
   //testing
 
   const listProfiles = useSelector((state) => state.same)
-  const { sameProfiles } = listProfiles
 
   //
   const [disabled, setDisabled] = useState(true);
@@ -76,20 +75,10 @@ const Profile = () => {
   };
 
 
-  const [show, setShow] = useState(false);
+  
 
-  const handleShow = (p) => {
-    setShow(true)
-    console.log(p)
-    setTestProfile(p)
-
-
-
-  };
-  const handleClose = () => setShow(false);
-
-  const [testProfile, setTestProfile] = useState('')
-
+  
+  
 
 
   const handleInputDisable = () => {
@@ -115,9 +104,7 @@ const Profile = () => {
     console.log("exampleModal", exampleModal)
   }, []);
 
-  useEffect(async () => {
-    dispatch(SameProfiles(user.name))
-  }, [dispatch])
+  
 
 
   const submitHandler = (e) => {
@@ -147,148 +134,7 @@ const Profile = () => {
 
         {/*       {exampleModal &&  <ModalsTest name={"test"} exampleModal={exampleModal} />}
  */}
-        <div style={{marginBottom : 10}} >
-          {sameProfiles && sameProfiles.length !== 0 && (
-            <UncontrolledDropdown>
-              <DropdownToggle
-                caret
-                color='secondary'
-                id='dropdownMenuButton'
-                type='button'
-              >
-                --Select a profile--
-                    </DropdownToggle>
-
-              <DropdownMenu aria-labelledby='dropdownMenuButton'>
-                {sameProfiles.users.map((p, i) => (
-
-                  <>
-                    <DropdownItem
-                      key={i}
-                      onClick={() => { handleShow(p) }}
-                    >
-                      {p.name + ' ' + p.createdAt}
-                    </DropdownItem>
-
-                    <Modal show={show}>
-                      <Modal.Header >
-                        <Modal.Title>{testProfile.createdAt}</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <>
-
-
-                          <Card className="bg-secondary shadow">
-
-                            <CardBody>
-                              <Form>
-                                <h3 className="heading-small text-muted mb-4">
-                                  Changed informations are displayed in red
-                        </h3>
-                                <div className="pl-lg-4">
-                                  <Row>
-                                    <Col lg="6">
-                                      <FormGroup>
-                                        <label
-                                          className="form-control-label"
-                                          htmlFor="input-username"
-                                        >
-                                          Username
-                          </label>
-                                        <Input
-                                          defaultValue={testProfile.name}
-                                          id="input-username"
-                                          placeholder="Username"
-                                          type="text"
-                                          disabled
-                                          className={testProfile.name != user.name ? 'redTest form-control-alternative' : 'form-control-alternative'}
-
-                                        />
-                                      </FormGroup>
-                                    </Col>
-                                    <Col lg="6">
-                                      <FormGroup>
-                                        <label
-                                          className="form-control-label"
-                                          htmlFor="input-email"
-                                        >
-                                          Email address
-                          </label>
-                                        <Input
-                                          className={testProfile.email != user.email ? 'redTest form-control-alternative' : 'form-control-alternative'}
-                                          id="input-email"
-                                          defaultValue={testProfile.email}
-                                          type="email"
-                                          disabled
-                                        />
-                                      </FormGroup>
-                                    </Col>
-                                  </Row>
-                                  <Row>
-                                    <Col lg="6">
-                                      <FormGroup>
-                                        <label
-                                          className="form-control-label"
-                                          htmlFor="input-first-name"
-                                        >
-                                          Organisation name
-                          </label>
-                                        <Input
-                                          className={testProfile.organisationName != user.organisationName ? 'redTest form-control-alternative' : 'form-control-alternative'}
-                                          defaultValue={testProfile.organisationName}
-                                          id="input-first-name"
-                                          placeholder="First name"
-                                          type="text"
-                                          disabled
-                                        />
-                                      </FormGroup>
-                                    </Col>
-                                    <Col lg="6">
-                                      <FormGroup>
-                                        <label
-                                          className="form-control-label"
-                                          htmlFor="input-last-name"
-                                        >
-                                          Phone Number
-                          </label>
-                                        <Input
-                                          className={testProfile.phoneNumber != user.phoneNumber ? 'redTest form-control-alternative' : 'form-control-alternative'}
-                                          defaultValue={testProfile.phoneNumber}
-                                          id="input-last-name"
-                                          placeholder="Last name"
-                                          type="text"
-                                          disabled
-                                        />
-                                      </FormGroup>
-                                    </Col>
-
-                                  </Row>
-                                </div>
-
-
-                              </Form>
-                            </CardBody>
-                          </Card>
-
-
-
-
-
-                        </>
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close </Button>
-                      </Modal.Footer>
-                    </Modal>
-
-                  </>
-
-                ))}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          )}
-
-        </div>
+        
 
         <Row>
 

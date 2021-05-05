@@ -32,6 +32,7 @@ import CollectionsTable from 'views/examples/CollectionsTable'
 import CvUpload from 'views/examples/CvUpload'
 import PlanMeets from 'views/examples/PlanMeets'
 import ScrapeProfileByUrl from 'views/examples/ScrapeProfileByUrl'
+import ScrappedProfileDetail from 'views/examples/ScrappedProfileDetail'
 
 
 var routes = [
@@ -177,13 +178,7 @@ export const managerRoutes = [
     component: PlanMeets,
     layout: '/admin',
   },
-  {
-    path: '/tables',
-    name: 'Tables',
-    icon: 'ni ni-bullet-list-67 text-red',
-    component: Tables,
-    layout: '/admin',
-  },
+  
   {
     path: '/agent-tables',
     name: 'Agents Table',
@@ -198,6 +193,14 @@ export const managerRoutes = [
     icon: 'ni ni-archive-2 text-orange',
     component: CollectionsTable,
     layout: '/admin',
+  },
+  {
+    path: '/scrappedDetail/:id',
+    name: 'Detail ',
+    icon: 'ni ni-bullet-list-67 text-orange',
+    component: ScrappedProfileDetail,
+    layout: '/admin',
+    invisible: true,
   },
 ]
 
@@ -224,10 +227,10 @@ export const agentRoutes = [
     layout: '/admin',
   },
   {
-    path: '/tables',
+    path: '/scrapped-profiles',
     name: 'Scrapped Profiles',
     icon: 'ni ni-bullet-list-67 text-red',
-    component: Tables,
+    component: RecommendedProfile,
     layout: '/admin',
   },
   {
@@ -258,6 +261,15 @@ export const agentRoutes = [
     icon: 'ni ni-bullet-list-67 text-orange',
     component: ScrapeProfileByUrl,
     layout: '/admin',
+  },
+
+  {
+    path: '/scrappedDetail/:id',
+    name: 'Detail ',
+    icon: 'ni ni-bullet-list-67 text-orange',
+    component: ScrappedProfileDetail,
+    layout: '/admin',
+    invisible: true,
   },
 ]
 export default routes

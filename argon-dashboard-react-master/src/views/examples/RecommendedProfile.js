@@ -9,7 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -26,9 +26,9 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
-import {useSelector , useDispatch } from  'react-redux'
-import { listProfiles} from '../../actions/profileAction'
-import {listActivity } from '../../actions/activityAction'
+import { useSelector, useDispatch } from 'react-redux'
+import { listProfiles } from '../../actions/profileAction'
+import { listActivity } from '../../actions/activityAction'
 import Header from "components/Headers/Header.js";
 
 import axios from 'axios';
@@ -40,127 +40,127 @@ const RecommendedProfile = () => {
   const activityList = useSelector(state => state.activityList)
 
   const [callback, setCallback] = useState(false)
-  const {loading , error , profiles} = profileList
-      useEffect( () => {
-        dispatch(listProfiles())
-      } , [dispatch])
-      const {loadingg , errorr , activities} = activityList
-      useEffect( () => {
-        dispatch(listActivity())
-      } , [dispatch,callback])
-      console.log(profiles)
+  const { loading, error, profiles } = profileList
+  useEffect(() => {
+    dispatch(listProfiles())
+  }, [dispatch])
+  const { loadingg, errorr, activities } = activityList
+  useEffect(() => {
+    dispatch(listActivity())
+  }, [dispatch, callback])
+  console.log(profiles)
 
-      const addReact = async (id) =>{
-        try {
-          await axios.post("/api/activity/add",{activity : {profile: id}})
-          console.log('jawha behi')
-          setCallback(!callback)
-        } catch (error) {
-          console.log(error)
-        }
-      }
+  const addReact = async (id) => {
+    try {
+      await axios.post("/api/activity/add", { activity: { profile: id } })
+      console.log('jawha behi')
+      setCallback(!callback)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
-     const veriff = (id) =>{
-       return activities.some(a => a.profile === id)
-     }
+  /* const veriff = (id) =>{
+    return activities.some(a => a.profile === id)
+  } */
   return (
     <>
-      <Header/>
+      <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row className="mt-1">
 
 
 
-        {profiles.map( profile =>  (
+          {profiles.map(profile => (
 
-<Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
-<Card className="card-profile shadow">
-  <Row className="justify-content-center">
-    <Col className="order-lg-2" lg="3">
-      <div className="card-profile-image">
-        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-          <img
+            <Col className="order-xl-2 mb-5 mb-xl-0 mb-3" xl="4">
+              <Card className="card-profile shadow">
+                <Row className="justify-content-center">
+                  <Col className="order-lg-2" lg="3">
+                    <div className="card-profile-image">
+                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        {/* <img
             alt="..."
             className="rounded-circle"
             src={
-              require("../../assets/img/theme/team-1-800x800.jpg")
+              require("../../assets/img/Sample_User_Icon.png")
                 .default
             }
-          />
-        </a>
-      </div>
-    </Col>
-  </Row>
-  <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-    <div className="d-flex justify-content-between">
-      <Button
-        className="mr-4"
-        color="info"
-        href="#pablo"
-        onClick={(e) => e.preventDefault()}
-        size="sm"
-      >
-        Mail
+          /> */}
+                      </a>
+                    </div>
+                  </Col>
+                </Row>
+                <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                  <div className="d-flex justify-content-between">
+                    <Button
+                      className="mr-4"
+                      color="info"
+                      href="#pablo"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
+                      Mail
       </Button>
-      <Button
-        className="ml-4"
-        color="default"
-        href="#pablo"
-        onClick={(e) => e.preventDefault()}
-        size="sm"
-      >
-         meet
+                    <Button
+                      className="ml-4"
+                      color="default"
+                      href="#pablo"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
+                      meet
       </Button>
-    </div>
-  </CardHeader>
-  <CardBody className="pt-0 pt-md-4">
-  <br/>        <br/>
-    <div className="text-center">
-    <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
+                  </div>
+                </CardHeader>
+                <CardBody className="pt-0 pt-md-4">
+                  <br />        <br />
+                  <div className="text-center">
+                    <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
 
 
-           <i className={veriff(profile._id) ? 'fas fa-heart' : 'far fa-heart'} onClick={() =>  addReact(profile._id)} />
+                      {/*            <i className={veriff(profile._id) ? 'fas fa-heart' : 'far fa-heart'} onClick={() =>  addReact(profile._id)} />
+ */}
 
 
 
+                    </div></center> <br></br>
+                    <h3>
+                    <a href={'/admin/scrappedDetail/' + profile._id} > {profile.name} </a>
+                      <span className="font-weight-light">, 36</span>
+                    </h3>
+                    <div className="h5 font-weight-300">
+                      <i className="ni location_pin mr-2" />
+                      {profile.position}
+                    </div>
 
-             </div></center> <br></br>
-      <h3>
-        {profile.name}
-        <span className="font-weight-light">, 36</span>
-      </h3>
-      <div className="h5 font-weight-300">
-        <i className="ni location_pin mr-2" />
-        {profile.position}
-      </div>
+                    <div>
 
-      <div>
+                    </div>
+                    <hr className="my-4" />
+                    <h2>Skills & endorsements</h2>
 
-      </div>
-      <hr className="my-4" />
-      <h2>Skills & endorsements</h2>
-
-      <p>
-      {profile.skills.map( s => (
-         <p>
-         {s.name}
-          </p>
+                    <p>
+                      {profile.skills.map(s => (
+                        <p>
+                          {s.name}
+                        </p>
 
                       ))}
-      </p>
-      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-        Show more
+                    </p>
+                    <a href={'/admin/scrappedDetail/' + profile._id} >
+                      Show more
       </a>
 
-    </div>
+                  </div>
 
-  </CardBody>
-</Card>
-</Col>
+                </CardBody>
+              </Card>
+            </Col>
 
-        ))}
+          ))}
 
 
 
@@ -216,7 +216,7 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
 
                 </div>
@@ -224,11 +224,11 @@ const RecommendedProfile = () => {
 
 
               <CardBody className="pt-0 pt-md-4">
-            <br></br> <br></br>
-             <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i className="fas fa-heart" />
-                  </div></center>
-              <br/>        <br/>
+                <br></br> <br></br>
+                <center> <div className="ml-12 icon icon-shape bg-danger text-white rounded-circle shadow">
+                  <i className="fas fa-heart" />
+                </div></center>
+                <br />        <br />
                 <div className="text-center">
                   <h3>
                     Jessica Jones
@@ -249,7 +249,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -301,12 +301,12 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-              <br/>        <br/>
+                <br />        <br />
                 <div className="text-center">
                   <h3>
                     Eric Cantona
@@ -327,7 +327,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -381,12 +381,12 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-              <br/>        <br/>
+                <br />        <br />
                 <div className="text-center">
                   <h3>
                     Samira Philips
@@ -407,7 +407,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -462,12 +462,12 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-              <br/>        <br/>
+                <br />        <br />
                 <div className="text-center">
                   <h3>
                     Erika Jones
@@ -488,7 +488,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , Android
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , Android
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -539,12 +539,12 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-              <br/>        <br/>
+                <br />        <br />
 
                 <div className="text-center">
                   <h3>
@@ -566,7 +566,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB, Symfony
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB, Symfony
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -617,15 +617,15 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     Meet
+                    Meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-              <br/>        <br/>
+                <br />        <br />
                 <div className="text-center">
                   <h3>
-                   Oussema Trabelsi
+                    Oussema Trabelsi
                     <span className="font-weight-light">, 25</span>
                   </h3>
                   <div className="h5 font-weight-300">
@@ -643,7 +643,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , AI
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , AI
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
@@ -694,12 +694,12 @@ const RecommendedProfile = () => {
                     onClick={(e) => e.preventDefault()}
                     size="sm"
                   >
-                     meet
+                    meet
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-        <br/>        <br/>
+                <br />        <br />
 
                 <div className="text-center">
                   <h3>
@@ -721,7 +721,7 @@ const RecommendedProfile = () => {
                   <hr className="my-4" />
                   <h2>Skills & endorsements</h2>
                   <p>
-                 Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
+                    Java , PHP , HTML , CSS , NodeJS , React , MySQL , MongoDB
                   </p>
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more

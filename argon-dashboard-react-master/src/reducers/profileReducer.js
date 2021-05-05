@@ -4,7 +4,10 @@ import {
     PROFILE_LIST_SUCCESS,
     SAME_PROFILE_REQUEST,
     SAME_PROFILE_SUCCESS,
-    SAME_PROFILE_FAIL
+    SAME_PROFILE_FAIL,
+    GET_PROFILE_REQUEST,
+    GET_PROFILE_SUCCESS,
+    GET_PROFILE_FAIL
 } from '../constants/profileConstants'
 export const profileReducer = (state = { profiles: [] }, action) => {
 
@@ -39,6 +42,28 @@ export const SameProfileReducer = (state = { sameProfiles: [] }, action) => {
                  sameProfiles: action.payload }
        
         case SAME_PROFILE_FAIL:
+            return { loading: false,
+                 error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const DetailedProfileReducer = (state = { detailedProfile: [] }, action) => {
+
+    switch (action.type) {
+        
+        case  GET_PROFILE_REQUEST:
+            return { 
+                loading: true, 
+                detailedProfile: null }
+        
+        case GET_PROFILE_SUCCESS:
+            return {...state,
+                 loading: false,
+                 detailedProfile: action.payload }
+       
+        case GET_PROFILE_FAIL:
             return { loading: false,
                  error: action.payload }
         default:
