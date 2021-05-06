@@ -1,5 +1,5 @@
 const express = require('express')
-
+const msg = require('../app')
 const router = express.Router()
 const {
   isAuthenticatedUser,
@@ -8,8 +8,8 @@ const {
 } = require('../middlewares/auth')
 const Collection = require('../models/collection')
 
-router.post('/collections', async (req, res) => {
-  const { title, notification, notifActivated, profileURL, addedBy } = req.body
+router.post('/collections', isAuthenticatedUser, async (req, res) => {
+  const { title, notification, notifActivated } = req.body
 
   try {
     const collection =
@@ -17,17 +17,18 @@ router.post('/collections', async (req, res) => {
         ? await Collection.create({
             title,
             notifActivated,
-            profileURL,
-            addedBy,
+
+            addedBy: req.user._id,
           })
         : await Collection.create({
             title,
             notifActivated,
-            profileURL,
-            notification,
-            addedBy,
-          })
 
+            notification,
+            addedBy: req.user._id,
+          })
+    if (req.user.admin === true && notifActivated)
+      msg.message(String(req.user._id), { title, notification })
     res.json({ collection })
   } catch (error) {
     console.log(error)
@@ -35,7 +36,7 @@ router.post('/collections', async (req, res) => {
   }
 })
 
-router.put('/views/:id', async (req, res) => {
+router.put('/views/:id', isAuthenticatedUser, async (req, res) => {
   const { v } = req.body
 
   try {
@@ -52,7 +53,7 @@ router.put('/views/:id', async (req, res) => {
   }
 })
 
-router.put('/collections/:id', async (req, res) => {
+router.put('/collections/:id', isAuthenticatedUser, async (req, res) => {
   const { title, notification, notifActivated, profileURL } = req.body
 
   try {
@@ -72,13 +73,11 @@ router.put('/collections/:id', async (req, res) => {
     res.status(500).json(error)
   }
 })
-router.get('/collections', async (req, res) => {
-  const { manager, user } = req.body
-
+router.get('/collections', isAuthenticatedUser, async (req, res) => {
   try {
     const collections = await Collection.find({
-      addedBy: { $in: [manager, user] },
-    })
+      addedBy: { $in: [req.user._id, req.user.manager || req.user._id] },
+    }).sort({ createdAt: -1 })
 
     res.json({ collection: collections })
   } catch (error) {
@@ -87,7 +86,7 @@ router.get('/collections', async (req, res) => {
   }
 })
 
-router.delete('/collections/:id', async (req, res) => {
+router.delete('/collections/:id', isAuthenticatedUser, async (req, res) => {
   try {
     const collection = await Collection.findById(req.params.id)
 

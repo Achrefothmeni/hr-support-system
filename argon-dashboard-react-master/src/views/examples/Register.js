@@ -38,6 +38,8 @@ import {
   Col,
 } from "reactstrap";
 
+
+
 const Register = ({ history }) => {
 
   const [email, setEmail] = useState('')
@@ -45,6 +47,32 @@ const Register = ({ history }) => {
   const [name, setName] = useState('')
   const [organisationName, setOrganisationName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [disable, setDisable] = useState(true)
+
+  const [eye,setEye] = useState('fas fa-eye')
+  const [passwordType,SetPasswordType] = useState('password')
+
+
+  const handleEye = (e)=> {
+    e.preventDefault();
+
+    if(eye == 'fas fa-eye'){
+      setEye('fas fa-eye-slash')
+      SetPasswordType('text')
+
+    }
+
+      else {
+
+      setEye('fas fa-eye')
+      SetPasswordType('password')
+
+
+      }
+
+    
+
+  }
 
   const dispatch = useDispatch();
 
@@ -82,7 +110,16 @@ const Register = ({ history }) => {
       <Col lg="6" md="8">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-4">
+
+          <img className ="center"
+                    alt="..."
+                    src={
+                      require("../../assets/img/HR.png")
+                        .default
+                    }
+                  />
+          
+           {/*  <div className="text-muted text-center mt-2 mb-4">
               <small>Sign up with</small>
             </div>
             <div className="text-center">
@@ -120,12 +157,12 @@ const Register = ({ history }) => {
                 </span>
                 <span className="btn-inner--text">Google</span>
               </Button>
-            </div>
+            </div> */}
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-muted mb-4">
+            {/* <div className="text-center text-muted mb-4">
               <small>Or sign up with credentials</small>
-            </div>
+            </div> */}
             <Form role="form" onSubmit={submitHandler}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
@@ -175,30 +212,18 @@ const Register = ({ history }) => {
                       <i className="ni ni-lock-circle-open" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input
+                  <Input 
                     placeholder="Password"
-                    type="password"
+                    type={passwordType}
                     autoComplete="new-password"
                     onChange={(e) => setPassword(e.target.value)}
 
                   />
+                  <i className={eye} style={{cursor: "pointer",paddingTop:10}} onClick= {handleEye} />
                 </InputGroup>
               </FormGroup>
               
-              <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    placeholder="Confirm Password"
-                    type="password"
-                    autoComplete="new-password"
-                  />
-                </InputGroup>
-              </FormGroup>
+             
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
@@ -207,7 +232,7 @@ const Register = ({ history }) => {
                       <i className="fas fa-phone-alt" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Phone Number" type="number"
+                  <Input placeholder="Phone number" type="number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </InputGroup>
@@ -219,7 +244,7 @@ const Register = ({ history }) => {
                       className="custom-control-input"
                       id="customCheckRegister"
                       type="checkbox"
-                      onClick={handleInputDisable}
+                      onClick={() => setDisable(!disable)}
                     />
                     <label
                       className="custom-control-label"
@@ -236,7 +261,7 @@ const Register = ({ history }) => {
                 </Col>
               </Row>
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="submit" disabled={disabled}>
+                <Button className="mt-4" color="primary" type="submit" disabled={disable} >
                   Create account
                 </Button>
               </div>
@@ -244,6 +269,8 @@ const Register = ({ history }) => {
           </CardBody>
         </Card>
       </Col>
+
+      
     </>
   );
 };

@@ -32,12 +32,12 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
-import InputTags from 'components/InputTags.js'
+import InputTags from 'components/InputTags'
 import { addSettings } from "actions/settingsAction";
 
 const Settings = () => {
  
- 
+
   const [settingName, setSettingName] = useState('')
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
@@ -47,7 +47,9 @@ const Settings = () => {
 
   const submitHandler = (e)=> {
     e.preventDefault();
+    
     dispatch(addSettings(settingName,city,postalCode, country,skills))
+    
     console.log({settingName,city,postalCode, country,skills});
   }
 

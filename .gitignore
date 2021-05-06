@@ -3,3 +3,5 @@
 /env
 /frontend
 .env
+/uploads
+/config/config.env

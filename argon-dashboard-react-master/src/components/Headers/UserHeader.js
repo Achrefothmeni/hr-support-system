@@ -55,46 +55,32 @@ const UserHeader = ({ btnTitle }) => {
         {/* Header container */}
         <Container className='d-flex align-items-center' fluid>
           <Row>
-            <Col lg='7' md='10'>
-              {/* <h1 className='display-2 text-white'>Hello Jesse</h1> */}
-              <p className='text-white mt-0 mb-5'>
+            {/* <h1 className='display-2 text-white'>Hello Jesse</h1> */}
+            {/* <p className='text-white mt-0 mb-5'>
                 This is your profile page. You can see the progress you've made
                 with your work and manage your projects or assigned tasks
-              </p>
-              <Row>
-                {btnTitle && agents && agents.length !== 0 && (
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      caret
-                      color='secondary'
-                      id='dropdownMenuButton'
-                      type='button'
-                    >
-                      --Select a profile--
-                    </DropdownToggle>
-
-                    <DropdownMenu aria-labelledby='dropdownMenuButton'>
-                      {agents.map((p, i) => (
-                        <DropdownItem
-                          key={i}
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          {p.name + ' ' + p.email}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                )}
-                {btnTitle && (
-                  <Button
-                    color='info'
-                    href='#pablo'
-                    onClick={(e) => e.preventDefault()}
+              </p> */}
+            <Col>
+              {btnTitle && agents && agents.length !== 0 && (
+                <UncontrolledDropdown>
+                  <DropdownToggle
+                    caret
+                    color='secondary'
+                    id='dropdownMenuButton'
+                    type='button'
                   >
-                    {btnTitle}
-                  </Button>
-                )}
-              </Row>
+                    --View profiles--
+                  </DropdownToggle>
+
+                  <DropdownMenu aria-labelledby='dropdownMenuButton'>
+                    {agents.map((p, i) => (
+                      <DropdownItem key={i} onClick={(e) => e.preventDefault()}>
+                        {p.name + ' ' + p.email}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              )}
             </Col>
           </Row>
         </Container>

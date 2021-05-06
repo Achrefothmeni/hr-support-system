@@ -93,12 +93,12 @@ const AgentsTable = ({ history }) => {
     setMailModal(mailModal ? false : true)
   }
   const sendMail = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
     try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
       await axios.post('/email', forMail, config)
       dispatch({
         type: ADD_ALERT,

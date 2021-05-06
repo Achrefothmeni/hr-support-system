@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React ,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -31,17 +31,33 @@ import {
   Container,
   Row,
   Col,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
+import { Modal } from "react-bootstrap";
 
 import { updateUser } from '../../actions/userActions'
+//testing
+import { SameProfiles } from '../../actions/profileAction'
+import Header from "components/Headers/Header.js";
+
+
 
 
 const Profile = () => {
 
-  const  {isAuthenticated,error,loading,user} = useSelector(state => state.auth)
+  const { isAuthenticated, error, loading, user } = useSelector(state => state.auth)
 
+  //testing
+
+  const listProfiles = useSelector((state) => state.same)
+
+  //
   const [disabled, setDisabled] = useState(true);
   const [btnName, setbtnName] = useState('Edit');
 
@@ -50,17 +66,31 @@ const Profile = () => {
   const [organisationName, setOrganisationName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
 
+  const [exampleModal, setExampleModal] = useState(false)
 
-  const handleInputDisable = ()=> {
+  const toggleModal = () => {
+
+    setExampleModal(true)
+    console.log("exampleModal", exampleModal)
+  };
+
+
+  
+
+  
+  
+
+
+  const handleInputDisable = () => {
     setDisabled(!disabled);
-    if(btnName =='Edit'){
+    if (btnName == 'Edit') {
       setbtnName('Cancel')
     }
 
-    if(btnName =='Cancel'){
+    if (btnName == 'Cancel') {
       setbtnName('Edit')
     }
-    
+
   }
 
   const dispatch = useDispatch();
@@ -71,20 +101,45 @@ const Profile = () => {
     setEmail(user.email)
     setPhoneNumber(user.phoneNumber)
     setOrganisationName(user.organisationName)
+    console.log("exampleModal", exampleModal)
   }, []);
-  const submitHandler = (e)=> {
+
+  
+
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser(user,name,organisationName,email,phoneNumber))
+    dispatch(updateUser(user, name, organisationName, email, phoneNumber))
     handleInputDisable();
-    console.log({name,organisationName,email,phoneNumber});
+    console.log({ name, organisationName, email, phoneNumber });
 
   }
   return (
     <>
-      <UserHeader />
+
+
+
+
+    <Header />
       {/* Page content */}
+
+
+
+
+
+
+
+
       <Container className="mt--7" fluid>
+
+        {/*       {exampleModal &&  <ModalsTest name={"test"} exampleModal={exampleModal} />}
+ */}
+        
+
         <Row>
+
+
+
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
@@ -146,16 +201,16 @@ const Profile = () => {
                 </Row> */}
                 <div className="text-center">
 
-                {user && <h3 >
-                      {user.name}
-                    </h3>}
-                  
-                  
+                  {user && <h3 >
+                    {user.name}
+                  </h3>}
+
+
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
                     Solution Manager - Creative Tim Officer
                   </div>
-                  
+
                   <hr className="my-4" />
                   {/* <p>
                     Ryan — the name taken by Melbourne-raised, Brooklyn-based
@@ -179,14 +234,14 @@ const Profile = () => {
                   <Col className="text-right" xs="6">
                     <Button
                       color="secondary"
-                      
+
                       onClick={handleInputDisable}
                       size="sm"
                     >
                       {btnName}
                     </Button>
                   </Col>
-                  
+
                 </Row>
               </CardHeader>
               <CardBody>
@@ -278,118 +333,28 @@ const Profile = () => {
                         </FormGroup>
                       </Col>
                       <Col className="text-right" xs="12">
-                      <hr className="my-4" />
-                    {!disabled &&  < Button
-                      color="primary"
-                      //onClick={(e) => e.preventDefault()}
-                      onClick={submitHandler}
-                      size="sm"
-                    >
-                      Save
+                        <hr className="my-4" />
+                        {!disabled && < Button
+                          color="primary"
+                          //onClick={(e) => e.preventDefault()}
+                          onClick={submitHandler}
+                          size="sm"
+                        >
+                          Save
                     </Button>}
-                  </Col>
-                    </Row>
-                  </div>
-                 
-                  {/* Address */}
-                  {/* <h6 className="heading-small text-muted mb-4">
-                    Contact information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-address"
-                          >
-                            Address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                            id="input-address"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-city"
-                          >
-                            City
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="New York"
-                            id="input-city"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Country
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="United States"
-                            id="input-country"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Postal code
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-postal-code"
-                            placeholder="Postal code"
-                            type="number"
-                          />
-                        </FormGroup>
                       </Col>
                     </Row>
                   </div>
-                  <hr className="my-4" /> */}
-                  {/* Description */}
-                 {/*  <h6 className="heading-small text-muted mb-4">About me</h6>
-                  <div className="pl-lg-4">
-                    <FormGroup>
-                      <label>About Me</label>
-                      <Input
-                        className="form-control-alternative"
-                        placeholder="A few words about you ..."
-                        rows="4"
-                        defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                        Open Source."
-                        type="textarea"
-                      />
-                    </FormGroup>
-                  </div> */}
+
+
                 </Form>
               </CardBody>
             </Card>
           </Col>
         </Row>
+
       </Container>
+
     </>
   );
 };

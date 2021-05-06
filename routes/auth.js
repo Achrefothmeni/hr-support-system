@@ -14,6 +14,7 @@ const {
   getUserDetails,
   updateUser,
   deleteUser,
+  getAllUsersByName
 } = require('../controllers/authController')
 
 const {
@@ -45,6 +46,13 @@ router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 router
   .route('/admin/users')
   .get(isAuthenticatedUser, authorizedRoles('admin'), getAllUsers)
+
+
+
+router.route('/admin/usersByName').get(getAllUsersByName)
+
+
+
 
 router
   .route('/admin/user/:id')

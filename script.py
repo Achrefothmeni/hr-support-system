@@ -9,7 +9,12 @@ from selenium.webdriver.common.keys import Keys
 import re
 import pymongo
 import datetime
+from selenium.webdriver.chrome.options import Options
 
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
+#client = pymongo.MongoClient("mongodb://localhost:27017/hr-supp")
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.elo9f.mongodb.net/hr-supp?retryWrites=true&w=majority")
 db = client[ "hr-supp" ]
 col = db[ "profiles" ]
@@ -49,7 +54,7 @@ writer = csv.writer(open('output.csv', 'w+', encoding='utf-8-sig', newline=''))
 writer.writerow(['Name', 'Position', 'Company', 'Education', 'Location', 'URL'])
 
 
-driver = webdriver.Chrome('C://Users//dell/chromedriver.exe')
+driver = webdriver.Chrome('C://Users//dell/chromedriver.exe', options=chrome_options)
 driver.get('https://www.linkedin.com/')
 
 #WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -66,11 +71,12 @@ sign_in_button = driver.find_element_by_class_name('sign-in-form__submit-button'
 sign_in_button.click()
 sleep(2)
 
+
 driver.get("https://www.google.com")
 sleep(1)
 search_query = driver.find_element_by_name('q')
 try:
-    search_query.send_keys("site:tn.linkedin.com/in/ AND \"react developer\"")
+    search_query.send_keys("site:tn.linkedin.com/in/ AND \"java developer\"")
 except ElementNotInteractableException:
     print("ERROR :: Cannot send query. Google might be blocking")
     sys.exit(1)
@@ -92,6 +98,7 @@ sleep(0.5)
 for url in profile_urls:
     try:
         user = {}
+        user["url"] = url
         sleep(2)
         body = driver.find_element_by_tag_name("body")
         driver.get(url)
@@ -122,6 +129,22 @@ for url in profile_urls:
                 experience["company"] = "Undefined"
             experiences.append(experience)
         user["experience"] = experiences
+
+        total = 0
+        for exp in experiences:
+            date = exp["date"].split(" ")
+            if len(date) == 5:
+                first_year = date[1]
+                last_year = date[4]
+                total = int(last_year) - int(first_year)  + total
+            if len(date) == 4:
+                first_year = date[1]
+                last_year = date[3]
+                if last_year == "Aujourd’hui":
+                    last_year = 2021
+                    total = int(last_year) - int(first_year)  + total
+        user["years_exp"] = total
+        print(total)
         #print("############## exp", experiences)
         #experience_list_html = experience_html.find_element_by_tag_name('ul').find_elements_by_tag_name("li")
         

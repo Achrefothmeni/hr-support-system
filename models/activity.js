@@ -18,6 +18,11 @@ const activitySchema = mongoose.Schema(
       type: Date,
       required: false,
     },
+    profile: {
+      ref: 'Profile',
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+    },
     user: {
       ref: 'Users',
       type: mongoose.Schema.Types.ObjectId,
@@ -39,4 +44,4 @@ const activitySchema = mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('Activity', activitySchema)
+module.exports = mongoose.model('Activity', activitySchema , 'activities')

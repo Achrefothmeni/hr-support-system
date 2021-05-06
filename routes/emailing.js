@@ -12,13 +12,14 @@ const {
 
 const transporter = mailer.createTransport({
   service: 'hotmail',
-  auth: { user: 'gachi1231@outlook.com', pass: '13051998gachi' },
+
+  auth: { user: '***', pass: '***' },
 })
 
 router.post('/email', isAuthenticatedUser, async (req, res) => {
   const { subject, content, email } = req.body
   const options = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: subject,
     text: content,
@@ -34,10 +35,12 @@ router.post('/email', isAuthenticatedUser, async (req, res) => {
 })
 
 router.post('/schedule', isAuthenticatedUser, async (req, res) => {
-  const { description, email, url, day } = req.body
+  const { description, email, url, day, profile } = req.body
+  const day1 = new Date(day)
+  //day1.setHours(day1.getHours() + 1)
 
   const options = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: 'Important :Planed Meet',
     text: `You have an important meet with ${req.user.name} ${
@@ -49,7 +52,7 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
     }`,
   }
   const options1 = {
-    from: 'gachi1231@outlook.com',
+    from: process.env.SMTP_FROM_EMAIL,
     to: email,
     subject: 'Important :Planed Meet',
     text: `You have an important meet with ${req.user.name} ${
@@ -60,17 +63,28 @@ router.post('/schedule', isAuthenticatedUser, async (req, res) => {
   }
 
   try {
-    const meet = await Activity.create({
-      type: 'planed-meet',
-      email,
-      description,
-      url,
-      planedFor: day,
-      user: req.user._id,
-      cancelled: false,
-    })
+    const meet = profile
+      ? await Activity.create({
+          type: 'planed-meet',
+          email,
+          description,
+          url,
+          planedFor: day1,
+          user: req.user._id,
+          cancelled: false,
+          profile,
+        })
+      : await Activity.create({
+          type: 'planed-meet',
+          email,
+          description,
+          url,
+          planedFor: day1,
+          user: req.user._id,
+          cancelled: false,
+        })
     const rule = new schedule.RecurrenceRule()
-    const dia = new Date(day)
+    const dia = new Date(day1)
     rule.year = dia.getFullYear()
     rule.month = dia.getMonth()
     rule.date = dia.getDate()
@@ -104,15 +118,24 @@ router.put('/schedule/:id', isAuthenticatedUser, async (req, res) => {
     const jobs1 = schedule.scheduledJobs[`${req.params.id}2nd`]
     jobs.cancel()
     jobs1.cancel()
-    res.json({ msg: 'mail canceled' })
+    const meet = await Activity.findById(req.params.id)
+    meet.cancelled = true
+    meet.save()
+    res.json({ msg: 'meet canceled' })
   } catch (error) {
+    console.log(error)
+
     res.status(500).json(error)
   }
 })
 
 router.get('/meets', isAuthenticatedUser, async (req, res) => {
   try {
-    const meets = await Activity.find({ user: req.user._id }).sort({
+    const meets = await Activity.find({
+      user: req.user._id,
+      type: 'planed-meet',
+      cancelled: false,
+    }).sort({
       createdAt: -1,
     })
 

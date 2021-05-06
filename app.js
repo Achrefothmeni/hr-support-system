@@ -11,15 +11,39 @@ const cookieParser = require('cookie-parser')
 const collectionRoutes = require('./routes/collection')
 const selectedProfilesRoutes = require('./routes/selectedProfile')
 const app = express()
-//const routes = require('./routes')
 
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+try {
+  io.on('connect', function (socket) {
+    socket.on('userConnected', function (userId) {
+      socket.join(userId)
+
+      app.set('socketio', io)
+    })
+    socket.on('userDisconnected', function (userId) {
+      socket.leave(userId)
+    })
+  })
+} catch (error) {
+  console.log(error)
+}
+
+const message = function (userId, data) {
+  console.log('sent')
+  io.sockets.to(String(userId)).emit('message', data)
+}
 
 const { isAuthenticatedUser, authorizedRoles } = require('./middlewares/auth')
-
-app.get('/', (req, res) => res.send('App is working'))
+dotenv.config()
+//connect to database
+connectDatabase()
+//app.get('/', (req, res) => res.send('App is working'))
 
 app.use(auth)
 app.use('/', mailingRoutes)
@@ -29,10 +53,52 @@ app.use('/', selectedProfilesRoutes)
 app.use('/', collectionRoutes)
 //app.use('/api', routes)
 
-dotenv.config({ path: 'config/config.env' })
-
-//connect to database
-connectDatabase()
+/*if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('argon-dashboard-react-master/build'))
+  app.get('/', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/login', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/admin/index', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+  app.get('/auth/register', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'argon-dashboard-react-master',
+        'build',
+        'index.html'
+      )
+    )
+  })
+}*/
 app.use(errorMiddleware)
 
-app.listen(5000, () => console.log('Application listening on port 5000!'))
+server.listen(process.env.PORT, () =>
+  console.log('Application Started Working')
+)
+exports.message = message

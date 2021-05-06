@@ -1,19 +1,13 @@
 /*!
-
 =========================================================
 * Argon Dashboard React - v1.2.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/argon-dashboard-react
 * Copyright 2021 Creative Tim (https://www.creative-tim.com)
 * Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
 * Coded by Creative Tim
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 */
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,17 +24,20 @@ import {
   Container,
   Row,
   Col,
+  Badge,
 } from 'reactstrap'
 // core components
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
 import UserHeader from 'components/Headers/UserHeader.js'
-import { planforMeet, getMeets } from '../../actions/meetAction'
+import { planforMeet, getMeets, cancelMeet } from '../../actions/meetAction'
 import Scheduler from 'devextreme-react/scheduler'
-import notify from 'devextreme/ui/notify'
+import Header from 'components/Headers/Header.js'
+
 import 'devextreme/dist/css/dx.common.css'
 import 'devextreme/dist/css/dx.light.css'
+import { ADD_FOR_MEET } from '../../constants/meetConstant'
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
@@ -70,9 +67,12 @@ const PlanMeets = ({ history }) => {
   const { isAuthenticated, error, loading, user } = useSelector(
     (state) => state.auth
   )
-  const { meets, error: meetError, loading: meetLoading } = useSelector(
-    (state) => state.meet
-  )
+  const {
+    meets,
+    error: meetError,
+    loading: meetLoading,
+    meetProfile,
+  } = useSelector((state) => state.meet)
   let today = new Date()
   const [meet, setMeet] = useState({
     day: {
@@ -90,11 +90,7 @@ const PlanMeets = ({ history }) => {
     description: '',
   })
   useEffect(() => {
-    if (!user || (user && !user.admin)) {
-      console.log('not admin')
-      history.push('/auth/login')
-    }
-    if (!meets || meets.length == 0) dispatch(getMeets())
+    dispatch(getMeets())
     const arr = []
     meets.map((m) => {
       const d = new Date(m.planedFor)
@@ -104,14 +100,37 @@ const PlanMeets = ({ history }) => {
         text: `Planed meet with ${m.email}`,
         startDate: new Date(m.planedFor),
         endDate: d,
+        id: m._id,
       })
     })
     setData(arr)
-  }, [dispatch, isAuthenticated, error, history, meets])
+  }, [])
+  useEffect(() => {
+    if (!user /* || (user && !user.admin) */) {
+      /* console.log('not admin') */
+      history.push('/auth/login')
+    }
+  }, [dispatch, isAuthenticated, error, history])
+
+  useEffect(() => {
+    const arr = []
+    meets.map((m) => {
+      const d = new Date(m.planedFor)
+      d.setHours(d.getHours() + 1)
+
+      arr.push({
+        text: `Planed meet with ${m.email}`,
+        startDate: new Date(m.planedFor),
+        endDate: d,
+        id: m._id,
+      })
+    })
+    setData(arr)
+  }, [meets])
+
   const addMeet = (e) => {
     e.preventDefault()
-    const test = new Date(meet.day.value) - new Date(Date.now()) > 0
-    console.log(meet)
+
     setMeet({
       ...meet,
       email: {
@@ -139,14 +158,25 @@ const PlanMeets = ({ history }) => {
         payload: { type: 'error', message: 'invalid meet url!' },
       })
     else {
-      dispatch(
-        planforMeet({
-          description: meet.description,
-          url: meet.url.value,
-          email: meet.email.value,
-          day: meet.day.value,
-        })
-      )
+      if (meetProfile)
+        dispatch(
+          planforMeet({
+            description: meet.description,
+            url: meet.url.value,
+            email: meet.email.value,
+            day: meet.day.value,
+            profile: meetProfile,
+          })
+        )
+      else
+        dispatch(
+          planforMeet({
+            description: meet.description,
+            url: meet.url.value,
+            email: meet.email.value,
+            day: meet.day.value,
+          })
+        )
 
       setMeet({
         ...meet,
@@ -154,11 +184,12 @@ const PlanMeets = ({ history }) => {
         url: { value: '', valid: null },
         description: '',
       })
+      dispatch({ type: ADD_FOR_MEET, payload: null })
     }
   }
   return (
     <>
-      <UserHeader />
+      <Header />
       {/* Page content */}
       <Container className='mt--7' fluid>
         <Row>
@@ -185,6 +216,27 @@ const PlanMeets = ({ history }) => {
                 <Form onSubmit={addMeet}>
                   <h6 className='heading-small text-muted mb-4'>Meet Form</h6>
                   <div className='pl-lg-4'>
+                    {meetProfile && (
+                      <Button
+                        size='sm'
+                        className='mb-4'
+                        color='success'
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        {`meet with ${meetProfile.name}`}{' '}
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            dispatch({ type: ADD_FOR_MEET, payload: null })
+                          }}
+                          color='danger'
+                          size='sm'
+                          type='button'
+                        >
+                          <i className='fas fa-trash-alt'></i>
+                        </Button>
+                      </Button>
+                    )}
                     <Row>
                       <Col lg='12'>
                         <FormGroup>
@@ -362,6 +414,9 @@ const PlanMeets = ({ history }) => {
                     endDayHour={19}
                     height={600}
                     editing={editing}
+                    onAppointmentDeleted={(e) =>
+                      dispatch(cancelMeet(e.appointmentData.id))
+                    }
                   />
                 </Col>
               </CardBody>

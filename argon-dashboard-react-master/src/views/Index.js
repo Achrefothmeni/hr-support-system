@@ -15,13 +15,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 // node.js library that concatenates classes (strings)
-import classnames from "classnames";
+import classnames from 'classnames'
 // javascipt plugin for creating charts
-import Chart from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar } from 'react-chartjs-2'
 // reactstrap components
 import {
   Button,
@@ -36,308 +35,490 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap'
 
 // core components
+
+import axios from 'axios'
+import Header from 'components/Headers/Header.js'
 import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2,
-} from "variables/charts.js";
+  listProfilesPhp,
+  listProfilesAndroid,
+  listProfilesJava,
+  listProfilesJs,
+  listProfilesPython,
+  listProfilesSwift,
+} from '../../src/actions/profileAction'
 
-import Header from "components/Headers/Header.js";
+import { useDispatch, useSelector } from 'react-redux'
 
+import { getTags } from '../actions/statsAction'
+import { Chart } from 'react-google-charts'
+import DatePicker from 'react-datepicker'
 
+import 'react-datepicker/dist/react-datepicker.css'
+import { ButtonOptions } from 'devextreme-react/form'
 
 const Index = (props) => {
-  const [activeNav, setActiveNav] = useState(1);
-  const [chartExample1Data, setChartExample1Data] = useState("data1");
-
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
+  const [activeNav, setActiveNav] = useState(1)
+  const [chartExample1Data, setChartExample1Data] = useState('data1')
 
   const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
-  };
+    e.preventDefault()
+    setActiveNav(index)
+    setChartExample1Data('data' + index)
+  }
 
-  
+  const dispatch = useDispatch()
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+
+  React.useEffect(() => {
+    //dispatch(getTags(startDate.getTime()/1000,endDate.getTime()/1000))
+    dispatch(getTags(''))
+  }, [])
+
+  const { tags, loadingTags } = useSelector((state) => state.stats)
+  let tagsForChart = ''
+
+  if (tags && Object.keys(tags).length > 0 && !loadingTags) {
+    tagsForChart = tags.map((tag) => {
+      return [tag.name, tag.count]
+    })
+  }
+
+  /*  let objectArray = ''
+   const handleChart = () => {
+     //dispatch(getTags(startDate.getTime() / 1000))
+ 
+     if (loadingTags == false) {
+       const tagsForChart = tags?.map((tag, i) => {
+         return [tag.name, tag.count]
+ 
+       })
+ 
+       console.log(tagsForChart)
+       if (tagsForChart)
+         objectArray = Object.values(tagsForChart);
+ 
+ 
+ 
+       console.log(...objectArray)
+     }
+ 
+ 
+ 
+   }
+  */
+  const [responseData, setResponseData] = useState('')
+  var options = {
+    method: 'GET',
+    url: 'https://covid-19-tracking.p.rapidapi.com/v1/tunisia',
+    headers: {
+      'x-rapidapi-key': '2410f79cfamsh18f92ca9a50d151p1f0d32jsn6b36b1b6edca',
+      'x-rapidapi-host': 'covid-19-tracking.p.rapidapi.com',
+    },
+  }
+
+  /*axios.request(options).then(function (response) {
+    setResponseData(response.data)
+    console.log('ahayaa '+response.data["Total Cases_text"])
+  }).catch(function (error) {
+    console.error(error);
+  });*/
+
+  // -----------------------------------------------------
+
+  const [javaa, setJava] = useState(null)
+  const [phpp, setPhp] = useState(null)
+  const [pythonn, setPython] = useState(null)
+  const [androidd, setAndroid] = useState(null)
+  const [javascriptt, setJavaScript] = useState(null)
+  const [swiftt, setSwift] = useState(null)
+  const java = async () => {
+    try {
+      const java = await axios.get('/api/profiles/java')
+      setJava(java.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const php = async () => {
+    try {
+      const php = await axios.get('/api/profiles/php')
+      setPhp(php.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const python = async () => {
+    try {
+      const python = await axios.get('/api/profiles/python')
+      setPython(python.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const javascipt = async () => {
+    try {
+      const javascipt = await axios.get('/api/profiles/js')
+      setJavaScript(javascipt.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const swift = async () => {
+    try {
+      const swift = await axios.get('/api/profiles/swift')
+      setSwift(swift.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const android = async () => {
+    try {
+      const android = await axios.get('/api/profiles/android')
+      setAndroid(android.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
       <Header />
       {/* Page content */}
-      
-      <Container className="mt--7" fluid>
-        <Row>
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="bg-gradient-default shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-light ls-1 mb-1">
-                      Overview
-                    </h6>
-                    <h2 className="text-white mb-0">Sales value</h2>
+      <center>
+        <h1>{responseData.Country_text}</h1>
+        <div class='row'>
+          <div class='col-xl-3 col-md-6'>
+            <div class='card card-stats'>
+              <div class='card-body'>
+                <div class='row'>
+                  <div class='col'>
+                    <h5 class='card-title text-uppercase text-muted mb-0'>
+                      Total Cases
+                    </h5>
+                    <span class='h2 font-weight-bold mb-0'>
+                      {responseData['Total Cases_text']}
+                    </span>
                   </div>
-                  <div className="col">
-                    <Nav className="justify-content-end" pills>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 1,
-                          })}
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 1)}
-                        >
-                          <span className="d-none d-md-block">Month</span>
-                          <span className="d-md-none">M</span>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 2,
-                          })}
-                          data-toggle="tab"
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 2)}
-                        >
-                          <span className="d-none d-md-block">Week</span>
-                          <span className="d-md-none">W</span>
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
+                  <div class='col-auto'>
+                    <div class='icon icon-shape bg-gradient-info text-white rounded-circle shadow'>
+                      <i class='fas fa-lungs-virus'></i>
+                    </div>
                   </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Line
-                    data={chartExample1[chartExample1Data]}
-                    options={chartExample1.options}
-                    getDatasetAtEvent={(e) => console.log(e)}
-                  />
                 </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xl="4">
-            <Card className="shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Performance
-                    </h6>
-                    <h2 className="mb-0">Total orders</h2>
+                <p class='mt-3 mb-0 text-sm'>
+                  <span class='text-success mr-2'>
+                    <i class='fa fa-arrow-up'></i>{' '}
+                    {responseData['New Cases_text']}
+                  </span>
+                  <span class='text-nowrap'>Today</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class='col-xl-3 col-md-6'>
+            <div class='card card-stats'>
+              <div class='card-body'>
+                <div class='row'>
+                  <div class='col'>
+                    <h5 class='card-title text-uppercase text-muted mb-0'>
+                      Total Deaths
+                    </h5>
+                    <span class='h2 font-weight-bold mb-0'>
+                      {responseData['Total Deaths_text']}
+                    </span>
                   </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Bar
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
+                  <div class='col-auto'>
+                    <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                      <i class='fas fa-skull-crossbones'></i>
+                    </div>
+                  </div>
                 </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Page visits</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Page name</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col">Unique users</th>
-                    <th scope="col">Bounce rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">/argon/</th>
-                    <td>4,569</td>
-                    <td>340</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/index.html</th>
-                    <td>3,985</td>
-                    <td>319</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/charts.html</th>
-                    <td>3,513</td>
-                    <td>294</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      36,49%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/tables.html</th>
-                    <td>2,050</td>
-                    <td>147</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 50,87%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/profile.html</th>
-                    <td>1,795</td>
-                    <td>190</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-danger mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-          <Col xl="4">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Social traffic</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Referral</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>1,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">60%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="60"
-                            barClassName="bg-gradient-danger"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>5,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">70%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="70"
-                            barClassName="bg-gradient-success"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Google</th>
-                    <td>4,807</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">80%</span>
-                        <div>
-                          <Progress max="100" value="80" />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Instagram</th>
-                    <td>3,678</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">75%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="75"
-                            barClassName="bg-gradient-info"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">twitter</th>
-                    <td>2,645</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">30%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="30"
-                            barClassName="bg-gradient-warning"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
-};
+                <p class='mt-3 mb-0 text-sm'>
+                  <span class='text-success mr-2'>
+                    <i class='fa fa-arrow-up'></i>{' '}
+                    {responseData['New Deaths_text']}
+                  </span>
+                  <span class='text-nowrap'>Today</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class='col-xl-3 col-md-6'>
+            <div class='card card-stats'>
+              <div class='card-body'>
+                <div class='row'>
+                  <div class='col'>
+                    <h5 class='card-title text-uppercase text-muted mb-0'>
+                      Total Recovered
+                    </h5>
 
-export default Index;
+                    <span class='h2 font-weight-bold mb-0'>
+                      {responseData['Total Recovered_text']}
+                    </span>
+                  </div>
+                  <div class='col-auto'>
+                    <div class='icon icon-shape bg-gradient-green text-white rounded-circle shadow'>
+                      <i class='fas fa-briefcase-medical'></i>
+                    </div>
+                  </div>
+                </div>
+                <p class='mt-3 mb-0 text-sm'>
+                  <span class='text-success mr-2'></span>
+                  <span class='text-nowrap'></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </center>
+      <Container className='mt--1' fluid>
+        <div style={{ marginBottom: 10, display: 'flex' }}>
+          <div style={{ marginRight: 10 }}>
+            {' '}
+            <h3>Start Date </h3>
+            <DatePicker
+              wrapperClassName='datePicker'
+              dateFormat='dd/MM/yyyy'
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date)
+              }}
+            />
+          </div>
+
+          <div>
+            {' '}
+            <h3>End Date</h3>
+            <DatePicker
+              wrapperClassName='datePicker'
+              dateFormat='dd/MM/yyyy'
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+            />
+          </div>
+        </div>
+        <Button
+          color='primary'
+          style={{ marginBottom: 10 }}
+          onClick={() => {
+            dispatch(getTags(startDate, endDate))
+          }}
+        >
+          search
+        </Button>
+
+        <Button
+          style={{ marginBottom: 10 }}
+          onClick={() => {
+            dispatch(getTags(''))
+            setStartDate(new Date())
+            setEndDate(new Date())
+          }}
+        >
+          <i class='fas fa-undo'></i>
+        </Button>
+
+        {tags && Object.keys(tags).length > 0 && (
+          <Chart
+            width={'100%'}
+            height={'300px'}
+            chartType='Bar'
+            loader={<div>Loading Chart</div>}
+            data={[
+              ['Tag', 'Count'],
+              ...tagsForChart,
+              //...objectArray
+            ]}
+            options={{
+              // Material design options
+              chart: {
+                title: 'Most researched technologies in stackoverflow ',
+              },
+            }}
+            // For tests
+            rootProps={{ 'data-testid': '2' }}
+          />
+        )}
+
+        {loadingTags && <h1>Loading </h1>}
+
+        {/* <h1>thiisss  {Math.round (startDate.getTime() / 1000)}</h1>
+       { <h1>thiisss  {Math.round (endDate.getTime() / 1000)}</h1> }
+        {tags && <h1>thiisss  {Object.keys(tags).length
+}</h1>
+} */}
+      </Container>
+      <br /> <br />
+      <div class='row'>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Profiles
+                  </h5>
+                  <span onClick={php()} class='h2 font-weight-bold mb-0'>
+                    {phpp === '' ? 0 : phpp}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-php'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Profiles
+                  </h5>
+                  <span onClick={java()} class='h2 font-weight-bold mb-0'>
+                    {javaa === '' ? 0 : javaa}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-java'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Profiles
+                  </h5>
+
+                  <span onClick={javascipt()} class='h2 font-weight-bold mb-0'>
+                    {javascriptt === '' ? 0 : javascriptt}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-js'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Profiles
+                  </h5>
+                  <span onClick={swift()} class='h2 font-weight-bold mb-0'>
+                    {swiftt === '' ? 0 : swiftt}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-swift'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Profiles
+                  </h5>
+                  <span onClick={python()} class='h2 font-weight-bold mb-0'>
+                    {pythonn === '' ? 0 : pythonn}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-python'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class='col-xl-3 col-md-6'>
+          <div class='card card-stats'>
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h5 class='card-title text-uppercase text-muted mb-0'>
+                    Total Porfiles
+                  </h5>
+                  <span onClick={android()} class='h2 font-weight-bold mb-0'>
+                    {androidd === '' ? 0 : androidd}
+                  </span>
+                </div>
+                <div class='col-auto'>
+                  <div class='icon icon-shape bg-gradient-red text-white rounded-circle shadow'>
+                    <i class='fab fa-android'></i>
+                  </div>
+                </div>
+              </div>
+              <p class='mt-3 mb-0 text-sm'>
+                <span class='text-success mr-2'>
+                  <i class='fa fa-arrow-up'></i> 3.48%
+                </span>
+                <span class='text-nowrap'>Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Index

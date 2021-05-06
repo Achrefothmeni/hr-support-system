@@ -9,12 +9,29 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import AdminLayout from 'layouts/Admin.js'
 import AuthLayout from 'layouts/Auth.js'
 import { useDispatch, useSelector } from 'react-redux'
+import Home from 'layouts/Home.js'
+import ResetPassword from 'views/examples/resetPassword.js'
+import ForgotPassword from 'views/examples/ForgotPassword.js'
+
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import Loader from 'react-loader-spinner'
+
 import { loadUser } from './actions/userActions'
 import ReactJkMusicPlayer from 'react-jinke-music-player'
 import 'react-jinke-music-player/assets/index.css'
 import store from './store'
 import { useToasts } from 'react-toast-notifications'
 import { REMOVE_MUSIC } from 'constants/playlistConstant'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import socketIOClient from 'socket.io-client'
+const ENDPOINT = 'http://localhost:5000'
+const connectionOptions = {
+  'force new connection': true,
+  reconnectionAttempts: 'Infinity',
+  timeout: 10000,
+  transports: ['websocket'],
+}
 function App() {
   const dispatch = useDispatch()
   const [audioLists, setAudioLists] = useState([
@@ -27,28 +44,72 @@ function App() {
     { musicSrc: './XXYlFuWEuKI.mp3' },
   ])
   const { error } = useSelector((state) => state.alerts)
-  const { isAuthenticated } = useSelector((state) => state.auth)
+
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth)
 
   const { playlist, error: Musicerror, loading: loadingMusic } = useSelector(
     (state) => state.musicList
   )
+  const socket = socketIOClient(ENDPOINT, connectionOptions)
   const { addToast } = useToasts()
+  socket.on('message', function (data) {
+    addToast(
+      user.admin
+        ? `Collection ${data.title} added successfully!`
+        : `Your manager added new Collection ${data.title} 
+         ${data.notification}`,
+      {
+        appearance: user.admin ? 'success' : 'info',
+        autoDismiss: user.admin ? true : false,
+      }
+    )
+  })
   React.useEffect(() => {
+    socket.on('connect')
     if (!isAuthenticated) store.dispatch(loadUser())
     if (error) {
       addToast(error.message, { appearance: error.type })
       dispatch({ type: REMOVE_ERROR })
     }
   }, [error])
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      const userID = user.admin === true ? user._id : user.manager
+
+      socket.emit('userConnected', userID)
+    }
+  }, [isAuthenticated])
   return (
     <>
-      <BrowserRouter>
-        <Switch>
-          <Route path='/admin' render={(props) => <AdminLayout {...props} />} />
-          <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
-          <Redirect from='/' to='/admin/index' />
-        </Switch>
-      </BrowserRouter>
+      {loading == false ? (
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path='/admin'
+              render={(props) => <AdminLayout {...props} />}
+            />
+            <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
+            <Route path='/home' render={(props) => <Home {...props} />} />
+            <Route
+              path='/resetPassword/:token'
+              render={(props) => <ResetPassword {...props} />}
+            />
+            <Redirect from='/' to='/admin/index' />
+          </Switch>
+          <ToastContainer />
+        </BrowserRouter>
+      ) : (
+        <div className='loader'>
+          <Loader
+            type='Puff'
+            color='#00BFFF'
+            height={100}
+            width={100}
+            timeout={3000} //3 secs
+          />
+        </div>
+      )}
+
       {isAuthenticated && (
         <ReactJkMusicPlayer
           quietUpdate
