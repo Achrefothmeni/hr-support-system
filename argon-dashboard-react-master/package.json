@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
   },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
+  "homepage": "https://rocky-meadow-70629.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -88,5 +88,5 @@
     "jquery": "3.5.1",
     "typescript": "4.1.3"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "https://rocky-meadow-70629.herokuapp.com"
 }

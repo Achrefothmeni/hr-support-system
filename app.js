@@ -6,6 +6,7 @@ const dotenv = require('dotenv')
 const auth = require('./routes/auth')
 const mailingRoutes = require('./routes/emailing')
 const profilesRoutes = require('./routes/profile')
+const cors = require('cors')
 const router = express.Router()
 const cookieParser = require('cookie-parser')
 const collectionRoutes = require('./routes/collection')
@@ -16,6 +17,8 @@ const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
 const io = new Server(server)
+
+app.use(cors({ origin: process.env.LINK }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -35,7 +38,6 @@ try {
 }
 
 const message = function (userId, data) {
-  console.log('sent')
   io.sockets.to(String(userId)).emit('message', data)
 }
 
@@ -44,7 +46,7 @@ dotenv.config()
 //connect to database
 connectDatabase()
 //app.get('/', (req, res) => res.send('App is working'))
-
+app.use(errorMiddleware)
 app.use(auth)
 app.use('/', mailingRoutes)
 app.use('/', profilesRoutes)
@@ -53,9 +55,9 @@ app.use('/', selectedProfilesRoutes)
 app.use('/', collectionRoutes)
 //app.use('/api', routes)
 
-/*if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('argon-dashboard-react-master/build'))
-  app.get('/', (req, res) => {
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('./argon-dashboard-react-master/build'))
+  app.get('*', (req, res) => {
     res.sendFile(
       path.resolve(
         __dirname,
@@ -65,38 +67,7 @@ app.use('/', collectionRoutes)
       )
     )
   })
-  app.get('/auth/login', (req, res) => {
-    res.sendFile(
-      path.resolve(
-        __dirname,
-        'argon-dashboard-react-master',
-        'build',
-        'index.html'
-      )
-    )
-  })
-  app.get('/admin/index', (req, res) => {
-    res.sendFile(
-      path.resolve(
-        __dirname,
-        'argon-dashboard-react-master',
-        'build',
-        'index.html'
-      )
-    )
-  })
-  app.get('/auth/register', (req, res) => {
-    res.sendFile(
-      path.resolve(
-        __dirname,
-        'argon-dashboard-react-master',
-        'build',
-        'index.html'
-      )
-    )
-  })
-}*/
-app.use(errorMiddleware)
+}
 
 server.listen(process.env.PORT, () =>
   console.log('Application Started Working')
