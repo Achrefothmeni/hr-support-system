@@ -238,9 +238,10 @@ router.get('/selection/:id', isAuthenticatedUser, async (req, res) => {
     const selected = await SelectedProfile.find({
       to: req.params.id,
     })
-
-    const info = await Profile.findById(selected[0].profile)
-    selected[0].profile = info
+    if (selected.length != 0) {
+      const info = await Profile.findById(selected[0].profile)
+      selected[0].profile = info
+    }
     res.json({ selected })
   } catch (error) {
     console.log(error)

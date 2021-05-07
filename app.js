@@ -55,7 +55,7 @@ app.use('/', selectedProfilesRoutes)
 app.use('/', collectionRoutes)
 //app.use('/api', routes)
 
-if (process.env.NODE_ENV === 'production') {
+/*if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./argon-dashboard-react-master/build'))
   app.get('*', (req, res) => {
     res.sendFile(
@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'production') {
       )
     )
   })
-}
+}*/
 
 server.listen(process.env.PORT, () =>
   console.log('Application Started Working')

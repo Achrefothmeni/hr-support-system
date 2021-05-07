@@ -2,7 +2,7 @@ const mailer = require('nodemailer')
 const express = require('express')
 const schedule = require('node-schedule')
 const Activity = require('../models/activity')
-
+const dotenv = require('dotenv').config()
 const router = express.Router()
 const {
   isAuthenticatedUser,
@@ -11,9 +11,9 @@ const {
 } = require('../middlewares/auth')
 
 const transporter = mailer.createTransport({
-  service: 'hotmail',
+  service: process.env.SMTP_HOST,
 
-  auth: { user: '***', pass: '***' },
+  auth: { user: process.env.SMTP_FROM_EMAIL, pass: process.env.SMTP_PASSWORD },
 })
 
 router.post('/email', isAuthenticatedUser, async (req, res) => {
