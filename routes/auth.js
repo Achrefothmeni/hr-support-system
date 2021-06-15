@@ -49,7 +49,7 @@ router
 
 
 
-  router.route('/admin/usersByName').get(getAllUsersByName)
+router.route('/admin/usersByName').get(getAllUsersByName)
 
 
 

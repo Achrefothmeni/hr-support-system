@@ -14,10 +14,20 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL,
+
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
+
+
     GET_TAGS_SUCCESS,
     GET_TAGS_REQUEST,
     GET_TAGS_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    NEW_PASSWORD_REQUEST,
+    NEW_PASSWORD_SUCCESS,
+    NEW_PASSWORD_FAIL,
+
 
 } from '../constants/userConstants'
 import { ToastContainer, toast } from 'react-toastify';
@@ -343,3 +353,123 @@ export const clearErrors = () => async (dispatch) => {
       })
     }
   } */
+
+
+export const forgotPassword = (email) => async (dispatch) => {
+
+    try {
+
+        dispatch({
+            type: FORGOT_PASSWORD_REQUEST
+        })
+
+
+
+        const { data } = await axios.post('/password/forgot', { email })
+
+        dispatch({
+            type: FORGOT_PASSWORD_SUCCESS,
+            payload: data.message
+        })
+
+
+        toast.success(`${data.message} `, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+
+        });
+
+
+
+
+
+
+
+    } catch (error) {
+        console.log(error.response.data);
+        dispatch({
+            type: FORGOT_PASSWORD_FAIL,
+            payload: error.response.data.errMessage
+        })
+
+        const customId = "custom-id-yes";
+
+        toast.error(error.response.data.errMessage, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: customId
+
+        });
+
+    }
+
+}
+
+
+export const setNewPassword = (token, password, confirmPassword) => async (dispatch) => {
+
+    try {
+
+        dispatch({
+            type: NEW_PASSWORD_REQUEST,
+
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`/password/reset/${token}`, { password, confirmPassword }, config)
+
+
+        if (data.user) {
+            dispatch({
+                type: NEW_PASSWORD_SUCCESS,
+                payload: data.user
+            })
+        }
+
+
+
+
+    } catch (error) {
+        dispatch({
+            type: NEW_PASSWORD_FAIL,
+            payload: error.errMessage
+        })
+
+        const customId = "custom-id-yes";
+
+        toast.error(error.response.data.errMessage, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: customId
+
+        });
+    }
+
+}
+
+
+
+//clear errors
+
+
+

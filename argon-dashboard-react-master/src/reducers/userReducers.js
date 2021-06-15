@@ -14,6 +14,13 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
+
+    NEW_PASSWORD_REQUEST,
+    NEW_PASSWORD_SUCCESS,
+    NEW_PASSWORD_FAIL,
 
     CLEAR_ERRORS,
     GET_TAGS_SUCCESS,
@@ -30,6 +37,7 @@ export const authReducer = (state = { user: {} }, action) => {
         case LOGIN_REQUEST:
         case REGISTER_REQUEST:
         case LOAD_USER_REQUEST:
+        case NEW_PASSWORD_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false,
@@ -42,6 +50,7 @@ export const authReducer = (state = { user: {} }, action) => {
 
             }
 
+        case NEW_PASSWORD_SUCCESS:
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case LOAD_USER_SUCCESS:
@@ -61,6 +70,7 @@ export const authReducer = (state = { user: {} }, action) => {
                 user: action.payload
             }
 
+        case NEW_PASSWORD_FAIL:
         case LOAD_USER_FAIL:
         case UPDATE_USER_FAIL:
 
@@ -135,6 +145,43 @@ export const authReducer = (state = { user: {} }, action) => {
                 error: action.payload
             }
  */
+
+        default:
+            return state
+    }
+}
+
+
+export const forgotPasswordReducer = (state = {}, action) => {
+
+    switch (action.type) {
+
+
+        case FORGOT_PASSWORD_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null
+
+            }
+
+
+        case FORGOT_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                message: action.payload
+            }
+
+
+        case FORGOT_PASSWORD_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+
 
         default:
             return state
